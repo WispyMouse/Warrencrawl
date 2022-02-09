@@ -4,5 +4,17 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/StateManagement/MainMenu.unity
+    guid: aef2f534e4066a84eb1113446e3648a2
+  - enabled: 1
+    path: Assets/StateManagement/Town.unity
+    guid: 03fe8e709386b174fa9f6f92826bb341
+  - enabled: 1
+    path: Assets/StateManagement/Labyrinth.unity
+    guid: fdcc1b10e4c296749bfb9cc2c4d4abee
+  - enabled: 1
+    path: Assets/StateManagement/Battle.unity
+    guid: 72fb384320827684383f8db377640c78
   m_configObjects: {}
