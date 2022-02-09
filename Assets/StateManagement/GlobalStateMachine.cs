@@ -40,14 +40,16 @@ public class GlobalStateMachine
     /// <returns>Yieldable IEnumerator.</returns>
     public IEnumerator ChangeToState(IGameplayState newState)
     {
-        if (CurrentState != null)
+        IGameplayState oldState = CurrentState;
+        if (oldState != null)
         {
-            yield return EndCurrentState();
+            yield return oldState.TransitionDown(newState);
+            PresentStates.Pop();
         }
 
         PresentStates.Push(newState);
         yield return newState.Load();
-        yield return newState.TransitionInto();
+        yield return newState.TransitionInto(oldState);
     }
 
     /// <summary>
@@ -58,16 +60,11 @@ public class GlobalStateMachine
     /// <returns>Yieldable IEnumerator.</returns>
     public IEnumerator PushNewState(IGameplayState newState)
     {
-        IGameplayState pastState = CurrentState;
-
-        if (pastState != null)
-        {
-            yield return pastState.TransitionUp();
-        }
-
+        IGameplayState oldState = CurrentState;
+        yield return oldState?.TransitionUp(newState);
         PresentStates.Push(newState);
         yield return newState.Load();
-        yield return newState.TransitionInto();
+        yield return newState.TransitionInto(oldState);
     }
 
     /// <summary>
@@ -76,12 +73,13 @@ public class GlobalStateMachine
     /// <returns>Yieldable IEnumerator.</returns>
     public IEnumerator EndCurrentState()
     {
-        yield return PresentStates.Pop()?.TransitionDown();
+        IGameplayState oldState = CurrentState;
+        PresentStates.Pop();
 
-        if (CurrentState != null)
-        {
-            yield return CurrentState.Load();
-            yield return CurrentState.TransitionInto();
-        }
+        PresentStates.TryPeek(out IGameplayState nextState);
+        yield return oldState?.TransitionDown(nextState);
+
+        yield return nextState?.Load();
+        yield return nextState?.TransitionInto(oldState);
     }
 }

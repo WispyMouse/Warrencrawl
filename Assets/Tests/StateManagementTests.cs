@@ -12,7 +12,7 @@ public class StateManagementTests
     /// Asserts that a Main Menu State can be loaded, then unloaded.
     /// </summary>
     [UnityTest]
-    public IEnumerator StateLoadsAndUnloadsScenes()
+    public IEnumerator PushNewState_ScenesAdding_AddsAndEndsScenes()
     {
         GlobalStateMachine stateMachine = new GlobalStateMachine();
 
@@ -36,7 +36,7 @@ public class StateManagementTests
     /// This is a pretty simple walk of the most major game scene managing states.
     /// </summary>
     [UnityTest]
-    public IEnumerator TypicalGameRoute()
+    public IEnumerator ChangeToState_HappyPath_ChangesState()
     {
         GlobalStateMachine stateMachine = new GlobalStateMachine();
 

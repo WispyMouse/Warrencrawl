@@ -21,7 +21,7 @@ public abstract class SceneLoadingGameplayState : IGameplayState
             yield return loadScene.progress;
         }
     }
-    public IEnumerator TransitionDown()
+    public IEnumerator TransitionDown(IGameplayState nextState)
     {
         AsyncOperation unloadScene = SceneManager.UnloadSceneAsync(SceneName);
         while (!unloadScene.isDone)
@@ -30,13 +30,13 @@ public abstract class SceneLoadingGameplayState : IGameplayState
         }
     }
 
-    public virtual IEnumerator TransitionInto()
+    public virtual IEnumerator TransitionInto(IGameplayState previousState)
     {
         // TODO: Animated transition system
         yield break;
     }
 
-    public virtual IEnumerator TransitionUp()
+    public virtual IEnumerator TransitionUp(IGameplayState nextState)
     {
         // TODO: Set everything in scene to inactive? Hide somehow?
         yield break;
