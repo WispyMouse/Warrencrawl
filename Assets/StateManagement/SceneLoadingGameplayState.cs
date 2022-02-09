@@ -21,7 +21,7 @@ public abstract class SceneLoadingGameplayState : IGameplayState
             yield return loadScene.progress;
         }
     }
-    public IEnumerator TransitionDown(IGameplayState nextState)
+    public IEnumerator ExitState(IGameplayState nextState)
     {
         AsyncOperation unloadScene = SceneManager.UnloadSceneAsync(SceneName);
         while (!unloadScene.isDone)
@@ -30,7 +30,7 @@ public abstract class SceneLoadingGameplayState : IGameplayState
         }
     }
 
-    public virtual IEnumerator TransitionInto(IGameplayState previousState)
+    public virtual IEnumerator StartState(GlobalStateMachine globalStateMachine, IGameplayState previousState)
     {
         // TODO: Animated transition system
         yield break;

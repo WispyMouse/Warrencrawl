@@ -11,7 +11,7 @@ public interface IGameplayState
     /// Unload and prepare a transition to the provided state.
     /// This preserves this state in the stack, for coming back to later.
     /// </summary>
-    /// <param name="nextState">State that is being transitioned in to.</param>
+    /// <param name="nextState">State that is being transitioned in to. Should not be null.</param>
     /// <returns>Yieldable IEnumerator.</returns>
     IEnumerator TransitionUp(IGameplayState nextState);
 
@@ -21,7 +21,7 @@ public interface IGameplayState
     /// </summary>
     /// <param name="nextState">State that is being transitioned in to, under this one. Can be null.</param>
     /// <returns>Yieldable IEnumerator.</returns>
-    IEnumerator TransitionDown(IGameplayState nextState);
+    IEnumerator ExitState(IGameplayState nextState);
 
     /// <summary>
     /// Load the assets for this state. Does not display them yet.
@@ -33,6 +33,7 @@ public interface IGameplayState
     /// Animate a transition in to this state. At this point the assets should all be loaded and ready for display.
     /// </summary>
     /// <param name="previousState">The state before this one was loaded. Can be null.</param>
+    /// <param name="nextState">State that is being transitioned in to.</param>
     /// <returns>Yieldable IEnumerator.</returns>
-    IEnumerator TransitionInto(IGameplayState previousState);
+    IEnumerator StartState(GlobalStateMachine stateMachine, IGameplayState previousState);
 }

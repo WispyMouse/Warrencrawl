@@ -43,13 +43,13 @@ public class GlobalStateMachine
         IGameplayState oldState = CurrentState;
         if (oldState != null)
         {
-            yield return oldState.TransitionDown(newState);
+            yield return oldState.ExitState(newState);
             PresentStates.Pop();
         }
 
         PresentStates.Push(newState);
         yield return newState.Load();
-        yield return newState.TransitionInto(oldState);
+        yield return newState.StartState(this, oldState);
     }
 
     /// <summary>
@@ -64,7 +64,7 @@ public class GlobalStateMachine
         yield return oldState?.TransitionUp(newState);
         PresentStates.Push(newState);
         yield return newState.Load();
-        yield return newState.TransitionInto(oldState);
+        yield return newState.StartState(this, oldState);
     }
 
     /// <summary>
@@ -77,9 +77,9 @@ public class GlobalStateMachine
         PresentStates.Pop();
 
         PresentStates.TryPeek(out IGameplayState nextState);
-        yield return oldState?.TransitionDown(nextState);
+        yield return oldState?.ExitState(nextState);
 
         yield return nextState?.Load();
-        yield return nextState?.TransitionInto(oldState);
+        yield return nextState?.StartState(this, oldState);
     }
 }
