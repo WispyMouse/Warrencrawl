@@ -23,9 +23,12 @@ public class GlobalStateMachine
     {
         get
         {
-            IGameplayState returnedCurrentState = null;
-            PresentStates.TryPeek(out returnedCurrentState);
-            return returnedCurrentState;
+            if (PresentStates.TryPeek(out IGameplayState currentState))
+            {
+                return currentState;
+            }
+
+            return null;
         }
     }
     
@@ -35,7 +38,7 @@ public class GlobalStateMachine
     /// </summary>
     /// <param name="newState">The state to transition in to.</param>
     /// <returns>Yieldable IEnumerator.</returns>
-    public IEnumerator TransitionOverToState(IGameplayState newState)
+    public IEnumerator ChangeToState(IGameplayState newState)
     {
         if (CurrentState != null)
         {
@@ -53,7 +56,7 @@ public class GlobalStateMachine
     /// </summary>
     /// <param name="newState">The state to transition in to.</param>
     /// <returns>Yieldable IEnumerator.</returns>
-    public IEnumerator TransitionIntoState(IGameplayState newState)
+    public IEnumerator PushNewState(IGameplayState newState)
     {
         IGameplayState pastState = CurrentState;
 

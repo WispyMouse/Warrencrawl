@@ -18,7 +18,7 @@ public abstract class SceneLoadingGameplayState : IGameplayState
         AsyncOperation loadScene = SceneManager.LoadSceneAsync(SceneName, LoadSceneMode.Additive);
         while (!loadScene.isDone)
         {
-            yield return new WaitForEndOfFrame();
+            yield return loadScene.progress;
         }
     }
     public IEnumerator TransitionDown()
@@ -26,7 +26,7 @@ public abstract class SceneLoadingGameplayState : IGameplayState
         AsyncOperation unloadScene = SceneManager.UnloadSceneAsync(SceneName);
         while (!unloadScene.isDone)
         {
-            yield return new WaitForEndOfFrame();
+            yield return unloadScene.progress;
         }
     }
 

@@ -20,7 +20,7 @@ public class StateManagementTests
 
         MainMenuState newState = new MainMenuState();
 
-        yield return stateMachine.TransitionIntoState(newState);
+        yield return stateMachine.PushNewState(newState);
         Assert.That(stateMachine.CurrentState, Is.EqualTo(newState));
 
         // todo: Perhaps we want a function that fetches whether or not a scene is loaded
@@ -41,19 +41,19 @@ public class StateManagementTests
         GlobalStateMachine stateMachine = new GlobalStateMachine();
 
         MainMenuState mainMenuState = new MainMenuState();
-        yield return stateMachine.TransitionOverToState(mainMenuState);
+        yield return stateMachine.ChangeToState(mainMenuState);
         Assert.That(stateMachine.CurrentState, Is.EqualTo(mainMenuState));
 
         TownState townState = new TownState();
-        yield return stateMachine.TransitionOverToState(townState);
+        yield return stateMachine.ChangeToState(townState);
         Assert.That(stateMachine.CurrentState, Is.EqualTo(townState));
 
         LabyrinthState labyrinthState = new LabyrinthState();
-        yield return stateMachine.TransitionOverToState(labyrinthState);
+        yield return stateMachine.ChangeToState(labyrinthState);
         Assert.That(stateMachine.CurrentState, Is.EqualTo(labyrinthState));
 
         BattleState battleState = new BattleState();
-        yield return stateMachine.TransitionIntoState(battleState);
+        yield return stateMachine.PushNewState(battleState);
         Assert.That(stateMachine.CurrentState, Is.EqualTo(battleState));
 
         yield return stateMachine.EndCurrentState();
