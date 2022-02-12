@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -17,10 +18,13 @@ public abstract class SceneLoadingGameplayState : IGameplayState
 
     public IEnumerator Load()
     {
-        AsyncOperation loadScene = SceneManager.LoadSceneAsync(SceneName, LoadSceneMode.Additive);
-        while (!loadScene.isDone)
+        if (!SceneManager.GetAllScenes().Any(sc => sc.name == SceneName))
         {
-            yield return loadScene.progress;
+            AsyncOperation loadScene = SceneManager.LoadSceneAsync(SceneName, LoadSceneMode.Additive);
+            while (!loadScene.isDone)
+            {
+                yield return loadScene.progress;
+            }
         }
     }
     public IEnumerator ExitState(IGameplayState nextState)
