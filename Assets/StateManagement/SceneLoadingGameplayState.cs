@@ -14,6 +14,10 @@ public abstract class SceneLoadingGameplayState : IGameplayState
     /// The name of the Scene that this state loads.
     /// </summary>
     public abstract string SceneName { get; }
+
+    /// <summary>
+    /// The names of the Action Maps to enable in a PlayerInput.
+    /// </summary>
     public abstract string[] InputMapNames { get; }
 
     public IEnumerator Load()

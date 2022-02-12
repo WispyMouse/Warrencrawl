@@ -6,7 +6,7 @@ public class MainMenuSceneTools : SceneBootstrapperTools
 {
     public void ToTheTown()
     {
-        ActiveBootstrapper.StartCoroutine(ActiveStateMachine.ChangeToState(new TownState()));
+        SceneHelperInstance.StartCoroutine(SceneHelperInstance.GlobalStateMachineInstance.ChangeToState(new TownState()));
     }
 
     public override IGameplayState GetNewDemoState()

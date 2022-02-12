@@ -6,12 +6,12 @@ public class LabyrinthSceneTools : SceneBootstrapperTools
 {
     public void ToTheTown()
     {
-        ActiveBootstrapper.StartCoroutine(ActiveStateMachine.ChangeToState(new TownState()));
+        SceneHelperInstance.StartCoroutine(SceneHelperInstance.GlobalStateMachineInstance.ChangeToState(new TownState()));
     }
 
     public void ToBattle()
     {
-        ActiveBootstrapper.StartCoroutine(ActiveStateMachine.PushNewState(new BattleState()));
+        SceneHelperInstance.StartCoroutine(SceneHelperInstance.GlobalStateMachineInstance.PushNewState(new BattleState()));
     }
 
     public override IGameplayState GetNewDemoState()

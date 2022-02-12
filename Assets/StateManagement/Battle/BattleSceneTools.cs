@@ -6,7 +6,7 @@ public class BattleSceneTools : SceneBootstrapperTools
 {
     public void EndBattle()
     {
-        ActiveBootstrapper.StartCoroutine(ActiveStateMachine.EndCurrentState());
+        SceneHelperInstance.StartCoroutine(SceneHelperInstance.GlobalStateMachineInstance.EndCurrentState());
     }
 
     public override IGameplayState GetNewDemoState()

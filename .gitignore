@@ -63,6 +63,7 @@ crashlytics-build.properties
 /[Aa]ssets/InitTest**.unity.meta
 
 # User settings 
-/UserSettings
+UserSettings/
 
+# Plugins
 Assets/TextMesh Pro/

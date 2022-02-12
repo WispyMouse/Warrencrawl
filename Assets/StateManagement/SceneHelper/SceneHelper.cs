@@ -11,9 +11,9 @@ using UnityEngine.SceneManagement;
 /// If a scene with just this is loaded, it'll get the game started on the MainMenu.
 /// If another scene is open when this is loaded, this'll try to load the game to an appropriate state.
 /// </summary>
-public class Bootstrapper : MonoBehaviour
+public class SceneHelper : MonoBehaviour
 {
-    public GlobalStateMachine GlobalStateMachineInstance { get; private set; } = new GlobalStateMachine();
+    public readonly GlobalStateMachine GlobalStateMachineInstance = new GlobalStateMachine();
 
     void Start()
     {
