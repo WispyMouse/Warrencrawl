@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// Interface describing the basic actions of a gameplay state, and what is needed to work with the <see cref="GlobalStateMachine"/>.
@@ -36,4 +37,12 @@ public interface IGameplayState
     /// <param name="nextState">State that is being transitioned in to.</param>
     /// <returns>Yieldable IEnumerator.</returns>
     IEnumerator StartState(GlobalStateMachine stateMachine, IGameplayState previousState);
+
+    /// <summary>
+    /// Sets the top level controls that this state uses.
+    /// Called whenever a new control method is found, or the state is entered.
+    /// </summary>
+    /// <param name="activeInput">The PlayerInput to update.</param>
+    /// <returns>Yieldable IEnumerator.</returns>
+    void SetControls(PlayerInput activeInput);
 }

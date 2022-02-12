@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/StateManagement/Battle.unity
     guid: 72fb384320827684383f8db377640c78
+  - enabled: 1
+    path: Assets/StateManagement/Input/Input.unity
+    guid: 4ef0cb1199c20b04cb71be8eed4c04b4
   m_configObjects: {}

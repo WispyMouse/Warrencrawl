@@ -5,4 +5,5 @@ using UnityEngine;
 public class TownState : SceneLoadingGameplayState
 {
     public override string SceneName => "Town";
+    public override string[] InputMapNames => new string[] { "UI" };
 }

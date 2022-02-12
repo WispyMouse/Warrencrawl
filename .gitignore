@@ -61,3 +61,6 @@ crashlytics-build.properties
 # Test scenes
 /[Aa]ssets/InitTest**.unity
 /[Aa]ssets/InitTest**.unity.meta
+
+# User settings 
+/UserSettings
