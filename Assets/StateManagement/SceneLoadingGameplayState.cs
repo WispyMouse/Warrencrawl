@@ -46,6 +46,11 @@ public abstract class SceneLoadingGameplayState : IGameplayState
 
     public virtual void SetControls(PlayerInput controls)
     {
+        if (controls == null)
+        {
+            return;
+        }    
+
         controls.actions.Disable();
         foreach (string inputMapName in InputMapNames)
         {

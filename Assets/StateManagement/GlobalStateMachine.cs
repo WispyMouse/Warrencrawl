@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// Manages the <see cref="IGameplayState"/>s of the game.
@@ -10,6 +11,11 @@ using UnityEngine;
 /// </summary>
 public class GlobalStateMachine
 {
+    /// <summary>
+    /// Cached reference to the last set of controls used.
+    /// </summary>
+    PlayerInput lastActiveControls { get; set; }
+
     /// <summary>
     /// The stack of states currently loaded in to memory.
     /// States underneath the top may be "inactive" and out of memory, and the top state may not be fully "active".
@@ -49,6 +55,7 @@ public class GlobalStateMachine
 
         PresentStates.Push(newState);
         yield return newState.Load();
+        newState.SetControls(lastActiveControls);
         yield return newState.StartState(this, oldState);
     }
 
@@ -64,6 +71,7 @@ public class GlobalStateMachine
         yield return oldState?.TransitionUp(newState);
         PresentStates.Push(newState);
         yield return newState.Load();
+        newState.SetControls(lastActiveControls);
         yield return newState.StartState(this, oldState);
     }
 
@@ -79,7 +87,26 @@ public class GlobalStateMachine
         PresentStates.TryPeek(out IGameplayState nextState);
         yield return oldState?.ExitState(nextState);
 
-        yield return nextState?.Load();
-        yield return nextState?.StartState(this, oldState);
+        if (nextState != null)
+        {
+            yield return nextState.Load();
+            nextState.SetControls(lastActiveControls);
+            yield return nextState.StartState(this, oldState);
+        }
+    }
+
+    /// <summary>
+    /// Signals that the input has been updated, and sends that to the current state (if any).
+    /// </summary>
+    /// <param name="input">The current input.</param>
+    public void SetControls(PlayerInput activeInput)
+    {
+        lastActiveControls = activeInput;
+        IGameplayState currentState = CurrentState;
+
+        if (currentState != null)
+        {
+            currentState.SetControls(activeInput);
+        }
     }
 }
