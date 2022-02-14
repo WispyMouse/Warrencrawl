@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 /// <summary>
@@ -13,12 +15,20 @@ public abstract class SceneLoadingGameplayState : IGameplayState
     /// </summary>
     public abstract string SceneName { get; }
 
+    /// <summary>
+    /// The names of the Action Maps to enable in a PlayerInput.
+    /// </summary>
+    public abstract string[] InputMapNames { get; }
+
     public IEnumerator Load()
     {
-        AsyncOperation loadScene = SceneManager.LoadSceneAsync(SceneName, LoadSceneMode.Additive);
-        while (!loadScene.isDone)
+        if (!SceneManager.GetAllScenes().Any(sc => sc.name == SceneName))
         {
-            yield return loadScene.progress;
+            AsyncOperation loadScene = SceneManager.LoadSceneAsync(SceneName, LoadSceneMode.Additive);
+            while (!loadScene.isDone)
+            {
+                yield return loadScene.progress;
+            }
         }
     }
     public IEnumerator ExitState(IGameplayState nextState)
@@ -33,12 +43,36 @@ public abstract class SceneLoadingGameplayState : IGameplayState
     public virtual IEnumerator StartState(GlobalStateMachine globalStateMachine, IGameplayState previousState)
     {
         // TODO: Animated transition system
+
+        foreach (GameObject rootObj in SceneManager.GetSceneByName(SceneName).GetRootGameObjects())
+        {
+            rootObj.SetActive(true);
+        }
+
         yield break;
     }
 
     public virtual IEnumerator TransitionUp(IGameplayState nextState)
     {
-        // TODO: Set everything in scene to inactive? Hide somehow?
+        foreach(GameObject rootObj in SceneManager.GetSceneByName(SceneName).GetRootGameObjects())
+        {
+            rootObj.SetActive(false);
+        }
+
         yield break;
+    }
+
+    public virtual void SetControls(PlayerInput controls)
+    {
+        if (controls == null)
+        {
+            return;
+        }    
+
+        controls.actions.Disable();
+        foreach (string inputMapName in InputMapNames)
+        {
+            controls.actions.FindActionMap(inputMapName).Enable();
+        }
     }
 }

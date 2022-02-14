@@ -5,4 +5,5 @@ using UnityEngine;
 public class MainMenuState : SceneLoadingGameplayState
 {
     public override string SceneName => "MainMenu";
+    public override string[] InputMapNames => new string[] { "UI" };
 }

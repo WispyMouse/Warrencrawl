@@ -6,15 +6,21 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/StateManagement/MainMenu.unity
+    path: Assets/StateManagement/SceneHelper/SceneHelper.unity
+    guid: 4dbe03c247a19264e9e30e451deffc54
+  - enabled: 1
+    path: Assets/StateManagement/MainMenu/MainMenu.unity
     guid: aef2f534e4066a84eb1113446e3648a2
   - enabled: 1
-    path: Assets/StateManagement/Town.unity
+    path: Assets/StateManagement/Town/Town.unity
     guid: 03fe8e709386b174fa9f6f92826bb341
   - enabled: 1
-    path: Assets/StateManagement/Labyrinth.unity
+    path: Assets/StateManagement/Labyrinth/Labyrinth.unity
     guid: fdcc1b10e4c296749bfb9cc2c4d4abee
   - enabled: 1
-    path: Assets/StateManagement/Battle.unity
+    path: Assets/StateManagement/Battle/Battle.unity
     guid: 72fb384320827684383f8db377640c78
+  - enabled: 1
+    path: Assets/StateManagement/Input/Input.unity
+    guid: 4ef0cb1199c20b04cb71be8eed4c04b4
   m_configObjects: {}

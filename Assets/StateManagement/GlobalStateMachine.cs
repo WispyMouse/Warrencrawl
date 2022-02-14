@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// Manages the <see cref="IGameplayState"/>s of the game.
@@ -10,6 +11,11 @@ using UnityEngine;
 /// </summary>
 public class GlobalStateMachine
 {
+    /// <summary>
+    /// Cached reference to the last set of controls used.
+    /// </summary>
+    PlayerInput lastActiveControls { get; set; }
+
     /// <summary>
     /// The stack of states currently loaded in to memory.
     /// States underneath the top may be "inactive" and out of memory, and the top state may not be fully "active".
@@ -48,8 +54,7 @@ public class GlobalStateMachine
         }
 
         PresentStates.Push(newState);
-        yield return newState.Load();
-        yield return newState.StartState(this, oldState);
+        yield return WarmUpAndCurrentState(oldState);
     }
 
     /// <summary>
@@ -63,8 +68,7 @@ public class GlobalStateMachine
         IGameplayState oldState = CurrentState;
         yield return oldState?.TransitionUp(newState);
         PresentStates.Push(newState);
-        yield return newState.Load();
-        yield return newState.StartState(this, oldState);
+        yield return WarmUpAndCurrentState(oldState);
     }
 
     /// <summary>
@@ -79,7 +83,28 @@ public class GlobalStateMachine
         PresentStates.TryPeek(out IGameplayState nextState);
         yield return oldState?.ExitState(nextState);
 
-        yield return nextState?.Load();
-        yield return nextState?.StartState(this, oldState);
+        yield return WarmUpAndCurrentState(oldState);
+    }
+
+    /// <summary>
+    /// Signals that the input has been updated, and sends that to the current state (if any).
+    /// </summary>
+    /// <param name="input">The current input.</param>
+    public void SetControls(PlayerInput activeInput)
+    {
+        lastActiveControls = activeInput;
+        CurrentState?.SetControls(activeInput);
+    }
+
+    private IEnumerator WarmUpAndCurrentState(IGameplayState lastState)
+    {
+        if (CurrentState == null)
+        {
+            yield break;
+        }
+
+        yield return CurrentState.Load();
+        CurrentState.SetControls(lastActiveControls);
+        yield return CurrentState.StartState(this, lastState);
     }
 }
