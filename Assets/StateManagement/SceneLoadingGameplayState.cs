@@ -43,12 +43,22 @@ public abstract class SceneLoadingGameplayState : IGameplayState
     public virtual IEnumerator StartState(GlobalStateMachine globalStateMachine, IGameplayState previousState)
     {
         // TODO: Animated transition system
+
+        foreach (GameObject rootObj in SceneManager.GetSceneByName(SceneName).GetRootGameObjects())
+        {
+            rootObj.SetActive(true);
+        }
+
         yield break;
     }
 
     public virtual IEnumerator TransitionUp(IGameplayState nextState)
     {
-        // TODO: Set everything in scene to inactive? Hide somehow?
+        foreach(GameObject rootObj in SceneManager.GetSceneByName(SceneName).GetRootGameObjects())
+        {
+            rootObj.SetActive(false);
+        }
+
         yield break;
     }
 
