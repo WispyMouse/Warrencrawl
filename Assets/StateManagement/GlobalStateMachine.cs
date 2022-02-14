@@ -93,12 +93,7 @@ public class GlobalStateMachine
     public void SetControls(PlayerInput activeInput)
     {
         lastActiveControls = activeInput;
-        IGameplayState currentState = CurrentState;
-
-        if (currentState != null)
-        {
-            currentState.SetControls(activeInput);
-        }
+        CurrentState?.SetControls(activeInput);
     }
 
     private IEnumerator WarmUpAndCurrentState(IGameplayState lastState)
