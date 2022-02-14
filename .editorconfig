@@ -1,0 +1,5 @@
+[*.cs]
+
+# IDE0051: Remove unused private members
+# Doesn't understand Unity messages methods being private
+dotnet_diagnostic.IDE0051.severity = none

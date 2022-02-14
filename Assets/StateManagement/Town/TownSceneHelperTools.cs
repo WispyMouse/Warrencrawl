@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TownStateTools : SceneBootstrapperTools
+public class TownSceneHelperTools : SceneHelperTools
 { 
     public void ToTheLabyrinth()
     {

@@ -9,16 +9,11 @@ using UnityEngine.SceneManagement;
 /// If an inheritor loads in and <seealso cref="SceneHelper"/> isn't loaded, this loads its scene.
 /// Then <seealso cref="SceneHelper"/> looks for a class inheriting from this, and uses its <see cref="GetNewDemoState"/> return to start up the <see cref="GlobalStateMachine"/>.
 /// </summary>
-public abstract class SceneBootstrapperTools : MonoBehaviour
+public abstract class SceneHelperTools : MonoBehaviour
 {
     protected SceneHelper SceneHelperInstance { get; private set; }
 
-    private void Start()
-    {
-        StartCoroutine(Begin());
-    }
-
-    IEnumerator Begin()
+    private IEnumerator Start()
     {
         if (!SceneManager.GetAllScenes().Any(sc => sc.name == "SceneHelper"))
         {

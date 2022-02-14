@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BattleSceneTools : SceneBootstrapperTools
+public class BattleSceneHelperTools : SceneHelperTools
 {
     public void EndBattle()
     {

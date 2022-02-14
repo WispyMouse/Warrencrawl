@@ -15,12 +15,7 @@ public class SceneHelper : MonoBehaviour
 {
     public readonly GlobalStateMachine GlobalStateMachineInstance = new GlobalStateMachine();
 
-    void Start()
-    {
-        StartCoroutine(ProcessStart());
-    }
-
-    IEnumerator ProcessStart()
+    private IEnumerator Start()
     {
         if (!SceneManager.GetAllScenes().Any(sc => sc.name == "Input"))
         {
@@ -34,7 +29,7 @@ public class SceneHelper : MonoBehaviour
         PlayerInput activePlayerInput = GameObject.FindObjectOfType<PlayerInput>();
         activePlayerInput.onControlsChanged += GlobalStateMachineInstance.SetControls;
 
-        SceneBootstrapperTools bootstrapperTools = GameObject.FindObjectOfType<SceneBootstrapperTools>();
+        SceneHelperTools bootstrapperTools = GameObject.FindObjectOfType<SceneHelperTools>();
 
         if (bootstrapperTools == null)
         {
