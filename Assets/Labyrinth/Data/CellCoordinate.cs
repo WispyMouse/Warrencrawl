@@ -72,6 +72,11 @@ public struct CellCoordinates : IEquatable<CellCoordinates>
         return this.X == other.X && this.Y == other.Y && this.Z == other.Z;
     }
 
+    public override int GetHashCode()
+    {
+        return X.GetHashCode() + (5 * Y).GetHashCode() + (13 * Z).GetHashCode();
+    }
+
     public static bool operator ==(CellCoordinates a, CellCoordinates b)
     {
         return a.Equals(b);

@@ -42,7 +42,7 @@ public class LabyrinthLevel
     /// <summary>
     /// The data structure for all of the pieces in a level. This is serialized.
     /// </summary>
-    public List<LabyrinthCell> Cells { get; set; }
+    public List<LabyrinthCell> Cells { get; set; } = new List<LabyrinthCell>();
 
     /// <summary>
     /// "Unrolls" the <see cref="Cells"/> in to <see cref="loadedCellMap"/> and <see cref="loadedNeighborMap"/>.
@@ -85,5 +85,20 @@ public class LabyrinthLevel
             return atCoord;
         }
         return null;
+    }
+
+    /// <summary>
+    /// Returns all neighbors of a coordinate.
+    /// This'll check orthogonal neighbors and any special connectors relating to the cell.
+    /// </summary>
+    /// <param name="centerCoordinate">Coordinate to get the neighbors of.</param>
+    /// <returns>A collection of coordinates containing neighbors.</returns>
+    public IEnumerable<CellCoordinates> NeighborsOfCoordinate(CellCoordinates centerCoordinate)
+    {
+        if (NeighborMap.TryGetValue(centerCoordinate, out List<CellCoordinates> neighbors))
+        {
+            return neighbors;
+        }
+        return new List<CellCoordinates>();
     }
 }
