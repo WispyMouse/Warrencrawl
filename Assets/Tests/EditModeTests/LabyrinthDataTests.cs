@@ -5,7 +5,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-public class NewTestScript
+public class LabyrinthDataTests
 {
     /// <summary>
     /// When a labyrinth is created with only one cell intended for it, it has exactly only one cell intended for it.

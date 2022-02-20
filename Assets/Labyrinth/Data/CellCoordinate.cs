@@ -5,10 +5,10 @@ using UnityEngine;
 
 /// <summary>
 /// Data structure for a specific point in space.
-/// CellCoordinates have a zero-to-one relationship with <see cref="LabyrinthCell"/>. A theoretical CellCoordinate that doesn't exist
-/// in a <see cref="LabyrinthLevel"/>, and would map to null.
+/// CellCoordinates have a zero-to-one relationship with <see cref="LabyrinthCell"/>.
+/// A CellCoordinate that doesn't exist in a <see cref="LabyrinthLevel"/> would map to a null LabyrinthCell.
 /// </summary>
-public struct CellCoordinates : IEquatable<CellCoordinates>
+public struct CellCoordinates
 {
     /// <summary>
     /// x coordinate.
@@ -59,22 +59,23 @@ public struct CellCoordinates : IEquatable<CellCoordinates>
     /// <summary>
     /// Returns a CellCoordinates for 0, 0, 0.
     /// </summary>
-    public static CellCoordinates Zero
-    {
-        get
-        {
-            return new CellCoordinates(0, 0, 0);
-        }
-    }
+    public readonly static CellCoordinates Zero = new CellCoordinates(0, 0, 0);
 
-    public bool Equals(CellCoordinates other)
+    public override bool Equals(object other)
     {
-        return this.X == other.X && this.Y == other.Y && this.Z == other.Z;
+        if (other is not CellCoordinates)
+        {
+            return false;
+        }
+
+        CellCoordinates otherCast = (CellCoordinates)other;
+
+        return this.X == otherCast.X && this.Y == otherCast.Y && this.Z == otherCast.Z;
     }
 
     public override int GetHashCode()
     {
-        return X.GetHashCode() + (5 * Y).GetHashCode() + (13 * Z).GetHashCode();
+        return HashCode.Combine(X, Y, Z);
     }
 
     public static bool operator ==(CellCoordinates a, CellCoordinates b)
