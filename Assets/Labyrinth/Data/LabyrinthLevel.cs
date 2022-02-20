@@ -13,7 +13,7 @@ public class LabyrinthLevel
     {
         get
         {
-            if (loadedCellMap != null)
+            if (loadedCellMap != null && lastCellsHash == Cells.GetHashCode())
             {
                 return loadedCellMap;
             }
@@ -28,7 +28,7 @@ public class LabyrinthLevel
     {
         get
         {
-            if (loadedNeighborMap != null)
+            if (loadedNeighborMap != null && lastCellsHash == Cells.GetHashCode())
             {
                 return loadedNeighborMap;
             }
@@ -43,6 +43,7 @@ public class LabyrinthLevel
     /// The data structure for all of the pieces in a level. This is serialized.
     /// </summary>
     public List<LabyrinthCell> Cells { get; set; } = new List<LabyrinthCell>();
+    private int lastCellsHash { get; set; }
 
     /// <summary>
     /// "Unrolls" the <see cref="Cells"/> in to <see cref="loadedCellMap"/> and <see cref="loadedNeighborMap"/>.
@@ -70,6 +71,8 @@ public class LabyrinthLevel
             }
             loadedNeighborMap.Add(cell.Coordinate, neighbors);
         }
+
+        lastCellsHash = Cells.GetHashCode();
     }
     
     /// <summary>

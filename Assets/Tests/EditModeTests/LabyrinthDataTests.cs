@@ -86,4 +86,24 @@ public class LabyrinthDataTests
         Assert.That(testLevel.NeighborsOfCoordinate(new CellCoordinates(1, 1, 0)), Does.Not.Contains(new CellCoordinates(0, 0, 0)));
         Assert.That(testLevel.NeighborsOfCoordinate(new CellCoordinates(1, 1, 0)).Count(), Is.EqualTo(1));
     }
+
+    /// <summary>
+    /// Adding new entries in to Cells after processing a request acts as expected.
+    /// </summary>
+    public void LabyrinthLevel_UnrollMap_UnrollsBetweenChanges()
+    {
+        LabyrinthLevel testLevel = new LabyrinthLevel();
+
+        testLevel.Cells.Add(new LabyrinthCell() { Coordinate = new CellCoordinates(1, 0, 0) });
+
+        Assert.That(testLevel.CellAtCoordinate(new CellCoordinates(1, 0, 0)), Is.Not.Null);
+        Assert.That(testLevel.NeighborsOfCoordinate(new CellCoordinates(1, 0, 0)), Is.Empty);
+        Assert.That(testLevel.CellAtCoordinate(new CellCoordinates(1, 1, 0)), Is.Null);
+
+        testLevel.Cells.Add(new LabyrinthCell() { Coordinate = new CellCoordinates(1, 1, 0) });
+
+        Assert.That(testLevel.CellAtCoordinate(new CellCoordinates(1, 1, 0)), Is.Not.Null);
+        Assert.That(testLevel.NeighborsOfCoordinate(new CellCoordinates(1, 0, 0)).Count(), Is.EqualTo(1));
+
+    }
 }
