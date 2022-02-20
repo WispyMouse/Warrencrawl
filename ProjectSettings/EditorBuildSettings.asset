@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/StateManagement/Town/Town.unity
     guid: 03fe8e709386b174fa9f6f92826bb341
   - enabled: 1
-    path: Assets/StateManagement/Labyrinth/Labyrinth.unity
+    path: Assets/Labyrinth/Scene/Labyrinth.unity
     guid: fdcc1b10e4c296749bfb9cc2c4d4abee
   - enabled: 1
     path: Assets/StateManagement/Battle/Battle.unity
