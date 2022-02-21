@@ -42,7 +42,7 @@ public class LabyrinthLevel
     /// <summary>
     /// The data structure for all of the pieces in a level. This is serialized.
     /// </summary>
-    public List<LabyrinthCell> Cells { get; set; } = new List<LabyrinthCell>();
+    public List<LabyrinthCell> Cells = new List<LabyrinthCell>();
     private int lastCellsHash { get; set; }
 
     /// <summary>

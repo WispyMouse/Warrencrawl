@@ -59,7 +59,7 @@ public struct CellCoordinates
     /// <summary>
     /// Returns a CellCoordinates for 0, 0, 0.
     /// </summary>
-    public readonly static CellCoordinates Zero = new CellCoordinates(0, 0, 0);
+    public readonly static CellCoordinates Origin = new CellCoordinates(0, 0, 0);
 
     public override bool Equals(object other)
     {

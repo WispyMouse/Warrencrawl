@@ -8,6 +8,16 @@ using UnityEngine;
 /// </summary>
 public class LabyrinthCell
 {
+    /// <summary>
+    /// Coordinate position of the cell.
+    /// You can find this cell if you look at (X, ?, Y).
+    /// The y level in worldspace / z level in coordinate space does not have a one to one correlation.
+    /// </summary>
     public CellCoordinates Coordinate { get; set; }
+
+    /// <summary>
+    /// Can this cell be walked on to?
+    /// </summary>
+    public bool Walkable { get; set; }
 
 }
