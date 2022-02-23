@@ -7,6 +7,7 @@ using UnityEngine;
 /// "Level" is a single conceptual connected space, and doesn't limit it to a single 2D plane.
 /// This is focused on the geometrical concepts of the level; where things it are, such as doors and ladders.
 /// </summary>
+[System.Serializable]
 public class LabyrinthLevel
 {
     protected Dictionary<CellCoordinates, LabyrinthCell> CellMap

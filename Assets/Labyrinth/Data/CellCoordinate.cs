@@ -8,6 +8,7 @@ using UnityEngine;
 /// CellCoordinates have a zero-to-one relationship with <see cref="LabyrinthCell"/>.
 /// A CellCoordinate that doesn't exist in a <see cref="LabyrinthLevel"/> would map to a null LabyrinthCell.
 /// </summary>
+[System.Serializable]
 public struct CellCoordinates
 {
     /// <summary>

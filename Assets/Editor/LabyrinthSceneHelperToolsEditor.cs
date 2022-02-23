@@ -10,12 +10,15 @@ public class LabyrinthSceneHelperToolsEditor : Editor
     static bool showCells { get; set; }
 
     SerializedProperty currentLevel;
+    SerializedProperty currentLevelCells;
+
     SerializedProperty blocked;
     SerializedProperty walkable;
 
     void OnEnable()
     {
         currentLevel = serializedObject.FindProperty(nameof(LabyrinthSceneHelperTools.CurrentLevel));
+        currentLevelCells = serializedObject.FindProperty($"{nameof(LabyrinthSceneHelperTools.CurrentLevel)}.{nameof(LabyrinthLevel.Cells)}");
         blocked = serializedObject.FindProperty(nameof(LabyrinthSceneHelperTools.Blocked));
         walkable = serializedObject.FindProperty(nameof(LabyrinthSceneHelperTools.Walkable));
     }
@@ -28,27 +31,30 @@ public class LabyrinthSceneHelperToolsEditor : Editor
 
         EditorGUILayout.PropertyField(currentLevel);
 
-        EditorGUI.BeginChangeCheck();
-
-        GameLevel castLevel = currentLevel.objectReferenceValue as GameLevel;
+        GameLevel castLevel = ((LabyrinthSceneHelperTools)target).CurrentLevel;
 
         if (castLevel != null)
         {
+            EditorGUILayout.LabelField("Cells in Map", castLevel.LabyrinthData.Cells.Count().ToString());
+
+            EditorGUI.BeginChangeCheck();
             showCells = EditorGUILayout.Toggle("Show Map Gizmos", showCells);
+            if (EditorGUI.EndChangeCheck())
+            {
+                SceneView.RepaintAll();
+            }
 
             if (GUILayout.Button("Scan Level"))
             {
                 castLevel.LabyrinthData = ScanLevel();
-                
+                EditorUtility.SetDirty(castLevel);
             }
         }
-
-        EditorGUI.EndChangeCheck();
 
         serializedObject.ApplyModifiedProperties();
     }
 
-    [DrawGizmo(GizmoType.Selected | GizmoType.Active)]
+    [DrawGizmo(GizmoType.Selected | GizmoType.Active | GizmoType.NonSelected)]
     static void DrawGizmo(LabyrinthSceneHelperTools editorScript, GizmoType gizmoType)
     {
         if (showCells && editorScript.CurrentLevel != null)
