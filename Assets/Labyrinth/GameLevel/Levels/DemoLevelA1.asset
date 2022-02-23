@@ -455,3 +455,8 @@ MonoBehaviour:
         Y: 7
         Z: 0
       Walkable: 0
+  Scene:
+    m_AssetGUID: 2f4345f630adbec498ccc2c0fd555aa8
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0

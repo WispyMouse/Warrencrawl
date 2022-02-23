@@ -10,17 +10,18 @@ public class LabyrinthSceneHelperToolsEditor : Editor
     static bool showCells { get; set; }
 
     SerializedProperty currentLevel;
-    SerializedProperty currentLevelCells;
 
     SerializedProperty blocked;
     SerializedProperty walkable;
+    SerializedProperty defaultLevel;
 
     void OnEnable()
     {
         currentLevel = serializedObject.FindProperty(nameof(LabyrinthSceneHelperTools.CurrentLevel));
-        currentLevelCells = serializedObject.FindProperty($"{nameof(LabyrinthSceneHelperTools.CurrentLevel)}.{nameof(LabyrinthLevel.Cells)}");
+
         blocked = serializedObject.FindProperty(nameof(LabyrinthSceneHelperTools.Blocked));
         walkable = serializedObject.FindProperty(nameof(LabyrinthSceneHelperTools.Walkable));
+        defaultLevel = serializedObject.FindProperty(nameof(LabyrinthSceneHelperTools.DefaultLevel));
     }
 
     public override void OnInspectorGUI()
@@ -28,6 +29,7 @@ public class LabyrinthSceneHelperToolsEditor : Editor
         serializedObject.Update();
         EditorGUILayout.PropertyField(blocked);
         EditorGUILayout.PropertyField(walkable);
+        EditorGUILayout.PropertyField(defaultLevel);
 
         EditorGUILayout.PropertyField(currentLevel);
 

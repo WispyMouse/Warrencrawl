@@ -16,6 +16,11 @@ public class LabyrinthSceneHelperTools : SceneHelperTools
     /// </summary>
     public LayerMask Blocked;
 
+    /// <summary>
+    /// A default GameLevel to load if nothing is passed in to LabyrinthState.
+    /// </summary>
+    public GameLevel DefaultLevel;
+
     public void ToTheTown()
     {
         SceneHelperInstance.StartCoroutine(SceneHelperInstance.GlobalStateMachineInstance.ChangeToState(new TownState()));

@@ -44,10 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ce5f9dab31a76544889f2f474ffbe13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentMap: {fileID: 11400000, guid: 3235800359f89dd469145e265937a7cd, type: 2}
+  CurrentLevel: {fileID: 11400000, guid: 3235800359f89dd469145e265937a7cd, type: 2}
   Walkable:
     serializedVersion: 2
     m_Bits: 64
   Blocked:
     serializedVersion: 2
     m_Bits: 128
+  DefaultLevel: {fileID: 0}

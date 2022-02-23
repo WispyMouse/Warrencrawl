@@ -20,7 +20,7 @@ public abstract class SceneLoadingGameplayState : IGameplayState
     /// </summary>
     public abstract string[] InputMapNames { get; }
 
-    public IEnumerator Load()
+    public virtual IEnumerator Load()
     {
         if (!SceneManager.GetAllScenes().Any(sc => sc.name == SceneName))
         {
@@ -31,7 +31,7 @@ public abstract class SceneLoadingGameplayState : IGameplayState
             }
         }
     }
-    public IEnumerator ExitState(IGameplayState nextState)
+    public virtual IEnumerator ExitState(IGameplayState nextState)
     {
         AsyncOperation unloadScene = SceneManager.UnloadSceneAsync(SceneName);
         while (!unloadScene.isDone)
