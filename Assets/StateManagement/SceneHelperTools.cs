@@ -32,7 +32,6 @@ public abstract class SceneHelperTools : MonoBehaviour
     /// <summary>
     /// Method for inheritors of SceneHelperTools to put starting logic in.
     /// </summary>
-    /// <returns></returns>
     protected virtual IEnumerator StartChild()
     {
         yield break;
@@ -42,6 +41,5 @@ public abstract class SceneHelperTools : MonoBehaviour
     /// If this scene was loaded at the start, what gameplay state will this set things to?
     /// This *shouldn't* be utilized in production, but useful for setting up testing environments.
     /// </summary>
-    /// <returns></returns>
     public abstract IGameplayState GetNewDemoState();
 }

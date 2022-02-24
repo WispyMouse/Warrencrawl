@@ -20,7 +20,7 @@ public class LabyrinthCell
     public bool Walkable;
 
     /// <summary>
-    /// What is the worldspace Y that identifies the floor of this tile?
+    /// The worldspace Y that identifies the floor of this tile.
     /// </summary>
     public float Height;
 
@@ -39,6 +39,9 @@ public class LabyrinthCell
         }
     }
 
+    /// <summary>
+    /// The worldspace position of this tile. Returns the middle of the floor of the tile.
+    /// </summary>
     public Vector3 Worldspace
     {
         get
