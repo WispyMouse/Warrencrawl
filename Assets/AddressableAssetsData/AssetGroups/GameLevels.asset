@@ -17,11 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 39127dd4fd4809a4ca7c036bd0a76ac0
   m_SerializeEntries:
-  - m_GUID: 3235800359f89dd469145e265937a7cd
-    m_Address: Assets/Labyrinth/Scene/Levels/DemoLevelA1.asset
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - level
   - m_GUID: 2f4345f630adbec498ccc2c0fd555aa8
     m_Address: Assets/Labyrinth/Scene/Levels/DemoLevelA1.unity
     m_ReadOnly: 0

@@ -32,6 +32,15 @@ public class LabyrinthState : SceneLoadingGameplayState
 
     }
 
+    /// <summary>
+    /// Constructor that sets the level that you're transitioning in to.
+    /// </summary>
+    /// <param name="toLoad">The level to load.</param>
+    public LabyrinthState(GameLevel toLoad)
+    {
+        LevelToLoad = toLoad;
+    }
+
     public override IEnumerator Load()
     {
         yield return base.Load();
@@ -50,11 +59,7 @@ public class LabyrinthState : SceneLoadingGameplayState
             if (!SceneManager.GetSceneByPath(loc.Result[0].InternalId).isLoaded)
             {
                 AsyncOperationHandle<SceneInstance> loadingOperation = Addressables.LoadSceneAsync(LevelToLoad.Scene, LoadSceneMode.Additive);
-
-                while (!loadingOperation.IsDone)
-                {
-                    yield return loadingOperation.PercentComplete;
-                }
+                yield return loadingOperation;
 
                 LoadedScene = loadingOperation.Result;
             }
@@ -71,12 +76,7 @@ public class LabyrinthState : SceneLoadingGameplayState
 
         if (LoadedScene.HasValue)
         {
-            AsyncOperationHandle unloadingOperation = Addressables.UnloadSceneAsync(LoadedScene.Value);
-
-            while (!unloadingOperation.IsDone)
-            {
-                yield return unloadingOperation.PercentComplete;
-            }
+            yield return Addressables.UnloadSceneAsync(LoadedScene.Value);
         }
     }
 }

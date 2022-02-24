@@ -31,6 +31,19 @@ public class LabyrinthSceneHelperTools : SceneHelperTools
         SceneHelperInstance.StartCoroutine(SceneHelperInstance.GlobalStateMachineInstance.PushNewState(new BattleState()));
     }
 
+    protected override IEnumerator StartChild()
+    {
+        LabyrinthState curState = (SceneHelperInstance.GlobalStateMachineInstance.CurrentState as LabyrinthState);
+
+        if (curState == null)
+        {
+            Debug.LogWarning($"Expected {nameof(LabyrinthState)} to be the {nameof(SceneHelperInstance.GlobalStateMachineInstance.CurrentState)}, but it was not.");
+            yield break;
+        }
+
+        CurrentLevel = curState.LevelToLoad;
+    }
+
     public override IGameplayState GetNewDemoState()
     {
         return new LabyrinthState();

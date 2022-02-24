@@ -33,11 +33,11 @@ public class LabyrinthSceneHelperToolsEditor : Editor
 
         EditorGUILayout.PropertyField(currentLevel);
 
-        GameLevel castLevel = ((LabyrinthSceneHelperTools)target).CurrentLevel;
+        GameLevel castCurrentLevel = ((LabyrinthSceneHelperTools)target).CurrentLevel;
 
-        if (castLevel != null)
+        if (castCurrentLevel != null)
         {
-            EditorGUILayout.LabelField("Cells in Map", castLevel.LabyrinthData.Cells.Count().ToString());
+            EditorGUILayout.LabelField("Cells in Map", castCurrentLevel.LabyrinthData.Cells.Count().ToString());
 
             EditorGUI.BeginChangeCheck();
             showCells = EditorGUILayout.Toggle("Show Map Gizmos", showCells);
@@ -48,32 +48,25 @@ public class LabyrinthSceneHelperToolsEditor : Editor
 
             if (GUILayout.Button("Scan Level"))
             {
-                castLevel.LabyrinthData = ScanLevel();
-                EditorUtility.SetDirty(castLevel);
+                castCurrentLevel.LabyrinthData = ScanLevel();
             }
         }
 
         serializedObject.ApplyModifiedProperties();
     }
 
-    [DrawGizmo(GizmoType.Selected | GizmoType.Active | GizmoType.NonSelected)]
+    [DrawGizmo(GizmoType.Selected | GizmoType.NonSelected)]
     static void DrawGizmo(LabyrinthSceneHelperTools editorScript, GizmoType gizmoType)
     {
-        if (showCells && editorScript.CurrentLevel != null)
+        if (!(showCells && editorScript.CurrentLevel != null))
         {
-            foreach (LabyrinthCell curCell in editorScript.CurrentLevel.LabyrinthData.Cells)
-            {
-                if (curCell.Walkable)
-                {
-                    Gizmos.color = new Color(.5f, 1f, 1f, .6f);
-                    Gizmos.DrawCube(new Vector3(curCell.Coordinate.X, 0, curCell.Coordinate.Y), Vector3.one);
-                }
-                else
-                {
-                    Gizmos.color = new Color(1f, 0f, 0f, .6f);
-                    Gizmos.DrawCube(new Vector3(curCell.Coordinate.X, 0, curCell.Coordinate.Y), Vector3.one);
-                }
-            }
+            return;
+        }
+
+        foreach (LabyrinthCell curCell in editorScript.CurrentLevel.LabyrinthData.Cells)
+        {
+            Gizmos.color = curCell.DebugColor;
+            Gizmos.DrawCube(curCell.Worldspace, Vector3.one);
         }
     }
 
@@ -88,27 +81,20 @@ public class LabyrinthSceneHelperToolsEditor : Editor
         LabyrinthLevel newLevel = new LabyrinthLevel();
 
         Queue<CellCoordinates> frontier = new Queue<CellCoordinates>();
-        HashSet<CellCoordinates> visited = new HashSet<CellCoordinates>();
+        HashSet<CellCoordinates> seen = new HashSet<CellCoordinates>();
         frontier.Enqueue(CellCoordinates.Origin);
+        seen.Add(CellCoordinates.Origin);
 
         while (frontier.Any())
         {
             CellCoordinates curFront = frontier.Dequeue();
 
-            if (visited.Contains(curFront))
+            RaycastHit hit;
+            if (Physics.Raycast(new Vector3(curFront.X, 3f, curFront.Y), Vector3.down, out hit, 4f, blocked.intValue | walkable.intValue))
             {
-                continue;
-            }
+                bool isWalkable = hit.collider.gameObject.layer == walkable.intValue;
 
-            visited.Add(curFront);
-
-            if (Physics.Linecast(new Vector3(curFront.X, 10, curFront.Y), new Vector3(curFront.X, -10, curFront.Y), blocked.intValue))
-            {
-                newLevel.Cells.Add(new LabyrinthCell() { Coordinate = curFront, Walkable = false });
-            }
-            else if (Physics.Linecast(new Vector3(curFront.X, 10, curFront.Y), new Vector3(curFront.X, -10, curFront.Y), walkable.intValue))
-            {
-                newLevel.Cells.Add(new LabyrinthCell() { Coordinate = curFront, Walkable = true });
+                newLevel.Cells.Add(new LabyrinthCell() { Coordinate = curFront, Height = hit.point.y, Walkable = isWalkable });
             }
             else
             {
@@ -118,10 +104,13 @@ public class LabyrinthSceneHelperToolsEditor : Editor
 
             foreach (CellCoordinates curNeighbor in curFront.OrthogonalNeighbors)
             {
-                if (!visited.Contains(curNeighbor))
+                if (seen.Contains(curNeighbor))
                 {
-                    frontier.Enqueue(curNeighbor);
+                    continue;
                 }
+
+                seen.Add(curNeighbor);
+                frontier.Enqueue(curNeighbor);
             }
         }
 

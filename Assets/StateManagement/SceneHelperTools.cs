@@ -25,6 +25,17 @@ public abstract class SceneHelperTools : MonoBehaviour
         }
 
         SceneHelperInstance = GameObject.FindObjectOfType<SceneHelper>();
+
+        StartChild();
+    }
+
+    /// <summary>
+    /// Method for inheritors of SceneHelperTools to put starting logic in.
+    /// </summary>
+    /// <returns></returns>
+    protected virtual IEnumerator StartChild()
+    {
+        yield break;
     }
 
     /// <summary>

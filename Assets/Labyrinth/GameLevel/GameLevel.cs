@@ -15,9 +15,6 @@ public class GameLevel : ScriptableObject
     /// </summary>
     public string LevelName = "Demo Game Level";
 
-    // TODO: The scene name to load for this level
-    // TODO: A more permanent address per level, or at least one not tied to display name
-
     /// <summary>
     /// The labyrinth layout for gameplay.
     /// This drives most of the movement engine in the game; the level will follow what this structure has, not what is in the scene.

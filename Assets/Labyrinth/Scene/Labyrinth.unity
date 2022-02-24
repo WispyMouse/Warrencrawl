@@ -1202,6 +1202,10 @@ PrefabInstance:
       propertyPath: CurrentLevel
       value: 
       objectReference: {fileID: 11400000, guid: 3235800359f89dd469145e265937a7cd, type: 2}
+    - target: {fileID: 540416474418473652, guid: ef944d8d899305d4a9098a6e9b0605f5, type: 3}
+      propertyPath: DefaultLevel
+      value: 
+      objectReference: {fileID: 11400000, guid: 3235800359f89dd469145e265937a7cd, type: 2}
     - target: {fileID: 540416474418473653, guid: ef944d8d899305d4a9098a6e9b0605f5, type: 3}
       propertyPath: m_Name
       value: LabyrinthSceneTools

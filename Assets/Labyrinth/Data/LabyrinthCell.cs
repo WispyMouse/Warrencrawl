@@ -11,8 +11,6 @@ public class LabyrinthCell
 {
     /// <summary>
     /// Coordinate position of the cell.
-    /// You can find this cell if you look at (X, ?, Y).
-    /// The y level in worldspace / z level in coordinate space does not have a one to one correlation.
     /// </summary>
     public CellCoordinates Coordinate;
 
@@ -21,4 +19,31 @@ public class LabyrinthCell
     /// </summary>
     public bool Walkable;
 
+    /// <summary>
+    /// What is the worldspace Y that identifies the floor of this tile?
+    /// </summary>
+    public float Height;
+
+    public Color DebugColor
+    {
+        get
+        {
+            if (Walkable)
+            {
+                return new Color(.6f, 1f, 1f, .6f);
+            }
+            else
+            {
+                return new Color(1f, .4f, .4f, .6f);
+            }
+        }
+    }
+
+    public Vector3 Worldspace
+    {
+        get
+        {
+            return new Vector3(Coordinate.X, Height, Coordinate.Y);
+        }
+    }
 }
