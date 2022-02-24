@@ -25,12 +25,21 @@ public abstract class SceneHelperTools : MonoBehaviour
         }
 
         SceneHelperInstance = GameObject.FindObjectOfType<SceneHelper>();
+
+        StartChild();
+    }
+
+    /// <summary>
+    /// Method for inheritors of SceneHelperTools to put starting logic in.
+    /// </summary>
+    protected virtual IEnumerator StartChild()
+    {
+        yield break;
     }
 
     /// <summary>
     /// If this scene was loaded at the start, what gameplay state will this set things to?
     /// This *shouldn't* be utilized in production, but useful for setting up testing environments.
     /// </summary>
-    /// <returns></returns>
     public abstract IGameplayState GetNewDemoState();
 }

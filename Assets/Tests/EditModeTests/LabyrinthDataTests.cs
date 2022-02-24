@@ -19,12 +19,12 @@ public class LabyrinthDataTests
         { 
             new LabyrinthCell() 
             { 
-                Coordinate = CellCoordinates.Zero
+                Coordinate = CellCoordinates.Origin
             }
         };
 
         Assert.That(testLevel.CellAtCoordinate(new CellCoordinates(0, 0, 0)), Is.Not.Null);
-        Assert.That(testLevel.CellAtCoordinate(new CellCoordinates(0, 0, 0)).Coordinate == CellCoordinates.Zero, Is.Not.Null);
+        Assert.That(testLevel.CellAtCoordinate(new CellCoordinates(0, 0, 0)).Coordinate == CellCoordinates.Origin, Is.Not.Null);
         Assert.That(testLevel.CellAtCoordinate(new CellCoordinates(0, 0, 1)), Is.Null);
         Assert.That(testLevel.CellAtCoordinate(new CellCoordinates(1, -1, 0)), Is.Null);
         Assert.That(testLevel.Cells.Count, Is.EqualTo(1));
@@ -38,7 +38,7 @@ public class LabyrinthDataTests
     {
         LabyrinthLevel testLevel = new LabyrinthLevel();
 
-        Assert.That(testLevel.CellAtCoordinate(CellCoordinates.Zero), Is.Null);
+        Assert.That(testLevel.CellAtCoordinate(CellCoordinates.Origin), Is.Null);
         Assert.That(testLevel.Cells, Is.Empty);
     }
 
@@ -50,7 +50,7 @@ public class LabyrinthDataTests
     {
         LabyrinthLevel testLevel = new LabyrinthLevel();
 
-        Assert.That(testLevel.NeighborsOfCoordinate(CellCoordinates.Zero), Is.Empty);
+        Assert.That(testLevel.NeighborsOfCoordinate(CellCoordinates.Origin), Is.Empty);
     }
 
     /// <summary>
@@ -61,9 +61,9 @@ public class LabyrinthDataTests
     {
         LabyrinthLevel testLevel = new LabyrinthLevel();
 
-        testLevel.Cells.Add(new LabyrinthCell() { Coordinate = CellCoordinates.Zero });
+        testLevel.Cells.Add(new LabyrinthCell() { Coordinate = CellCoordinates.Origin });
 
-        Assert.That(testLevel.NeighborsOfCoordinate(CellCoordinates.Zero), Is.Empty);
+        Assert.That(testLevel.NeighborsOfCoordinate(CellCoordinates.Origin), Is.Empty);
     }
 
     /// <summary>
@@ -74,7 +74,7 @@ public class LabyrinthDataTests
     {
         LabyrinthLevel testLevel = new LabyrinthLevel();
 
-        testLevel.Cells.Add(new LabyrinthCell() { Coordinate = CellCoordinates.Zero });
+        testLevel.Cells.Add(new LabyrinthCell() { Coordinate = CellCoordinates.Origin });
         testLevel.Cells.Add(new LabyrinthCell() { Coordinate = new CellCoordinates(1, 0, 0) });
         testLevel.Cells.Add(new LabyrinthCell() { Coordinate = new CellCoordinates(1, 1, 0) });
 
