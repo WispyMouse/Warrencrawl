@@ -14,13 +14,22 @@ public class GlobalStateMachine
     /// <summary>
     /// Cached reference to the last set of controls used.
     /// </summary>
-    PlayerInput lastActiveControls { get; set; }
+    WarrencrawlInputs lastActiveControls { get; set; }
 
     /// <summary>
     /// The stack of states currently loaded in to memory.
     /// States underneath the top may be "inactive" and out of memory, and the top state may not be fully "active".
     /// </summary>
     Stack<IGameplayState> PresentStates { get; set; } = new Stack<IGameplayState>();
+
+    /// <summary>
+    /// Constructor for the GlobalStateMachine.
+    /// </summary>
+    /// <param name="inputs">The input map used.</param>
+    public GlobalStateMachine(WarrencrawlInputs inputs)
+    {
+        this.lastActiveControls = inputs;
+    }
 
     /// <summary>
     /// Returns the current top level state, if there is one.
@@ -90,7 +99,7 @@ public class GlobalStateMachine
     /// Signals that the input has been updated, and sends that to the current state (if any).
     /// </summary>
     /// <param name="input">The current input.</param>
-    public void SetControls(PlayerInput activeInput)
+    public void SetControls(WarrencrawlInputs activeInput)
     {
         lastActiveControls = activeInput;
         CurrentState?.SetControls(activeInput);

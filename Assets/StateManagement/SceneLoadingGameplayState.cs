@@ -15,11 +15,6 @@ public abstract class SceneLoadingGameplayState : IGameplayState
     /// </summary>
     public abstract string SceneName { get; }
 
-    /// <summary>
-    /// The names of the Action Maps to enable in a PlayerInput.
-    /// </summary>
-    public abstract string[] InputMapNames { get; }
-
     public virtual IEnumerator Load()
     {
         if (!SceneManager.GetAllScenes().Any(sc => sc.name == SceneName))
@@ -62,17 +57,5 @@ public abstract class SceneLoadingGameplayState : IGameplayState
         yield break;
     }
 
-    public virtual void SetControls(PlayerInput controls)
-    {
-        if (controls == null)
-        {
-            return;
-        }    
-
-        controls.actions.Disable();
-        foreach (string inputMapName in InputMapNames)
-        {
-            controls.actions.FindActionMap(inputMapName).Enable();
-        }
-    }
+    public abstract void SetControls(WarrencrawlInputs controls);
 }

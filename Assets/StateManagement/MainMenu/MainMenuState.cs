@@ -5,5 +5,9 @@ using UnityEngine;
 public class MainMenuState : SceneLoadingGameplayState
 {
     public override string SceneName => "MainMenu";
-    public override string[] InputMapNames => new string[] { "UI" };
+
+    public override void SetControls(WarrencrawlInputs controls)
+    {
+        controls.UI.Enable();
+    }
 }

@@ -13,21 +13,13 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class SceneHelper : MonoBehaviour
 {
-    public readonly GlobalStateMachine GlobalStateMachineInstance = new GlobalStateMachine();
+    public GlobalStateMachine GlobalStateMachineInstance { get; set; }
+    private WarrencrawlInputs Inputs { get; set; }
 
-    private IEnumerator Start()
+    private void Start()
     {
-        if (!SceneManager.GetAllScenes().Any(sc => sc.name == "Input"))
-        {
-            AsyncOperation loadInputScene = SceneManager.LoadSceneAsync("Input", LoadSceneMode.Additive);
-            while (!loadInputScene.isDone)
-            {
-                yield return null;
-            }
-        }
-
-        PlayerInput activePlayerInput = GameObject.FindObjectOfType<PlayerInput>();
-        activePlayerInput.onControlsChanged += GlobalStateMachineInstance.SetControls;
+        Inputs = new WarrencrawlInputs();
+        GlobalStateMachineInstance = new GlobalStateMachine(Inputs);
 
         SceneHelperTools bootstrapperTools = GameObject.FindObjectOfType<SceneHelperTools>();
 

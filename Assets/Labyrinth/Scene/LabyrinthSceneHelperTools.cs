@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LabyrinthSceneHelperTools : SceneHelperTools
+public class LabyrinthSceneHelperTools : SceneHelperTools, IGameLevelProvider
 {
     public GameLevel CurrentLevel;
 
@@ -46,6 +46,11 @@ public class LabyrinthSceneHelperTools : SceneHelperTools
 
     public override IGameplayState GetNewDemoState()
     {
-        return new LabyrinthState();
+        return new LabyrinthState(this, this);
+    }
+
+    public GameLevel GetLevel()
+    {
+        return DefaultLevel;
     }
 }

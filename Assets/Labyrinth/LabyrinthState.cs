@@ -10,7 +10,6 @@ using UnityEngine.SceneManagement;
 public class LabyrinthState : SceneLoadingGameplayState
 {
     public override string SceneName => "Labyrinth";
-    public override string[] InputMapNames => new string[] { "UI" };
 
     /// <summary>
     /// The GameLevel to initialize and load in.
@@ -19,55 +18,79 @@ public class LabyrinthState : SceneLoadingGameplayState
     public GameLevel LevelToLoad { get; private set; }
 
     /// <summary>
+    /// An object to run IEnumerators against.
+    /// </summary>
+    public MonoBehaviour Animator { get; private set; }
+
+    /// <summary>
     /// A reference to the loaded scene's instance.
     /// This is used to later unload the scene.
     /// </summary>
     private SceneInstance? LoadedScene { get; set; }
 
     /// <summary>
-    /// Default constructor. <see cref="LevelToLoad"/> is not set, reads from LabyrinthSceneHelperTools to determine a default level to load.
+    /// The current game object representing the player's point of view.
     /// </summary>
-    public LabyrinthState()
-    {
-
-    }
+    private PointOfView PointOfViewInstance { get; set; }
 
     /// <summary>
-    /// Constructor that sets the level that you're transitioning in to.
+    /// The current coordinates of the "player" point of view.
     /// </summary>
-    /// <param name="toLoad">The level to load.</param>
-    public LabyrinthState(GameLevel toLoad)
+    private CellCoordinates? PointOfViewCoordinates { get; set; }
+
+    /// <summary>
+    /// A mechanism for providing a level.
+    /// </summary>
+    private IGameLevelProvider GameLevelProvider { get; set; }
+
+    /// <summary>
+    /// Mechanism for interfacing with <see cref="WarrencrawlInputs"/>.
+    /// </summary>
+    private LabyrinthInputHandler InputHandler { get; set; }
+
+    /// <summary>
+    /// Constructor for LabyrinthState.
+    /// </summary>
+    /// <param name="animator">Any monobehavior able ot run coroutines.</param>
+    /// <param name="levelProvider">A mechanism for providing a level.</param>
+    public LabyrinthState(MonoBehaviour animator, IGameLevelProvider levelProvider)
     {
-        LevelToLoad = toLoad;
+        this.Animator = animator;
+        this.GameLevelProvider = levelProvider;
     }
 
     public override IEnumerator Load()
     {
         yield return base.Load();
 
-        if (LevelToLoad == null)
-        {
-            // TODO reduce coupling; can this be passed somehow?
-            LabyrinthSceneHelperTools tools = GameObject.FindObjectOfType<LabyrinthSceneHelperTools>();
-            LevelToLoad = tools.DefaultLevel;
-        }
+        LevelToLoad = GameLevelProvider.GetLevel();
+        InputHandler = new LabyrinthInputHandler(this);
 
-        if (LevelToLoad != null && LevelToLoad.Scene != null)
-        {
-            var loc = Addressables.LoadResourceLocationsAsync(LevelToLoad.Scene);
-            yield return loc;
-            if (!SceneManager.GetSceneByPath(loc.Result[0].InternalId).isLoaded)
-            {
-                AsyncOperationHandle<SceneInstance> loadingOperation = Addressables.LoadSceneAsync(LevelToLoad.Scene, LoadSceneMode.Additive);
-                yield return loadingOperation;
-
-                LoadedScene = loadingOperation.Result;
-            }
-        }
-        else
+        if (LevelToLoad == null || LevelToLoad.Scene == null)
         {
             Debug.LogWarning($"No {nameof(LevelToLoad)} detected. Either pass a {nameof(GameLevel)} to the {nameof(LabyrinthLevel)} constructor, or have a {nameof(LabyrinthSceneHelperTools.DefaultLevel)} set in {nameof(LabyrinthSceneHelperTools)}.");
+            yield break;
         }
+
+        var loc = Addressables.LoadResourceLocationsAsync(LevelToLoad.Scene);
+        yield return loc;
+        if (!SceneManager.GetSceneByPath(loc.Result[0].InternalId).isLoaded)
+        {
+            AsyncOperationHandle<SceneInstance> loadingOperation = Addressables.LoadSceneAsync(LevelToLoad.Scene, LoadSceneMode.Additive);
+            yield return loadingOperation;
+
+            LoadedScene = loadingOperation.Result;
+        }
+
+        PointOfViewInstance = GameObject.FindObjectOfType<PointOfView>();
+    }
+
+    public override IEnumerator StartState(GlobalStateMachine globalStateMachine, IGameplayState previousState)
+    {
+        yield return base.StartState(globalStateMachine, previousState);
+
+        // TODO: Get POV coordinates somehow; probably going to be the labyrinthscenetools again
+        PointOfViewCoordinates = CellCoordinates.Origin;
     }
 
     public override IEnumerator ExitState(IGameplayState nextState)
@@ -78,5 +101,34 @@ public class LabyrinthState : SceneLoadingGameplayState
         {
             yield return Addressables.UnloadSceneAsync(LoadedScene.Value);
         }
+    }
+
+    public override void SetControls(WarrencrawlInputs controls)
+    {
+        controls.Labyrinth.Enable();
+        controls.Labyrinth.SetCallbacks(InputHandler);
+    }
+
+    /// <summary>
+    /// Attempts to move in the direction provided.
+    /// </summary>
+    /// <param name="offset">Direction to move.</param>
+    public IEnumerator Step(Vector3Int offset)
+    {
+        CellCoordinates newCoordinates = new CellCoordinates(
+            PointOfViewCoordinates.Value.X + offset.x,
+            PointOfViewCoordinates.Value.Y + offset.y,
+            PointOfViewCoordinates.Value.Z + offset.z);
+
+        LabyrinthCell cellAtPosition = LevelToLoad.LabyrinthData.CellAtCoordinate(newCoordinates);
+
+        if (cellAtPosition == null)
+        {
+            Debug.Log("Couldn't move there.");
+            yield break;
+        }
+
+        PointOfViewInstance.transform.position = cellAtPosition.Worldspace;
+        PointOfViewCoordinates = newCoordinates;
     }
 }

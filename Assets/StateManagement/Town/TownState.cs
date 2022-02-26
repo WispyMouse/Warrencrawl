@@ -5,5 +5,9 @@ using UnityEngine;
 public class TownState : SceneLoadingGameplayState
 {
     public override string SceneName => "Town";
-    public override string[] InputMapNames => new string[] { "UI" };
+
+    public override void SetControls(WarrencrawlInputs controls)
+    {
+        controls.UI.Enable();
+    }
 }
