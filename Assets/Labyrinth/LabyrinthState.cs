@@ -146,15 +146,39 @@ public class LabyrinthState : SceneLoadingGameplayState
             yield break;
         }
 
-        PointOfViewInstance.transform.position = cellAtPosition.Worldspace;
+        Vector3 startingPosition = PointOfViewInstance.transform.position;
+        Vector3 targetPosition = cellAtPosition.Worldspace;
+        float curTime = 0;
+        float stepTime = .5f;
+
+        while (curTime < stepTime)
+        {
+            PointOfViewInstance.transform.position = Vector3.Lerp(startingPosition, targetPosition,  curTime / stepTime);
+            curTime += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+
+        PointOfViewInstance.transform.position = targetPosition;
         PointOfViewInstance.CurCoordinates = newCoordinates;
         LockingAnimationFinished.Invoke(this, new EventArgs());
     }
 
     public IEnumerator Rotate(Direction newFacing)
     {
+        Vector3 startingFacing = PointOfViewInstance.transform.rotation.eulerAngles;
+        Vector3 targetFacing = new Vector3(0, newFacing.Degrees(), 0);
+        float curTime = 0;
+        float turnTime = .5f;
+
+        while (curTime < turnTime)
+        {
+            PointOfViewInstance.transform.rotation = Quaternion.Euler(0, Mathf.LerpAngle(startingFacing.y, targetFacing.y, curTime / turnTime), 0);
+            curTime += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+
         PointOfViewInstance.CurFacing = newFacing;
-        PointOfViewInstance.transform.rotation = Quaternion.Euler(0, newFacing.Degrees(), 0);
+        PointOfViewInstance.transform.rotation = Quaternion.Euler(targetFacing);
         LockingAnimationFinished.Invoke(this, new EventArgs());
         yield break;
     }

@@ -40,6 +40,7 @@ public class LabyrinthInputHandler : MonoBehaviour, ILabyrinthActions
             return;
         }
 
+        animating = true;
         StartCoroutine(bufferedAction());
     }
 
