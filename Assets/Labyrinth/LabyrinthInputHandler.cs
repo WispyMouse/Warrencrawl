@@ -26,7 +26,7 @@ public class LabyrinthInputHandler : ILabyrinthActions
             return;
         }
 
-        referencedState.Animator.StartCoroutine(referencedState.Step(Vector3Int.up));
+        referencedState.Animator.StartCoroutine(referencedState.Step(referencedState.PointOfViewInstance.CurFacing.Forward()));
     }
 
     public void OnBackward(InputAction.CallbackContext context)
@@ -36,7 +36,7 @@ public class LabyrinthInputHandler : ILabyrinthActions
             return;
         }
 
-        referencedState.Animator.StartCoroutine(referencedState.Step(Vector3Int.down));
+        referencedState.Animator.StartCoroutine(referencedState.Step(referencedState.PointOfViewInstance.CurFacing.Backward()));
     }
 
     public void OnRight(InputAction.CallbackContext context)
@@ -46,7 +46,7 @@ public class LabyrinthInputHandler : ILabyrinthActions
             return;
         }
 
-        referencedState.Animator.StartCoroutine(referencedState.Step(Vector3Int.right));
+        referencedState.Animator.StartCoroutine(referencedState.Step(referencedState.PointOfViewInstance.CurFacing.Right()));
     }
 
     public void OnLeft(InputAction.CallbackContext context)
@@ -56,7 +56,7 @@ public class LabyrinthInputHandler : ILabyrinthActions
             return;
         }
 
-        referencedState.Animator.StartCoroutine(referencedState.Step(Vector3Int.left));
+        referencedState.Animator.StartCoroutine(referencedState.Step(referencedState.PointOfViewInstance.CurFacing.Left()));
     }
 
     public void OnRotateRight(InputAction.CallbackContext context)
@@ -66,7 +66,7 @@ public class LabyrinthInputHandler : ILabyrinthActions
             return;
         }
 
-        // TODO: rotation!
+        referencedState.Animator.StartCoroutine(referencedState.Rotate(referencedState.PointOfViewInstance.CurFacing.RotateRight()));
     }
 
     public void OnRotateLeft(InputAction.CallbackContext context)
@@ -76,6 +76,6 @@ public class LabyrinthInputHandler : ILabyrinthActions
             return;
         }
 
-        // TODO: rotation!
+        referencedState.Animator.StartCoroutine(referencedState.Rotate(referencedState.PointOfViewInstance.CurFacing.RotateLeft()));
     }
 }

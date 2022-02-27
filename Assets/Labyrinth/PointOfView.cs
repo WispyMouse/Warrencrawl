@@ -2,17 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// The player's point of view in to a labyrinth.
+/// </summary>
 public class PointOfView : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    /// <summary>
+    /// The direction the player is currently facing.
+    /// </summary>
+    public Direction CurFacing { get; set; }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    /// <summary>
+    /// The position on the labyrinth map of the player.
+    /// </summary>
+    public CellCoordinates CurCoordinates { get; set; }
 }

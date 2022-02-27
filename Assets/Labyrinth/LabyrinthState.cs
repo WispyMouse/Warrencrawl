@@ -31,12 +31,7 @@ public class LabyrinthState : SceneLoadingGameplayState
     /// <summary>
     /// The current game object representing the player's point of view.
     /// </summary>
-    private PointOfView PointOfViewInstance { get; set; }
-
-    /// <summary>
-    /// The current coordinates of the "player" point of view.
-    /// </summary>
-    private CellCoordinates? PointOfViewCoordinates { get; set; }
+    public PointOfView PointOfViewInstance { get; private set; }
 
     /// <summary>
     /// A mechanism for providing a level.
@@ -90,7 +85,8 @@ public class LabyrinthState : SceneLoadingGameplayState
         yield return base.StartState(globalStateMachine, previousState);
 
         // TODO: Get POV coordinates somehow; probably going to be the labyrinthscenetools again
-        PointOfViewCoordinates = CellCoordinates.Origin;
+        PointOfViewInstance.CurFacing = Direction.North;
+        PointOfViewInstance.CurCoordinates = CellCoordinates.Origin;
     }
 
     public override IEnumerator ExitState(IGameplayState nextState)
@@ -116,9 +112,9 @@ public class LabyrinthState : SceneLoadingGameplayState
     public IEnumerator Step(Vector3Int offset)
     {
         CellCoordinates newCoordinates = new CellCoordinates(
-            PointOfViewCoordinates.Value.X + offset.x,
-            PointOfViewCoordinates.Value.Y + offset.y,
-            PointOfViewCoordinates.Value.Z + offset.z);
+            PointOfViewInstance.CurCoordinates.X + offset.x,
+            PointOfViewInstance.CurCoordinates.Y + offset.y,
+            PointOfViewInstance.CurCoordinates.Z + offset.z);
 
         LabyrinthCell cellAtPosition = LevelToLoad.LabyrinthData.CellAtCoordinate(newCoordinates);
 
@@ -129,6 +125,13 @@ public class LabyrinthState : SceneLoadingGameplayState
         }
 
         PointOfViewInstance.transform.position = cellAtPosition.Worldspace;
-        PointOfViewCoordinates = newCoordinates;
+        PointOfViewInstance.CurCoordinates = newCoordinates;
+    }
+
+    public IEnumerator Rotate(Direction newFacing)
+    {
+        PointOfViewInstance.CurFacing = newFacing;
+        PointOfViewInstance.transform.rotation = Quaternion.Euler(0, newFacing.Degrees(), 0);
+        yield break;
     }
 }
