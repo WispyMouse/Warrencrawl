@@ -26,7 +26,7 @@ public abstract class SceneHelperTools : MonoBehaviour
 
         SceneHelperInstance = GameObject.FindObjectOfType<SceneHelper>();
 
-        StartChild();
+        yield return StartChild();
     }
 
     /// <summary>

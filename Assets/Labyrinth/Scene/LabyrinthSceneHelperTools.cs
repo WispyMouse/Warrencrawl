@@ -21,6 +21,11 @@ public class LabyrinthSceneHelperTools : SceneHelperTools, IGameLevelProvider
     /// </summary>
     public GameLevel DefaultLevel;
 
+    /// <summary>
+    /// A pointer to the active LabyrinthInputHandler. Needs to have <see cref="LabyrinthInputHandler.Initialize(LabyrinthState)"/> run on it.
+    /// </summary>
+    public LabyrinthInputHandler InputHandler;
+
     public void ToTheTown()
     {
         SceneHelperInstance.StartCoroutine(SceneHelperInstance.GlobalStateMachineInstance.ChangeToState(new TownState()));
@@ -41,12 +46,14 @@ public class LabyrinthSceneHelperTools : SceneHelperTools, IGameLevelProvider
             yield break;
         }
 
+        InputHandler.Initialize(curState);
+
         CurrentLevel = curState.LevelToLoad;
     }
 
     public override IGameplayState GetNewDemoState()
     {
-        return new LabyrinthState(this, this);
+        return new LabyrinthState(this);
     }
 
     public GameLevel GetLevel()

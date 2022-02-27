@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Events;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
@@ -16,11 +18,6 @@ public class LabyrinthState : SceneLoadingGameplayState
     /// If this is null, we try to pull a default level from <see cref="LabyrinthSceneHelperTools"/>.
     /// </summary>
     public GameLevel LevelToLoad { get; private set; }
-
-    /// <summary>
-    /// An object to run IEnumerators against.
-    /// </summary>
-    public MonoBehaviour Animator { get; private set; }
 
     /// <summary>
     /// A reference to the loaded scene's instance.
@@ -39,18 +36,26 @@ public class LabyrinthState : SceneLoadingGameplayState
     private IGameLevelProvider GameLevelProvider { get; set; }
 
     /// <summary>
-    /// Mechanism for interfacing with <see cref="WarrencrawlInputs"/>.
+    /// Reports when an exclusive animation has finished.
     /// </summary>
-    private LabyrinthInputHandler InputHandler { get; set; }
+    public EventHandler LockingAnimationFinished { get; set; }
+
+    /// <summary>
+    /// Pointer to the active LabyrinthSceneHelperTools. Retrieved on Load.
+    /// </summary>
+    public LabyrinthSceneHelperTools HelperTools { get; private set; }
+
+    /// <summary>
+    /// Pointer to the input handler for this state. Retrieved on load from LabyrinthSceneHelperTools.
+    /// </summary>
+    public LabyrinthInputHandler InputHandler { get; private set; }
 
     /// <summary>
     /// Constructor for LabyrinthState.
     /// </summary>
-    /// <param name="animator">Any monobehavior able ot run coroutines.</param>
     /// <param name="levelProvider">A mechanism for providing a level.</param>
-    public LabyrinthState(MonoBehaviour animator, IGameLevelProvider levelProvider)
+    public LabyrinthState(IGameLevelProvider levelProvider)
     {
-        this.Animator = animator;
         this.GameLevelProvider = levelProvider;
     }
 
@@ -58,8 +63,17 @@ public class LabyrinthState : SceneLoadingGameplayState
     {
         yield return base.Load();
 
+        HelperTools = GameObject.FindObjectOfType<LabyrinthSceneHelperTools>();
+
+        if (HelperTools == null)
+        {
+            Debug.LogWarning($"No {nameof(LabyrinthSceneHelperTools)} found in the scene.");
+            yield break;
+        }
+
+        InputHandler = HelperTools.InputHandler;
+
         LevelToLoad = GameLevelProvider.GetLevel();
-        InputHandler = new LabyrinthInputHandler(this);
 
         if (LevelToLoad == null || LevelToLoad.Scene == null)
         {
@@ -120,18 +134,28 @@ public class LabyrinthState : SceneLoadingGameplayState
 
         if (cellAtPosition == null)
         {
-            Debug.Log("Couldn't move there.");
+            Debug.Log("Couldn't move there, the cell doesn't exist.");
+            LockingAnimationFinished.Invoke(this, new EventArgs());
+            yield break;
+        }
+
+        if (!cellAtPosition.Walkable)
+        {
+            Debug.Log("Couldn't move there, the cell is not walkable.");
+            LockingAnimationFinished.Invoke(this, new EventArgs());
             yield break;
         }
 
         PointOfViewInstance.transform.position = cellAtPosition.Worldspace;
         PointOfViewInstance.CurCoordinates = newCoordinates;
+        LockingAnimationFinished.Invoke(this, new EventArgs());
     }
 
     public IEnumerator Rotate(Direction newFacing)
     {
         PointOfViewInstance.CurFacing = newFacing;
         PointOfViewInstance.transform.rotation = Quaternion.Euler(0, newFacing.Degrees(), 0);
+        LockingAnimationFinished.Invoke(this, new EventArgs());
         yield break;
     }
 }

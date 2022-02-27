@@ -44,13 +44,11 @@ public class StateManagementTests
         yield return stateMachine.ChangeToState(mainMenuState);
         Assert.That(stateMachine.CurrentState, Is.EqualTo(mainMenuState));
 
-        SceneHelperTools tools = GameObject.FindObjectOfType<SceneHelperTools>();
-
         TownState townState = new TownState();
         yield return stateMachine.ChangeToState(townState);
         Assert.That(stateMachine.CurrentState, Is.EqualTo(townState));
 
-        LabyrinthState labyrinthState = new LabyrinthState(tools, new LabyrinthSceneHelperGrabber());
+        LabyrinthState labyrinthState = new LabyrinthState(new LabyrinthSceneHelperGrabber());
         yield return stateMachine.ChangeToState(labyrinthState);
         Assert.That(stateMachine.CurrentState, Is.EqualTo(labyrinthState));
 
