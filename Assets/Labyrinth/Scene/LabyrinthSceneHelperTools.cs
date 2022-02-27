@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LabyrinthSceneHelperTools : SceneHelperTools
+public class LabyrinthSceneHelperTools : SceneHelperTools, IGameLevelProvider
 {
     public GameLevel CurrentLevel;
 
@@ -20,6 +20,16 @@ public class LabyrinthSceneHelperTools : SceneHelperTools
     /// A default GameLevel to load if nothing is passed in to LabyrinthState.
     /// </summary>
     public GameLevel DefaultLevel;
+
+    /// <summary>
+    /// A pointer to the active LabyrinthInputHandler. Needs to have <see cref="LabyrinthInputHandler.Initialize(LabyrinthState)"/> run on it.
+    /// </summary>
+    public LabyrinthInputHandler InputHandler;
+
+    /// <summary>
+    /// A pointer to the active AnimationHandler.
+    /// </summary>
+    public LabyrinthAnimationHandler AnimationHandler;
 
     public void ToTheTown()
     {
@@ -41,11 +51,18 @@ public class LabyrinthSceneHelperTools : SceneHelperTools
             yield break;
         }
 
+        InputHandler.Initialize(curState);
+
         CurrentLevel = curState.LevelToLoad;
     }
 
     public override IGameplayState GetNewDemoState()
     {
-        return new LabyrinthState();
+        return new LabyrinthState(this);
+    }
+
+    public GameLevel GetLevel()
+    {
+        return DefaultLevel;
     }
 }

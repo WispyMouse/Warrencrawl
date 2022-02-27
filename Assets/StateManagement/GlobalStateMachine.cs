@@ -14,13 +14,22 @@ public class GlobalStateMachine
     /// <summary>
     /// Cached reference to the last set of controls used.
     /// </summary>
-    PlayerInput lastActiveControls { get; set; }
+    WarrencrawlInputs lastActiveControls { get; set; }
 
     /// <summary>
     /// The stack of states currently loaded in to memory.
     /// States underneath the top may be "inactive" and out of memory, and the top state may not be fully "active".
     /// </summary>
     Stack<IGameplayState> PresentStates { get; set; } = new Stack<IGameplayState>();
+
+    /// <summary>
+    /// Constructor for the GlobalStateMachine.
+    /// </summary>
+    /// <param name="inputs">The input map used.</param>
+    public GlobalStateMachine(WarrencrawlInputs inputs)
+    {
+        this.lastActiveControls = inputs;
+    }
 
     /// <summary>
     /// Returns the current top level state, if there is one.
@@ -54,7 +63,7 @@ public class GlobalStateMachine
         }
 
         PresentStates.Push(newState);
-        yield return WarmUpAndCurrentState(oldState);
+        yield return WarmUpAndStartCurrentState(oldState);
     }
 
     /// <summary>
@@ -68,7 +77,7 @@ public class GlobalStateMachine
         IGameplayState oldState = CurrentState;
         yield return oldState?.TransitionUp(newState);
         PresentStates.Push(newState);
-        yield return WarmUpAndCurrentState(oldState);
+        yield return WarmUpAndStartCurrentState(oldState);
     }
 
     /// <summary>
@@ -83,20 +92,10 @@ public class GlobalStateMachine
         PresentStates.TryPeek(out IGameplayState nextState);
         yield return oldState?.ExitState(nextState);
 
-        yield return WarmUpAndCurrentState(oldState);
+        yield return WarmUpAndStartCurrentState(oldState);
     }
 
-    /// <summary>
-    /// Signals that the input has been updated, and sends that to the current state (if any).
-    /// </summary>
-    /// <param name="input">The current input.</param>
-    public void SetControls(PlayerInput activeInput)
-    {
-        lastActiveControls = activeInput;
-        CurrentState?.SetControls(activeInput);
-    }
-
-    private IEnumerator WarmUpAndCurrentState(IGameplayState lastState)
+    private IEnumerator WarmUpAndStartCurrentState(IGameplayState lastState)
     {
         if (CurrentState == null)
         {

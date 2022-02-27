@@ -42,7 +42,7 @@ public interface IGameplayState
     /// Sets the top level controls that this state uses.
     /// Called whenever a new control method is found, or the state is entered.
     /// </summary>
-    /// <param name="activeInput">The PlayerInput to update.</param>
+    /// <param name="activeInput">The input map to update.</param>
     /// <returns>Yieldable IEnumerator.</returns>
-    void SetControls(PlayerInput activeInput);
+    void SetControls(WarrencrawlInputs activeInput);
 }

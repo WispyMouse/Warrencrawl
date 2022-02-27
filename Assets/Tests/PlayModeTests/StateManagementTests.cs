@@ -14,7 +14,7 @@ public class StateManagementTests
     [UnityTest]
     public IEnumerator PushNewState_ScenesAdding_AddsAndEndsScenes()
     {
-        GlobalStateMachine stateMachine = new GlobalStateMachine();
+        GlobalStateMachine stateMachine = new GlobalStateMachine(new WarrencrawlInputs());
 
         Assert.That(stateMachine.CurrentState, Is.Null);
 
@@ -38,7 +38,7 @@ public class StateManagementTests
     [UnityTest]
     public IEnumerator ChangeToState_HappyPath_ChangesState()
     {
-        GlobalStateMachine stateMachine = new GlobalStateMachine();
+        GlobalStateMachine stateMachine = new GlobalStateMachine(new WarrencrawlInputs());
 
         MainMenuState mainMenuState = new MainMenuState();
         yield return stateMachine.ChangeToState(mainMenuState);
@@ -48,7 +48,7 @@ public class StateManagementTests
         yield return stateMachine.ChangeToState(townState);
         Assert.That(stateMachine.CurrentState, Is.EqualTo(townState));
 
-        LabyrinthState labyrinthState = new LabyrinthState();
+        LabyrinthState labyrinthState = new LabyrinthState(new LabyrinthSceneHelperGrabber());
         yield return stateMachine.ChangeToState(labyrinthState);
         Assert.That(stateMachine.CurrentState, Is.EqualTo(labyrinthState));
 

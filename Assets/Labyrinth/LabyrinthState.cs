@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Events;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
@@ -10,7 +12,6 @@ using UnityEngine.SceneManagement;
 public class LabyrinthState : SceneLoadingGameplayState
 {
     public override string SceneName => "Labyrinth";
-    public override string[] InputMapNames => new string[] { "UI" };
 
     /// <summary>
     /// The GameLevel to initialize and load in.
@@ -25,49 +26,97 @@ public class LabyrinthState : SceneLoadingGameplayState
     private SceneInstance? LoadedScene { get; set; }
 
     /// <summary>
-    /// Default constructor. <see cref="LevelToLoad"/> is not set, reads from LabyrinthSceneHelperTools to determine a default level to load.
+    /// The current game object representing the player's point of view.
     /// </summary>
-    public LabyrinthState()
-    {
-
-    }
+    public PointOfView PointOfViewInstance { get; private set; }
 
     /// <summary>
-    /// Constructor that sets the level that you're transitioning in to.
+    /// A mechanism for providing a level.
     /// </summary>
-    /// <param name="toLoad">The level to load.</param>
-    public LabyrinthState(GameLevel toLoad)
+    private IGameLevelProvider GameLevelProvider { get; set; }
+
+    /// <summary>
+    /// Reports when an exclusive animation has finished.
+    /// </summary>
+    public EventHandler LockingAnimationFinished { get; set; }
+
+    /// <summary>
+    /// Pointer to the active LabyrinthSceneHelperTools. Retrieved on Load.
+    /// </summary>
+    public LabyrinthSceneHelperTools HelperTools { get; private set; }
+
+    /// <summary>
+    /// Pointer to the input handler for this state. Retrieved on load from LabyrinthSceneHelperTools.
+    /// </summary>
+    public LabyrinthInputHandler InputHandler { get; private set; }
+
+    /// <summary>
+    /// Pointer to an Animation Handler for this state.
+    /// </summary>
+    public LabyrinthAnimationHandler AnimationHandler { get; private set; }
+
+    /// <summary>
+    /// Constructor for LabyrinthState.
+    /// </summary>
+    /// <param name="levelProvider">A mechanism for providing a level.</param>
+    public LabyrinthState(IGameLevelProvider levelProvider)
     {
-        LevelToLoad = toLoad;
+        this.GameLevelProvider = levelProvider;
     }
 
     public override IEnumerator Load()
     {
         yield return base.Load();
 
-        if (LevelToLoad == null)
+        HelperTools = GameObject.FindObjectOfType<LabyrinthSceneHelperTools>();
+
+        if (HelperTools == null)
         {
-            // TODO reduce coupling; can this be passed somehow?
-            LabyrinthSceneHelperTools tools = GameObject.FindObjectOfType<LabyrinthSceneHelperTools>();
-            LevelToLoad = tools.DefaultLevel;
+            Debug.LogWarning($"No {nameof(LabyrinthSceneHelperTools)} found in the scene.");
+            yield break;
         }
 
-        if (LevelToLoad != null && LevelToLoad.Scene != null)
-        {
-            var loc = Addressables.LoadResourceLocationsAsync(LevelToLoad.Scene);
-            yield return loc;
-            if (!SceneManager.GetSceneByPath(loc.Result[0].InternalId).isLoaded)
-            {
-                AsyncOperationHandle<SceneInstance> loadingOperation = Addressables.LoadSceneAsync(LevelToLoad.Scene, LoadSceneMode.Additive);
-                yield return loadingOperation;
+        InputHandler = HelperTools.InputHandler;
+        AnimationHandler = HelperTools.AnimationHandler;
 
-                LoadedScene = loadingOperation.Result;
-            }
-        }
-        else
+        LevelToLoad = GameLevelProvider.GetLevel();
+
+        if (LevelToLoad == null || LevelToLoad.Scene == null)
         {
             Debug.LogWarning($"No {nameof(LevelToLoad)} detected. Either pass a {nameof(GameLevel)} to the {nameof(LabyrinthLevel)} constructor, or have a {nameof(LabyrinthSceneHelperTools.DefaultLevel)} set in {nameof(LabyrinthSceneHelperTools)}.");
+            yield break;
         }
+
+        var loc = Addressables.LoadResourceLocationsAsync(LevelToLoad.Scene);
+        yield return loc;
+        if (!SceneManager.GetSceneByPath(loc.Result[0].InternalId).isLoaded)
+        {
+            AsyncOperationHandle<SceneInstance> loadingOperation = Addressables.LoadSceneAsync(LevelToLoad.Scene, LoadSceneMode.Additive);
+            yield return loadingOperation;
+
+            LoadedScene = loadingOperation.Result;
+        }
+
+        PointOfViewInstance = GameObject.FindObjectOfType<PointOfView>();
+    }
+
+    public override IEnumerator StartState(GlobalStateMachine globalStateMachine, IGameplayState previousState)
+    {
+        yield return base.StartState(globalStateMachine, previousState);
+
+        // TODO: Get POV coordinates somehow; probably going to be the labyrinthscenetools again
+        PointOfViewInstance.CurFacing = Direction.North;
+        PointOfViewInstance.CurCoordinates = CellCoordinates.Origin;
+
+        LabyrinthCell cellAtStart = LevelToLoad.LabyrinthData.CellAtCoordinate(PointOfViewInstance.CurCoordinates);
+
+        if (cellAtStart == null)
+        {
+            Debug.LogError($"The starting tile at {PointOfViewInstance.CurCoordinates} doesn't exist in the level's map.");
+        }
+
+        PointOfViewInstance.transform.rotation = Quaternion.Euler(0, PointOfViewInstance.CurFacing.Degrees(), 0);
+        PointOfViewInstance.transform.position = cellAtStart.Worldspace;
     }
 
     public override IEnumerator ExitState(IGameplayState nextState)
@@ -78,5 +127,54 @@ public class LabyrinthState : SceneLoadingGameplayState
         {
             yield return Addressables.UnloadSceneAsync(LoadedScene.Value);
         }
+    }
+
+    public override void SetControls(WarrencrawlInputs controls)
+    {
+        controls.Labyrinth.Enable();
+        controls.Labyrinth.SetCallbacks(InputHandler);
+    }
+
+    /// <summary>
+    /// Attempts to move in the direction provided.
+    /// </summary>
+    /// <param name="offset">Direction to move.</param>
+    public IEnumerator Step(Vector3Int offset)
+    {
+        CellCoordinates newCoordinates = PointOfViewInstance.CurCoordinates + offset;
+
+        LabyrinthCell cellAtPosition = LevelToLoad.LabyrinthData.CellAtCoordinate(newCoordinates);
+
+        if (cellAtPosition == null)
+        {
+            Debug.Log("Couldn't move there, the cell doesn't exist.");
+            LockingAnimationFinished.Invoke(this, new EventArgs());
+            yield break;
+        }
+
+        if (!cellAtPosition.Walkable)
+        {
+            Debug.Log("Couldn't move there, the cell is not walkable.");
+            LockingAnimationFinished.Invoke(this, new EventArgs());
+            yield break;
+        }
+
+        yield return AnimationHandler.StepTo(PointOfViewInstance, cellAtPosition);
+
+        PointOfViewInstance.CurCoordinates = newCoordinates;
+        LockingAnimationFinished.Invoke(this, new EventArgs());
+    }
+
+    /// <summary>
+    /// Rotates the point of view towards the direction provided.
+    /// </summary>
+    /// <param name="newFacing">The new direction to face.</param>
+    public IEnumerator Rotate(Direction newFacing)
+    {
+        yield return AnimationHandler.Rotate(PointOfViewInstance, newFacing);
+
+        PointOfViewInstance.CurFacing = newFacing;
+        LockingAnimationFinished.Invoke(this, new EventArgs());
+        yield break;
     }
 }

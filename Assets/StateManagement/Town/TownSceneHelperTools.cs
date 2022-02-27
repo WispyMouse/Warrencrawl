@@ -6,7 +6,7 @@ public class TownSceneHelperTools : SceneHelperTools
 { 
     public void ToTheLabyrinth()
     {
-        SceneHelperInstance.StartCoroutine(SceneHelperInstance.GlobalStateMachineInstance.ChangeToState(new LabyrinthState()));
+        SceneHelperInstance.StartCoroutine(SceneHelperInstance.GlobalStateMachineInstance.ChangeToState( new LabyrinthState(new LabyrinthSceneHelperGrabber())));
     }
 
     public override IGameplayState GetNewDemoState()

@@ -15,6 +15,9 @@ public class LabyrinthSceneHelperToolsEditor : Editor
     SerializedProperty walkable;
     SerializedProperty defaultLevel;
 
+    SerializedProperty inputHandler;
+    SerializedProperty animationHandler;
+
     void OnEnable()
     {
         currentLevel = serializedObject.FindProperty(nameof(LabyrinthSceneHelperTools.CurrentLevel));
@@ -22,6 +25,9 @@ public class LabyrinthSceneHelperToolsEditor : Editor
         blocked = serializedObject.FindProperty(nameof(LabyrinthSceneHelperTools.Blocked));
         walkable = serializedObject.FindProperty(nameof(LabyrinthSceneHelperTools.Walkable));
         defaultLevel = serializedObject.FindProperty(nameof(LabyrinthSceneHelperTools.DefaultLevel));
+
+        inputHandler = serializedObject.FindProperty(nameof(LabyrinthSceneHelperTools.InputHandler));
+        animationHandler = serializedObject.FindProperty(nameof(LabyrinthSceneHelperTools.AnimationHandler));
     }
 
     public override void OnInspectorGUI()
@@ -30,6 +36,8 @@ public class LabyrinthSceneHelperToolsEditor : Editor
         EditorGUILayout.PropertyField(blocked);
         EditorGUILayout.PropertyField(walkable);
         EditorGUILayout.PropertyField(defaultLevel);
+        EditorGUILayout.PropertyField(inputHandler);
+        EditorGUILayout.PropertyField(animationHandler);
 
         EditorGUILayout.PropertyField(currentLevel);
 
@@ -92,7 +100,7 @@ public class LabyrinthSceneHelperToolsEditor : Editor
             RaycastHit hit;
             if (Physics.Raycast(new Vector3(curFront.X, 3f, curFront.Y), Vector3.down, out hit, 4f, blocked.intValue | walkable.intValue))
             {
-                bool isWalkable = hit.collider.gameObject.layer == walkable.intValue;
+                bool isWalkable = (1 << hit.collider.gameObject.layer) == walkable.intValue;
 
                 newLevel.Cells.Add(new LabyrinthCell() { Coordinate = curFront, Height = hit.point.y, Walkable = isWalkable });
             }
