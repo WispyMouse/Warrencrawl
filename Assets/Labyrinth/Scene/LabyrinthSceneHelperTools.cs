@@ -26,6 +26,11 @@ public class LabyrinthSceneHelperTools : SceneHelperTools, IGameLevelProvider
     /// </summary>
     public LabyrinthInputHandler InputHandler;
 
+    /// <summary>
+    /// A pointer to the active AnimationHandler.
+    /// </summary>
+    public LabyrinthAnimationHandler AnimationHandler;
+
     public void ToTheTown()
     {
         SceneHelperInstance.StartCoroutine(SceneHelperInstance.GlobalStateMachineInstance.ChangeToState(new TownState()));

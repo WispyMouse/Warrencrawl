@@ -14,6 +14,7 @@ public class LabyrinthSceneHelperGrabber : IGameLevelProvider
 
         if (tools == null)
         {
+            Debug.LogError($"No {nameof(LabyrinthSceneHelperTools)} found.");
             return null;
         }
 

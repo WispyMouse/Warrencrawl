@@ -11,14 +11,32 @@ using static WarrencrawlInputs;
 /// </summary>
 public class LabyrinthInputHandler : MonoBehaviour, ILabyrinthActions
 {
+    /// <summary>
+    /// If there is a locking animation being played currently.
+    /// </summary>
     bool animating { get; set; } = false;
 
+    /// <summary>
+    /// A reference to the active LabyrinthState that this is handling inputs for.
+    /// Set by <see cref="Initialize(LabyrinthState)"/>.
+    /// </summary>
     LabyrinthState referencedState { get; set; }
 
+    /// <summary>
+    /// Whether this input handler has been initialized yet.
+    /// Set to true by <see cref="Initialize(LabyrinthState)"/>.
+    /// </summary>
     bool initialized { get; set; } = false;
 
+    /// <summary>
+    /// A function that creates an IEnumerator to run a coroutine with.
+    /// </summary>
     Func<IEnumerator> bufferedAction { get; set; }
 
+    /// <summary>
+    /// Initializes the Input Handler with everything it needs to run.
+    /// </summary>
+    /// <param name="forState">The LabyrinthState to handle inputs for.</param>
     public void Initialize(LabyrinthState forState)
     {
         referencedState = forState;
@@ -79,6 +97,11 @@ public class LabyrinthInputHandler : MonoBehaviour, ILabyrinthActions
         ApplyCoroutineContinuously(context, () => referencedState.Step(toMove));
     }
 
+    /// <summary>
+    /// Sets a function that returns an IEnumerator to apply whenever there isn't another locking animation playing.
+    /// </summary>
+    /// <param name="context">Context for the input being processed. Used to determine if the input should be ignored, like if the input is being released.</param>
+    /// <param name="toApply">The IEnumerator to apply whenever able.</param>
     void ApplyCoroutineContinuously(InputAction.CallbackContext context, Func<IEnumerator> toApply)
     {
         if (context.canceled)
@@ -90,11 +113,21 @@ public class LabyrinthInputHandler : MonoBehaviour, ILabyrinthActions
         bufferedAction = toApply;
     }
 
+    /// <summary>
+    /// Callback for when a locking animation is finished playing.
+    /// Subscribed to <see cref="LabyrinthState.LockingAnimationFinished"/>.
+    /// </summary>
+    /// <param name="o">The sender for the event.</param>
+    /// <param name="e">Event arguments for the animation being finished. Currently unused.</param>
     void AnimationFinished(object o, EventArgs e)
     {
         animating = false;
     }
 
+    /// <summary>
+    /// Determines if input is ready to be processed.
+    /// </summary>
+    /// <returns>True if ready, false otherwise.</returns>
     bool CanAnimate()
     {
         if (!initialized)

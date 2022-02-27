@@ -88,4 +88,9 @@ public struct CellCoordinates
     {
         return !(a == b);
     }
+
+    public static CellCoordinates operator +(CellCoordinates a, Vector3Int b)
+    {
+        return new CellCoordinates(a.X + b.x, a.Y + b.y, a.Z + b.z);
+    }
 }

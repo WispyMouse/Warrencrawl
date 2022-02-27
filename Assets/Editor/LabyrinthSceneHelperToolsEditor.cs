@@ -16,6 +16,7 @@ public class LabyrinthSceneHelperToolsEditor : Editor
     SerializedProperty defaultLevel;
 
     SerializedProperty inputHandler;
+    SerializedProperty animationHandler;
 
     void OnEnable()
     {
@@ -26,6 +27,7 @@ public class LabyrinthSceneHelperToolsEditor : Editor
         defaultLevel = serializedObject.FindProperty(nameof(LabyrinthSceneHelperTools.DefaultLevel));
 
         inputHandler = serializedObject.FindProperty(nameof(LabyrinthSceneHelperTools.InputHandler));
+        animationHandler = serializedObject.FindProperty(nameof(LabyrinthSceneHelperTools.AnimationHandler));
     }
 
     public override void OnInspectorGUI()
@@ -35,6 +37,7 @@ public class LabyrinthSceneHelperToolsEditor : Editor
         EditorGUILayout.PropertyField(walkable);
         EditorGUILayout.PropertyField(defaultLevel);
         EditorGUILayout.PropertyField(inputHandler);
+        EditorGUILayout.PropertyField(animationHandler);
 
         EditorGUILayout.PropertyField(currentLevel);
 

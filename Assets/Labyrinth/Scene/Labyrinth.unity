@@ -345,6 +345,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c2f9365b9ee4954595637ea7577bb38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1503785046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 210137011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 072c224fc9101d04cb50fdda84fc2b18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &540416475381013223
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -408,6 +420,10 @@ PrefabInstance:
       propertyPath: InputHandler
       value: 
       objectReference: {fileID: 1503785045}
+    - target: {fileID: 540416474418473652, guid: ef944d8d899305d4a9098a6e9b0605f5, type: 3}
+      propertyPath: AnimationHandler
+      value: 
+      objectReference: {fileID: 1503785046}
     - target: {fileID: 540416474418473653, guid: ef944d8d899305d4a9098a6e9b0605f5, type: 3}
       propertyPath: m_Name
       value: LabyrinthSceneTools

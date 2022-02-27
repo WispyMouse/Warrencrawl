@@ -51,6 +51,11 @@ public class LabyrinthState : SceneLoadingGameplayState
     public LabyrinthInputHandler InputHandler { get; private set; }
 
     /// <summary>
+    /// Pointer to an Animation Handler for this state.
+    /// </summary>
+    public LabyrinthAnimationHandler AnimationHandler { get; private set; }
+
+    /// <summary>
     /// Constructor for LabyrinthState.
     /// </summary>
     /// <param name="levelProvider">A mechanism for providing a level.</param>
@@ -72,6 +77,7 @@ public class LabyrinthState : SceneLoadingGameplayState
         }
 
         InputHandler = HelperTools.InputHandler;
+        AnimationHandler = HelperTools.AnimationHandler;
 
         LevelToLoad = GameLevelProvider.GetLevel();
 
@@ -101,6 +107,16 @@ public class LabyrinthState : SceneLoadingGameplayState
         // TODO: Get POV coordinates somehow; probably going to be the labyrinthscenetools again
         PointOfViewInstance.CurFacing = Direction.North;
         PointOfViewInstance.CurCoordinates = CellCoordinates.Origin;
+
+        LabyrinthCell cellAtStart = LevelToLoad.LabyrinthData.CellAtCoordinate(PointOfViewInstance.CurCoordinates);
+
+        if (cellAtStart == null)
+        {
+            Debug.LogError($"The starting tile at {PointOfViewInstance.CurCoordinates} doesn't exist in the level's map.");
+        }
+
+        PointOfViewInstance.transform.rotation = Quaternion.Euler(0, PointOfViewInstance.CurFacing.Degrees(), 0);
+        PointOfViewInstance.transform.position = cellAtStart.Worldspace;
     }
 
     public override IEnumerator ExitState(IGameplayState nextState)
@@ -125,10 +141,7 @@ public class LabyrinthState : SceneLoadingGameplayState
     /// <param name="offset">Direction to move.</param>
     public IEnumerator Step(Vector3Int offset)
     {
-        CellCoordinates newCoordinates = new CellCoordinates(
-            PointOfViewInstance.CurCoordinates.X + offset.x,
-            PointOfViewInstance.CurCoordinates.Y + offset.y,
-            PointOfViewInstance.CurCoordinates.Z + offset.z);
+        CellCoordinates newCoordinates = PointOfViewInstance.CurCoordinates + offset;
 
         LabyrinthCell cellAtPosition = LevelToLoad.LabyrinthData.CellAtCoordinate(newCoordinates);
 
@@ -146,39 +159,21 @@ public class LabyrinthState : SceneLoadingGameplayState
             yield break;
         }
 
-        Vector3 startingPosition = PointOfViewInstance.transform.position;
-        Vector3 targetPosition = cellAtPosition.Worldspace;
-        float curTime = 0;
-        float stepTime = .5f;
+        yield return AnimationHandler.StepTo(PointOfViewInstance, cellAtPosition);
 
-        while (curTime < stepTime)
-        {
-            PointOfViewInstance.transform.position = Vector3.Lerp(startingPosition, targetPosition,  curTime / stepTime);
-            curTime += Time.deltaTime;
-            yield return new WaitForEndOfFrame();
-        }
-
-        PointOfViewInstance.transform.position = targetPosition;
         PointOfViewInstance.CurCoordinates = newCoordinates;
         LockingAnimationFinished.Invoke(this, new EventArgs());
     }
 
+    /// <summary>
+    /// Rotates the point of view towards the direction provided.
+    /// </summary>
+    /// <param name="newFacing">The new direction to face.</param>
     public IEnumerator Rotate(Direction newFacing)
     {
-        Vector3 startingFacing = PointOfViewInstance.transform.rotation.eulerAngles;
-        Vector3 targetFacing = new Vector3(0, newFacing.Degrees(), 0);
-        float curTime = 0;
-        float turnTime = .5f;
-
-        while (curTime < turnTime)
-        {
-            PointOfViewInstance.transform.rotation = Quaternion.Euler(0, Mathf.LerpAngle(startingFacing.y, targetFacing.y, curTime / turnTime), 0);
-            curTime += Time.deltaTime;
-            yield return new WaitForEndOfFrame();
-        }
+        yield return AnimationHandler.Rotate(PointOfViewInstance, newFacing);
 
         PointOfViewInstance.CurFacing = newFacing;
-        PointOfViewInstance.transform.rotation = Quaternion.Euler(targetFacing);
         LockingAnimationFinished.Invoke(this, new EventArgs());
         yield break;
     }

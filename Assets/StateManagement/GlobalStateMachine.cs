@@ -63,7 +63,7 @@ public class GlobalStateMachine
         }
 
         PresentStates.Push(newState);
-        yield return WarmUpAndCurrentState(oldState);
+        yield return WarmUpAndStartCurrentState(oldState);
     }
 
     /// <summary>
@@ -77,7 +77,7 @@ public class GlobalStateMachine
         IGameplayState oldState = CurrentState;
         yield return oldState?.TransitionUp(newState);
         PresentStates.Push(newState);
-        yield return WarmUpAndCurrentState(oldState);
+        yield return WarmUpAndStartCurrentState(oldState);
     }
 
     /// <summary>
@@ -92,20 +92,10 @@ public class GlobalStateMachine
         PresentStates.TryPeek(out IGameplayState nextState);
         yield return oldState?.ExitState(nextState);
 
-        yield return WarmUpAndCurrentState(oldState);
+        yield return WarmUpAndStartCurrentState(oldState);
     }
 
-    /// <summary>
-    /// Signals that the input has been updated, and sends that to the current state (if any).
-    /// </summary>
-    /// <param name="input">The current input.</param>
-    public void SetControls(WarrencrawlInputs activeInput)
-    {
-        lastActiveControls = activeInput;
-        CurrentState?.SetControls(activeInput);
-    }
-
-    private IEnumerator WarmUpAndCurrentState(IGameplayState lastState)
+    private IEnumerator WarmUpAndStartCurrentState(IGameplayState lastState)
     {
         if (CurrentState == null)
         {
