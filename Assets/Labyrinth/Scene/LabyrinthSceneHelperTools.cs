@@ -17,6 +17,11 @@ public class LabyrinthSceneHelperTools : SceneHelperTools, IGameLevelProvider
     public LayerMask Blocked;
 
     /// <summary>
+    /// The LayerMask for interactive elements, i.e. stairs.
+    /// </summary>
+    public LayerMask Interactive;
+
+    /// <summary>
     /// A default GameLevel to load if nothing is passed in to LabyrinthState.
     /// </summary>
     public GameLevel DefaultLevel;

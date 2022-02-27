@@ -177,4 +177,37 @@ public class LabyrinthState : SceneLoadingGameplayState
         LockingAnimationFinished.Invoke(this, new EventArgs());
         yield break;
     }
+
+    /// <summary>
+    /// Attempt to interact with the object in front of the player's view.
+    /// </summary>
+    public IEnumerator Interact()
+    {
+        CellCoordinates coordinatesInFacing = PointOfViewInstance.CurCoordinates + PointOfViewInstance.CurFacing.Forward();
+        LabyrinthCell cell = LevelToLoad.LabyrinthData.CellAtCoordinate(coordinatesInFacing);
+
+        if (cell == null)
+        {
+            LockingAnimationFinished.Invoke(this, new EventArgs());
+            yield break;
+        }
+
+        if (cell.Interactive == null || cell.Interactive.Kind == InteractiveKind.None)
+        {
+            LockingAnimationFinished.Invoke(this, new EventArgs());
+            yield break;
+        }
+
+        // todo: other kinds of interactives!
+        switch (cell.Interactive.Kind)
+        {
+            case InteractiveKind.Stairs:
+                yield return StateMachineInstance.EndCurrentState();
+                break;
+            default:
+                Debug.Log($"Interactive kind is not implemented: {cell.Interactive.Kind}");
+                LockingAnimationFinished.Invoke(this, new EventArgs());
+                break;
+        }
+    }
 }

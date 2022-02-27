@@ -24,6 +24,11 @@ public class LabyrinthCell
     /// </summary>
     public float Height;
 
+    /// <summary>
+    /// The interactive element on this cell, if any. Can be null.
+    /// </summary>
+    public InteractiveData Interactive;
+
     public Color DebugColor
     {
         get
@@ -31,6 +36,10 @@ public class LabyrinthCell
             if (Walkable)
             {
                 return new Color(.6f, 1f, 1f, .6f);
+            }
+            else if (Interactive != null && Interactive.Kind != InteractiveKind.None)
+            {
+                return new Color(1f, 1f, .2f, .6f);
             }
             else
             {

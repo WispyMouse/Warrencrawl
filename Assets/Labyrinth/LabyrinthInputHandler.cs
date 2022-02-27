@@ -92,6 +92,17 @@ public class LabyrinthInputHandler : MonoBehaviour, ILabyrinthActions
         ApplyCoroutineContinuously(context, () => referencedState.Rotate(referencedState.PointOfViewInstance.CurFacing.RotateLeft()));
     }
 
+    public void OnInteract(InputAction.CallbackContext context)
+    {
+        if (!CanAnimate())
+        {
+            return;
+        }
+
+        animating = true;
+        StartCoroutine(referencedState.Interact());
+    }
+
     void MoveDirection(InputAction.CallbackContext context, Vector3Int toMove)
     {
         ApplyCoroutineContinuously(context, () => referencedState.Step(toMove));
