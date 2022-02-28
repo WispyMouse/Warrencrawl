@@ -209,7 +209,7 @@ public class LabyrinthState : SceneLoadingGameplayState
         switch (cell.Interactive.Kind)
         {
             case InteractiveKind.Stairs:
-                yield return StateMachineInstance.EndCurrentState();
+                yield return StateMachineInstance.ChangeToState(new TownState());
                 break;
             default:
                 Debug.Log($"Interactive kind is not implemented: {cell.Interactive.Kind}");

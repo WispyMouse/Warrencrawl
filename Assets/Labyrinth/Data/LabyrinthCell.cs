@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 
 /// <summary>
@@ -29,6 +30,10 @@ public class LabyrinthCell
     /// </summary>
     public InteractiveData Interactive;
 
+    /// <summary>
+    /// The color to show for this object when <see cref="LabyrinthSceneHelperToolsEditor.showCells"/> is checked.
+    /// </summary>
+    [ExcludeFromCodeCoverage]
     public Color DebugColor
     {
         get

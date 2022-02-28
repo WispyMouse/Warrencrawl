@@ -67,3 +67,6 @@ UserSettings/
 
 # Plugins
 Assets/TextMesh Pro/
+
+# Code coverage
+CodeCoverage/
