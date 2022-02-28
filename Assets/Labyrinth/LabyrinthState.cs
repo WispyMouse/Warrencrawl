@@ -38,7 +38,7 @@ public class LabyrinthState : SceneLoadingGameplayState
     /// <summary>
     /// Reports when an exclusive animation has finished.
     /// </summary>
-    public EventHandler LockingAnimationFinished { get; set; }
+    public event EventHandler LockingAnimationFinished;
 
     /// <summary>
     /// Pointer to the active LabyrinthSceneHelperTools. Retrieved on Load.
@@ -81,20 +81,27 @@ public class LabyrinthState : SceneLoadingGameplayState
 
         LevelToLoad = GameLevelProvider.GetLevel();
 
-        if (LevelToLoad == null || LevelToLoad.Scene == null)
+        if (LevelToLoad == null)
         {
             Debug.LogWarning($"No {nameof(LevelToLoad)} detected. Either pass a {nameof(GameLevel)} to the {nameof(LabyrinthLevel)} constructor, or have a {nameof(LabyrinthSceneHelperTools.DefaultLevel)} set in {nameof(LabyrinthSceneHelperTools)}.");
             yield break;
         }
 
-        var loc = Addressables.LoadResourceLocationsAsync(LevelToLoad.Scene);
-        yield return loc;
-        if (!SceneManager.GetSceneByPath(loc.Result[0].InternalId).isLoaded)
+        if (LevelToLoad.Scene == null)
         {
-            AsyncOperationHandle<SceneInstance> loadingOperation = Addressables.LoadSceneAsync(LevelToLoad.Scene, LoadSceneMode.Additive);
-            yield return loadingOperation;
+            Debug.LogWarning("No Scene detected for the provided LevelToLoad.");
+        }
+        else
+        {
+            var loc = Addressables.LoadResourceLocationsAsync(LevelToLoad.Scene);
+            yield return loc;
+            if (!SceneManager.GetSceneByPath(loc.Result[0].InternalId).isLoaded)
+            {
+                AsyncOperationHandle<SceneInstance> loadingOperation = Addressables.LoadSceneAsync(LevelToLoad.Scene, LoadSceneMode.Additive);
+                yield return loadingOperation;
 
-            LoadedScene = loadingOperation.Result;
+                LoadedScene = loadingOperation.Result;
+            }
         }
 
         PointOfViewInstance = GameObject.FindObjectOfType<PointOfView>();
@@ -148,21 +155,21 @@ public class LabyrinthState : SceneLoadingGameplayState
         if (cellAtPosition == null)
         {
             Debug.Log("Couldn't move there, the cell doesn't exist.");
-            LockingAnimationFinished.Invoke(this, new EventArgs());
+            LockingAnimationFinished?.Invoke(this, new EventArgs());
             yield break;
         }
 
         if (!cellAtPosition.Walkable)
         {
             Debug.Log("Couldn't move there, the cell is not walkable.");
-            LockingAnimationFinished.Invoke(this, new EventArgs());
+            LockingAnimationFinished?.Invoke(this, new EventArgs());
             yield break;
         }
 
         yield return AnimationHandler.StepTo(PointOfViewInstance, cellAtPosition);
 
         PointOfViewInstance.CurCoordinates = newCoordinates;
-        LockingAnimationFinished.Invoke(this, new EventArgs());
+        LockingAnimationFinished?.Invoke(this, new EventArgs());
     }
 
     /// <summary>
@@ -174,7 +181,7 @@ public class LabyrinthState : SceneLoadingGameplayState
         yield return AnimationHandler.Rotate(PointOfViewInstance, newFacing);
 
         PointOfViewInstance.CurFacing = newFacing;
-        LockingAnimationFinished.Invoke(this, new EventArgs());
+        LockingAnimationFinished?.Invoke(this, new EventArgs());
         yield break;
     }
 
@@ -188,13 +195,13 @@ public class LabyrinthState : SceneLoadingGameplayState
 
         if (cell == null)
         {
-            LockingAnimationFinished.Invoke(this, new EventArgs());
+            LockingAnimationFinished?.Invoke(this, new EventArgs());
             yield break;
         }
 
         if (cell.Interactive == null || cell.Interactive.Kind == InteractiveKind.None)
         {
-            LockingAnimationFinished.Invoke(this, new EventArgs());
+            LockingAnimationFinished?.Invoke(this, new EventArgs());
             yield break;
         }
 
@@ -206,7 +213,7 @@ public class LabyrinthState : SceneLoadingGameplayState
                 break;
             default:
                 Debug.Log($"Interactive kind is not implemented: {cell.Interactive.Kind}");
-                LockingAnimationFinished.Invoke(this, new EventArgs());
+                LockingAnimationFinished?.Invoke(this, new EventArgs());
                 break;
         }
     }
