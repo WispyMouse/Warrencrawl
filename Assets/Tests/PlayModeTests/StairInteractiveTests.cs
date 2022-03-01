@@ -26,6 +26,7 @@ public class StairInteractiveTests
         yield return state.Interact();
 
         Assert.That(stateMachine.CurrentState, Is.TypeOf(typeof(TownState)));
+        Assert.That(SceneManager.GetAllScenes().Any(scene => scene.name == "Town"), Is.True);
     }
 
     class TestLabyrinthProvider : IGameLevelProvider

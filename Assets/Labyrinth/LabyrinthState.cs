@@ -199,7 +199,7 @@ public class LabyrinthState : SceneLoadingGameplayState
             yield break;
         }
 
-        if (cell.Interactive == null || cell.Interactive.Kind == InteractiveKind.None)
+        if (cell.Interactive == null)
         {
             LockingAnimationFinished?.Invoke(this, new EventArgs());
             yield break;
