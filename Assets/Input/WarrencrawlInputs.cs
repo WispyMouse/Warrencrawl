@@ -596,6 +596,15 @@ public partial class @WarrencrawlInputs : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""60edbe23-9096-4555-8f99-9fa1e54f8df3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -906,6 +915,50 @@ public partial class @WarrencrawlInputs : IInputActionCollection2, IDisposable
                     ""action"": ""Rotate Left"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2f267bb6-1a82-4d54-92f1-8bf2e41f9016"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d512c02a-20d1-4ab1-9d46-497100d4f2a2"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fdbe6ff7-8586-49c5-a296-5d0d5058ad29"",
+                    ""path"": ""<Keyboard>/numpadEnter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""243653a5-e7d2-447a-85fd-59e0b3bd0ecc"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -993,6 +1046,7 @@ public partial class @WarrencrawlInputs : IInputActionCollection2, IDisposable
         m_Labyrinth_Left = m_Labyrinth.FindAction("Left", throwIfNotFound: true);
         m_Labyrinth_RotateRight = m_Labyrinth.FindAction("Rotate Right", throwIfNotFound: true);
         m_Labyrinth_RotateLeft = m_Labyrinth.FindAction("Rotate Left", throwIfNotFound: true);
+        m_Labyrinth_Interact = m_Labyrinth.FindAction("Interact", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1163,6 +1217,7 @@ public partial class @WarrencrawlInputs : IInputActionCollection2, IDisposable
     private readonly InputAction m_Labyrinth_Left;
     private readonly InputAction m_Labyrinth_RotateRight;
     private readonly InputAction m_Labyrinth_RotateLeft;
+    private readonly InputAction m_Labyrinth_Interact;
     public struct LabyrinthActions
     {
         private @WarrencrawlInputs m_Wrapper;
@@ -1173,6 +1228,7 @@ public partial class @WarrencrawlInputs : IInputActionCollection2, IDisposable
         public InputAction @Left => m_Wrapper.m_Labyrinth_Left;
         public InputAction @RotateRight => m_Wrapper.m_Labyrinth_RotateRight;
         public InputAction @RotateLeft => m_Wrapper.m_Labyrinth_RotateLeft;
+        public InputAction @Interact => m_Wrapper.m_Labyrinth_Interact;
         public InputActionMap Get() { return m_Wrapper.m_Labyrinth; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1200,6 +1256,9 @@ public partial class @WarrencrawlInputs : IInputActionCollection2, IDisposable
                 @RotateLeft.started -= m_Wrapper.m_LabyrinthActionsCallbackInterface.OnRotateLeft;
                 @RotateLeft.performed -= m_Wrapper.m_LabyrinthActionsCallbackInterface.OnRotateLeft;
                 @RotateLeft.canceled -= m_Wrapper.m_LabyrinthActionsCallbackInterface.OnRotateLeft;
+                @Interact.started -= m_Wrapper.m_LabyrinthActionsCallbackInterface.OnInteract;
+                @Interact.performed -= m_Wrapper.m_LabyrinthActionsCallbackInterface.OnInteract;
+                @Interact.canceled -= m_Wrapper.m_LabyrinthActionsCallbackInterface.OnInteract;
             }
             m_Wrapper.m_LabyrinthActionsCallbackInterface = instance;
             if (instance != null)
@@ -1222,6 +1281,9 @@ public partial class @WarrencrawlInputs : IInputActionCollection2, IDisposable
                 @RotateLeft.started += instance.OnRotateLeft;
                 @RotateLeft.performed += instance.OnRotateLeft;
                 @RotateLeft.canceled += instance.OnRotateLeft;
+                @Interact.started += instance.OnInteract;
+                @Interact.performed += instance.OnInteract;
+                @Interact.canceled += instance.OnInteract;
             }
         }
     }
@@ -1292,5 +1354,6 @@ public partial class @WarrencrawlInputs : IInputActionCollection2, IDisposable
         void OnLeft(InputAction.CallbackContext context);
         void OnRotateRight(InputAction.CallbackContext context);
         void OnRotateLeft(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
     }
 }

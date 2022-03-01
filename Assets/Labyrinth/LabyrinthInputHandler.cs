@@ -11,6 +11,8 @@ using static WarrencrawlInputs;
 /// </summary>
 public class LabyrinthInputHandler : MonoBehaviour, ILabyrinthActions
 {
+    SceneHelper sceneHelperInstance { get; set; }
+
     /// <summary>
     /// If there is a locking animation being played currently.
     /// </summary>
@@ -43,6 +45,8 @@ public class LabyrinthInputHandler : MonoBehaviour, ILabyrinthActions
 
         forState.LockingAnimationFinished += AnimationFinished;
 
+        sceneHelperInstance = GameObject.FindObjectOfType<SceneHelper>();
+
         initialized = true;
     }
 
@@ -59,7 +63,7 @@ public class LabyrinthInputHandler : MonoBehaviour, ILabyrinthActions
         }
 
         animating = true;
-        StartCoroutine(bufferedAction());
+        sceneHelperInstance.StartCoroutine(bufferedAction());
     }
 
     public void OnForward(InputAction.CallbackContext context)
@@ -90,6 +94,17 @@ public class LabyrinthInputHandler : MonoBehaviour, ILabyrinthActions
     public void OnRotateLeft(InputAction.CallbackContext context)
     {
         ApplyCoroutineContinuously(context, () => referencedState.Rotate(referencedState.PointOfViewInstance.CurFacing.RotateLeft()));
+    }
+
+    public void OnInteract(InputAction.CallbackContext context)
+    {
+        if (!CanAnimate())
+        {
+            return;
+        }
+
+        animating = true;
+        sceneHelperInstance.StartCoroutine(referencedState.Interact());
     }
 
     void MoveDirection(InputAction.CallbackContext context, Vector3Int toMove)

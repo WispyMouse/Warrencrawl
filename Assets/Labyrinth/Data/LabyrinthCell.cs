@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 
 /// <summary>
@@ -24,6 +25,17 @@ public class LabyrinthCell
     /// </summary>
     public float Height;
 
+#nullable enable
+    /// <summary>
+    /// The interactive element on this cell, if any. Can be null.
+    /// </summary>
+    public InteractiveData? Interactive;
+#nullable disable
+
+    /// <summary>
+    /// The color to show for this object when <see cref="LabyrinthSceneHelperToolsEditor.showCells"/> is checked.
+    /// </summary>
+    [ExcludeFromCodeCoverage]
     public Color DebugColor
     {
         get
@@ -31,6 +43,10 @@ public class LabyrinthCell
             if (Walkable)
             {
                 return new Color(.6f, 1f, 1f, .6f);
+            }
+            else if (Interactive != null)
+            {
+                return new Color(1f, 1f, .2f, .6f);
             }
             else
             {

@@ -93,4 +93,9 @@ public struct CellCoordinates
     {
         return new CellCoordinates(a.X + b.x, a.Y + b.y, a.Z + b.z);
     }
+
+    public override string ToString()
+    {
+        return $"({X}, {Y}, {Z})";
+    }
 }

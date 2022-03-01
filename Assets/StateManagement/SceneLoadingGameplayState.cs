@@ -15,6 +15,8 @@ public abstract class SceneLoadingGameplayState : IGameplayState
     /// </summary>
     public abstract string SceneName { get; }
 
+    public GlobalStateMachine StateMachineInstance { get; private set; }
+
     public virtual IEnumerator Load()
     {
         if (!SceneManager.GetAllScenes().Any(sc => sc.name == SceneName))
@@ -26,6 +28,7 @@ public abstract class SceneLoadingGameplayState : IGameplayState
             }
         }
     }
+
     public virtual IEnumerator ExitState(IGameplayState nextState)
     {
         AsyncOperation unloadScene = SceneManager.UnloadSceneAsync(SceneName);
@@ -38,6 +41,7 @@ public abstract class SceneLoadingGameplayState : IGameplayState
     public virtual IEnumerator StartState(GlobalStateMachine globalStateMachine, IGameplayState previousState)
     {
         // TODO: Animated transition system
+        StateMachineInstance = globalStateMachine;
 
         foreach (GameObject rootObj in SceneManager.GetSceneByName(SceneName).GetRootGameObjects())
         {

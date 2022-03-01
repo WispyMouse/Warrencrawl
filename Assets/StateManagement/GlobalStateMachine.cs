@@ -95,6 +95,10 @@ public class GlobalStateMachine
         yield return WarmUpAndStartCurrentState(oldState);
     }
 
+    /// <summary>
+    /// Prepares and starts the <see cref="CurrentState"/>, if there is one.
+    /// </summary>
+    /// <param name="lastState">The previously active state.</param>
     private IEnumerator WarmUpAndStartCurrentState(IGameplayState lastState)
     {
         if (CurrentState == null)
