@@ -8,22 +8,33 @@ using UnityEngine.TestTools;
 
 public class StairInteractiveTests
 {
+    GlobalStateMachine stateMachine;
+    LabyrinthState labyrinthState;
+
+    [UnitySetUp]
+    public IEnumerator SetUp()
+    {
+        stateMachine = new GlobalStateMachine(new WarrencrawlInputs());
+        labyrinthState = new LabyrinthState(new TestLabyrinthProvider());
+        yield return stateMachine.ChangeToState(labyrinthState);
+    }
+
+    [UnityTearDown]
+    public IEnumerator TearDown()
+    {
+        yield return stateMachine.CollapseAllStates();
+    }
+
     /// <summary>
     /// Asserts that you can take the stairs to leave the labyrinth.
     /// </summary>
     [UnityTest]
     public IEnumerator Interact_CanTakeStairsToTown()
     {
-        GlobalStateMachine stateMachine = new GlobalStateMachine(new WarrencrawlInputs());
-
-        LabyrinthState state = new LabyrinthState(new TestLabyrinthProvider());
-
-        yield return stateMachine.ChangeToState(state);
-
-        Assert.That(stateMachine.CurrentState, Is.EqualTo(state));
+        Assert.That(stateMachine.CurrentState, Is.EqualTo(labyrinthState));
 
         // Should take the stairs immediately in front of the POV
-        yield return state.Interact();
+        yield return labyrinthState.Interact();
 
         Assert.That(stateMachine.CurrentState, Is.TypeOf(typeof(TownState)));
         Assert.That(SceneManager.GetAllScenes().Any(scene => scene.name == "Town"), Is.True);
@@ -40,6 +51,7 @@ public class StairInteractiveTests
                 new LabyrinthCell() { Coordinate = new CellCoordinates(0, 0, 0), Walkable = true },
                 new LabyrinthCell() { Coordinate = new CellCoordinates(0, 1, 0), Walkable = false, Interactive = new InteractiveData() { Kind = InteractiveKind.Stairs } },
             };
+            testLevel.CombatClockEnabled = false;
             return testLevel;
         }
     }

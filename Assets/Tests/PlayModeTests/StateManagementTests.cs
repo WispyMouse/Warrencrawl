@@ -29,6 +29,8 @@ public class StateManagementTests
         yield return stateMachine.EndCurrentState();
         Assert.That(stateMachine.CurrentState, Is.Null);
         Assert.That(SceneManager.GetAllScenes().Any(scene => scene.name == newState.SceneName), Is.False);
+
+        yield return stateMachine.CollapseAllStates();
     }
 
     /// <summary>
@@ -58,5 +60,7 @@ public class StateManagementTests
 
         yield return stateMachine.EndCurrentState();
         Assert.That(stateMachine.CurrentState, Is.EqualTo(labyrinthState));
+
+        yield return stateMachine.CollapseAllStates();
     }
 }

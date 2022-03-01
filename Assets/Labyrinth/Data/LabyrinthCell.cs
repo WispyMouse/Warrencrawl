@@ -25,12 +25,11 @@ public class LabyrinthCell
     /// </summary>
     public float Height;
 
-#nullable enable
     /// <summary>
     /// The interactive element on this cell, if any. Can be null.
     /// </summary>
-    public InteractiveData? Interactive;
-#nullable disable
+    [SerializeReference]
+    public InteractiveData Interactive;
 
     /// <summary>
     /// The color to show for this object when <see cref="LabyrinthSceneHelperToolsEditor.showCells"/> is checked.

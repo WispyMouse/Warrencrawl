@@ -20,7 +20,7 @@ public class LabyrinthAnimationHandler : MonoBehaviour
         Vector3 startingPosition = pov.transform.position;
         Vector3 targetPosition = toWalkTo.Worldspace;
         float curTime = 0;
-        float stepTime = .5f;
+        float stepTime = .3f;
 
         while (curTime < stepTime)
         {
@@ -42,7 +42,7 @@ public class LabyrinthAnimationHandler : MonoBehaviour
         Vector3 startingFacing = pov.transform.rotation.eulerAngles;
         Vector3 targetFacing = new Vector3(0, newFacing.Degrees(), 0);
         float curTime = 0;
-        float turnTime = .5f;
+        float turnTime = .4f;
 
         while (curTime < turnTime)
         {

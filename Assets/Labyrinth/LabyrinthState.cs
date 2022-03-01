@@ -55,6 +55,8 @@ public class LabyrinthState : SceneLoadingGameplayState
     /// </summary>
     public LabyrinthAnimationHandler AnimationHandler { get; private set; }
 
+    public CombatClock ActiveCombatClock { get; private set; }
+
     /// <summary>
     /// Constructor for LabyrinthState.
     /// </summary>
@@ -104,16 +106,26 @@ public class LabyrinthState : SceneLoadingGameplayState
             }
         }
 
+        ActiveCombatClock = new CombatClock();
         PointOfViewInstance = GameObject.FindObjectOfType<PointOfView>();
+        PointOfViewInstance.CurFacing = Direction.North;
+        PointOfViewInstance.CurCoordinates = CellCoordinates.Origin;
     }
 
     public override IEnumerator StartState(GlobalStateMachine globalStateMachine, IGameplayState previousState)
     {
         yield return base.StartState(globalStateMachine, previousState);
 
-        // TODO: Get POV coordinates somehow; probably going to be the labyrinthscenetools again
-        PointOfViewInstance.CurFacing = Direction.North;
-        PointOfViewInstance.CurCoordinates = CellCoordinates.Origin;
+        switch (LevelToLoad.CombatClockEnabled)
+        {
+            case true:
+                ActiveCombatClock.ResetCombatClock();
+                ActiveCombatClock.Enable();
+                break;
+            case false:
+                ActiveCombatClock.Disable();
+                break;
+        }
 
         LabyrinthCell cellAtStart = LevelToLoad.LabyrinthData.CellAtCoordinate(PointOfViewInstance.CurCoordinates);
 
@@ -144,6 +156,7 @@ public class LabyrinthState : SceneLoadingGameplayState
 
     /// <summary>
     /// Attempts to move in the direction provided.
+    /// This also processes any events that should happen as a result of moving.
     /// </summary>
     /// <param name="offset">Direction to move.</param>
     public IEnumerator Step(Vector3Int offset)
@@ -169,6 +182,14 @@ public class LabyrinthState : SceneLoadingGameplayState
         yield return AnimationHandler.StepTo(PointOfViewInstance, cellAtPosition);
 
         PointOfViewInstance.CurCoordinates = newCoordinates;
+
+        ActiveCombatClock.StepTaken();
+
+        if (ActiveCombatClock.ShouldEncounterStart())
+        {
+            yield return StateMachineInstance.PushNewState(new BattleState());
+        }
+
         LockingAnimationFinished?.Invoke(this, new EventArgs());
     }
 
