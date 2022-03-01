@@ -110,4 +110,16 @@ public class GlobalStateMachine
         CurrentState.SetControls(lastActiveControls);
         yield return CurrentState.StartState(this, lastState);
     }
+
+    /// <summary>
+    /// Ends every state currently in the machine.
+    /// </summary>
+    public IEnumerator CollapseAllStates()
+    {
+        while (CurrentState != null)
+        {
+            yield return CurrentState.ExitState(null);
+            PresentStates.Pop();
+        }
+    }
 }

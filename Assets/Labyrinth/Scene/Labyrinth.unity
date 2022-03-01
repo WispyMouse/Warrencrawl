@@ -123,11 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &210137011 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 540416474418473653, guid: ef944d8d899305d4a9098a6e9b0605f5, type: 3}
-  m_PrefabInstance: {fileID: 540416475381013223}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &364715162
 GameObject:
   m_ObjectHideFlags: 0
@@ -248,30 +243,6 @@ Transform:
   m_Father: {fileID: 364715164}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1503785045
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 210137011}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c2f9365b9ee4954595637ea7577bb38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1503785046
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 210137011}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 072c224fc9101d04cb50fdda84fc2b18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!850595691 &1762432334
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -385,33 +356,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 540416474418473652, guid: ef944d8d899305d4a9098a6e9b0605f5, type: 3}
-      propertyPath: CurrentLevel
-      value: 
-      objectReference: {fileID: 11400000, guid: 3235800359f89dd469145e265937a7cd, type: 2}
-    - target: {fileID: 540416474418473652, guid: ef944d8d899305d4a9098a6e9b0605f5, type: 3}
-      propertyPath: DefaultLevel
-      value: 
-      objectReference: {fileID: 11400000, guid: 3235800359f89dd469145e265937a7cd, type: 2}
-    - target: {fileID: 540416474418473652, guid: ef944d8d899305d4a9098a6e9b0605f5, type: 3}
-      propertyPath: InputHandler
-      value: 
-      objectReference: {fileID: 1503785045}
-    - target: {fileID: 540416474418473652, guid: ef944d8d899305d4a9098a6e9b0605f5, type: 3}
-      propertyPath: AnimationHandler
-      value: 
-      objectReference: {fileID: 1503785046}
-    - target: {fileID: 540416474418473652, guid: ef944d8d899305d4a9098a6e9b0605f5, type: 3}
-      propertyPath: Interactive.m_Bits
-      value: 256
-      objectReference: {fileID: 0}
     - target: {fileID: 540416474418473653, guid: ef944d8d899305d4a9098a6e9b0605f5, type: 3}
       propertyPath: m_Name
       value: LabyrinthSceneTools
-      objectReference: {fileID: 0}
-    - target: {fileID: 540416474418473653, guid: ef944d8d899305d4a9098a6e9b0605f5, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ef944d8d899305d4a9098a6e9b0605f5, type: 3}

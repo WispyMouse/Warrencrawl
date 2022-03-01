@@ -8,20 +8,35 @@ using UnityEngine.TestTools;
 
 public class CombatClockTests
 {
+    GlobalStateMachine stateMachine;
+    LabyrinthState labyrinthState;
+
+    [UnitySetUp]
+    public IEnumerator SetUp()
+    {
+        stateMachine = new GlobalStateMachine(new WarrencrawlInputs());
+        labyrinthState = new LabyrinthState(new TestLabyrinthProvider());
+        yield return stateMachine.ChangeToState(labyrinthState);
+    }
+
+    [UnityTearDown]
+    public IEnumerator TearDown()
+    {
+        yield return stateMachine.CollapseAllStates();
+    }
+
     /// <summary>
     /// Asserts that taking a bunch of steps with the combat clock off does not start an encounter.
     /// </summary>
     [UnityTest]
     public IEnumerator ShouldEncounterStart_EncounterTriggers()
     {
-        GlobalStateMachine stateMachine = new GlobalStateMachine(new WarrencrawlInputs());
-        LabyrinthState state = new LabyrinthState(new TestLabyrinthProvider());
-        yield return stateMachine.ChangeToState(state);
+        labyrinthState.ActiveCombatClock.Enable();
 
         int steps = 0;
-        while (steps < state.ActiveCombatClock.MaxStepsToEncounter)
+        while (steps < labyrinthState.ActiveCombatClock.MaxStepsToEncounter)
         {
-            yield return state.Step(state.PointOfViewInstance.CurFacing.Forward());
+            yield return labyrinthState.Step(labyrinthState.PointOfViewInstance.CurFacing.Forward());
             steps++;
 
             if (stateMachine.CurrentState is BattleState)
@@ -29,7 +44,7 @@ public class CombatClockTests
                 break;
             }
 
-            yield return state.Step(state.PointOfViewInstance.CurFacing.Backward());
+            yield return labyrinthState.Step(labyrinthState.PointOfViewInstance.CurFacing.Backward());
             steps++;
 
             if (stateMachine.CurrentState is BattleState)
@@ -47,16 +62,12 @@ public class CombatClockTests
     [UnityTest]
     public IEnumerator Disable_CombatDoesNotStart()
     {
-        GlobalStateMachine stateMachine = new GlobalStateMachine(new WarrencrawlInputs());
-        LabyrinthState state = new LabyrinthState(new TestLabyrinthProvider());
-        yield return stateMachine.ChangeToState(state);
-
-        state.ActiveCombatClock.Disable();
+        labyrinthState.ActiveCombatClock.Disable();
 
         int steps = 0;
-        while (steps < state.ActiveCombatClock.MaxStepsToEncounter)
+        while (steps < labyrinthState.ActiveCombatClock.MaxStepsToEncounter)
         {
-            yield return state.Step(state.PointOfViewInstance.CurFacing.Forward());
+            yield return labyrinthState.Step(labyrinthState.PointOfViewInstance.CurFacing.Forward());
             steps++;
 
             if (stateMachine.CurrentState is BattleState)
@@ -64,7 +75,7 @@ public class CombatClockTests
                 break;
             }
 
-            yield return state.Step(state.PointOfViewInstance.CurFacing.Backward());
+            yield return labyrinthState.Step(labyrinthState.PointOfViewInstance.CurFacing.Backward());
             steps++;
 
             if (stateMachine.CurrentState is BattleState)

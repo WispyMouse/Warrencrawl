@@ -8,26 +8,37 @@ using UnityEngine.TestTools;
 
 public class LabyrinthTraversalTests
 {
+    GlobalStateMachine stateMachine;
+    LabyrinthState labyrinthState;
+
+    [UnitySetUp]
+    public IEnumerator SetUp()
+    {
+        stateMachine = new GlobalStateMachine(new WarrencrawlInputs());
+        labyrinthState = new LabyrinthState(new TestLabyrinthProvider());
+        yield return stateMachine.ChangeToState(labyrinthState);
+    }
+
+    [UnityTearDown]
+    public IEnumerator TearDown()
+    {
+        yield return stateMachine.CollapseAllStates();
+    }
+
     /// <summary>
     /// Asserts that you can take a step forward in the labyrinth, and that it'll change your position.
     /// </summary>
     [UnityTest]
     public IEnumerator Step_CanStepForwardWhenIntended()
     {
-        GlobalStateMachine stateMachine = new GlobalStateMachine(new WarrencrawlInputs());
+        Assert.That(labyrinthState.PointOfViewInstance.CurCoordinates, Is.EqualTo(new CellCoordinates(0, 0, 0)));
 
-        LabyrinthState state = new LabyrinthState(new TestLabyrinthProvider());
-
-        yield return stateMachine.ChangeToState(state);
-
-        Assert.That(state.PointOfViewInstance.CurCoordinates, Is.EqualTo(new CellCoordinates(0, 0, 0)));
-
-        yield return state.Step(state.PointOfViewInstance.CurFacing.Forward());
-        Assert.That(state.PointOfViewInstance.CurCoordinates, Is.EqualTo(new CellCoordinates(0, 1, 0)));
+        yield return labyrinthState.Step(labyrinthState.PointOfViewInstance.CurFacing.Forward());
+        Assert.That(labyrinthState.PointOfViewInstance.CurCoordinates, Is.EqualTo(new CellCoordinates(0, 1, 0)));
 
         // should fail to step forward because of the wall at 0, 2, 0
-        yield return state.Step(state.PointOfViewInstance.CurFacing.Forward());
-        Assert.That(state.PointOfViewInstance.CurCoordinates, Is.EqualTo(new CellCoordinates(0, 1, 0)));
+        yield return labyrinthState.Step(labyrinthState.PointOfViewInstance.CurFacing.Forward());
+        Assert.That(labyrinthState.PointOfViewInstance.CurCoordinates, Is.EqualTo(new CellCoordinates(0, 1, 0)));
     }
 
     /// <summary>
@@ -36,32 +47,26 @@ public class LabyrinthTraversalTests
     [UnityTest]
     public IEnumerator Step_CanStrafeWhenIntended()
     {
-        GlobalStateMachine stateMachine = new GlobalStateMachine(new WarrencrawlInputs());
-
-        LabyrinthState state = new LabyrinthState(new TestLabyrinthProvider());
-
-        yield return stateMachine.ChangeToState(state);
-
-        yield return state.Rotate(state.PointOfViewInstance.CurFacing.RotateRight());
-        Assert.That(state.PointOfViewInstance.CurFacing, Is.EqualTo(Direction.East));
+        yield return labyrinthState.Rotate(labyrinthState.PointOfViewInstance.CurFacing.RotateRight());
+        Assert.That(labyrinthState.PointOfViewInstance.CurFacing, Is.EqualTo(Direction.East));
 
         // Should fail to move forward because no tile in that direction
-        yield return state.Step(state.PointOfViewInstance.CurFacing.Forward());
-        Assert.That(state.PointOfViewInstance.CurCoordinates, Is.EqualTo(new CellCoordinates(0, 0, 0)));
+        yield return labyrinthState.Step(labyrinthState.PointOfViewInstance.CurFacing.Forward());
+        Assert.That(labyrinthState.PointOfViewInstance.CurCoordinates, Is.EqualTo(new CellCoordinates(0, 0, 0)));
 
-        yield return state.Step(state.PointOfViewInstance.CurFacing.Left());
-        Assert.That(state.PointOfViewInstance.CurCoordinates, Is.EqualTo(new CellCoordinates(0, 1, 0)));
+        yield return labyrinthState.Step(labyrinthState.PointOfViewInstance.CurFacing.Left());
+        Assert.That(labyrinthState.PointOfViewInstance.CurCoordinates, Is.EqualTo(new CellCoordinates(0, 1, 0)));
 
         // Should fail to move to the left because of the tile not being walkable
-        yield return state.Step(state.PointOfViewInstance.CurFacing.Left());
-        Assert.That(state.PointOfViewInstance.CurCoordinates, Is.EqualTo(new CellCoordinates(0, 1, 0)));
+        yield return labyrinthState.Step(labyrinthState.PointOfViewInstance.CurFacing.Left());
+        Assert.That(labyrinthState.PointOfViewInstance.CurCoordinates, Is.EqualTo(new CellCoordinates(0, 1, 0)));
 
-        yield return state.Rotate(state.PointOfViewInstance.CurFacing.RotateLeft());
-        yield return state.Rotate(state.PointOfViewInstance.CurFacing.RotateLeft());
-        Assert.That(state.PointOfViewInstance.CurFacing, Is.EqualTo(Direction.West));
+        yield return labyrinthState.Rotate(labyrinthState.PointOfViewInstance.CurFacing.RotateLeft());
+        yield return labyrinthState.Rotate(labyrinthState.PointOfViewInstance.CurFacing.RotateLeft());
+        Assert.That(labyrinthState.PointOfViewInstance.CurFacing, Is.EqualTo(Direction.West));
 
-        yield return state.Step(state.PointOfViewInstance.CurFacing.Left());
-        Assert.That(state.PointOfViewInstance.CurCoordinates, Is.EqualTo(new CellCoordinates(0, 0, 0)));
+        yield return labyrinthState.Step(labyrinthState.PointOfViewInstance.CurFacing.Left());
+        Assert.That(labyrinthState.PointOfViewInstance.CurCoordinates, Is.EqualTo(new CellCoordinates(0, 0, 0)));
     }
 
     /// <summary>
@@ -70,37 +75,31 @@ public class LabyrinthTraversalTests
     [UnityTest]
     public IEnumerator Rotate_CanRotateAround()
     {
-        GlobalStateMachine stateMachine = new GlobalStateMachine(new WarrencrawlInputs());
+        Assert.That(labyrinthState.PointOfViewInstance.CurFacing, Is.EqualTo(Direction.North));
 
-        LabyrinthState state = new LabyrinthState(new TestLabyrinthProvider());
+        yield return labyrinthState.Rotate(labyrinthState.PointOfViewInstance.CurFacing.RotateRight());
+        Assert.That(labyrinthState.PointOfViewInstance.CurFacing, Is.EqualTo(Direction.East));
 
-        yield return stateMachine.ChangeToState(state);
+        yield return labyrinthState.Rotate(labyrinthState.PointOfViewInstance.CurFacing.RotateRight());
+        Assert.That(labyrinthState.PointOfViewInstance.CurFacing, Is.EqualTo(Direction.South));
 
-        Assert.That(state.PointOfViewInstance.CurFacing, Is.EqualTo(Direction.North));
+        yield return labyrinthState.Rotate(labyrinthState.PointOfViewInstance.CurFacing.RotateRight());
+        Assert.That(labyrinthState.PointOfViewInstance.CurFacing, Is.EqualTo(Direction.West));
 
-        yield return state.Rotate(state.PointOfViewInstance.CurFacing.RotateRight());
-        Assert.That(state.PointOfViewInstance.CurFacing, Is.EqualTo(Direction.East));
+        yield return labyrinthState.Rotate(labyrinthState.PointOfViewInstance.CurFacing.RotateRight());
+        Assert.That(labyrinthState.PointOfViewInstance.CurFacing, Is.EqualTo(Direction.North));
 
-        yield return state.Rotate(state.PointOfViewInstance.CurFacing.RotateRight());
-        Assert.That(state.PointOfViewInstance.CurFacing, Is.EqualTo(Direction.South));
+        yield return labyrinthState.Rotate(labyrinthState.PointOfViewInstance.CurFacing.RotateLeft());
+        Assert.That(labyrinthState.PointOfViewInstance.CurFacing, Is.EqualTo(Direction.West));
 
-        yield return state.Rotate(state.PointOfViewInstance.CurFacing.RotateRight());
-        Assert.That(state.PointOfViewInstance.CurFacing, Is.EqualTo(Direction.West));
+        yield return labyrinthState.Rotate(labyrinthState.PointOfViewInstance.CurFacing.RotateLeft());
+        Assert.That(labyrinthState.PointOfViewInstance.CurFacing, Is.EqualTo(Direction.South));
 
-        yield return state.Rotate(state.PointOfViewInstance.CurFacing.RotateRight());
-        Assert.That(state.PointOfViewInstance.CurFacing, Is.EqualTo(Direction.North));
+        yield return labyrinthState.Rotate(labyrinthState.PointOfViewInstance.CurFacing.RotateLeft());
+        Assert.That(labyrinthState.PointOfViewInstance.CurFacing, Is.EqualTo(Direction.East));
 
-        yield return state.Rotate(state.PointOfViewInstance.CurFacing.RotateLeft());
-        Assert.That(state.PointOfViewInstance.CurFacing, Is.EqualTo(Direction.West));
-
-        yield return state.Rotate(state.PointOfViewInstance.CurFacing.RotateLeft());
-        Assert.That(state.PointOfViewInstance.CurFacing, Is.EqualTo(Direction.South));
-
-        yield return state.Rotate(state.PointOfViewInstance.CurFacing.RotateLeft());
-        Assert.That(state.PointOfViewInstance.CurFacing, Is.EqualTo(Direction.East));
-
-        yield return state.Rotate(state.PointOfViewInstance.CurFacing.RotateLeft());
-        Assert.That(state.PointOfViewInstance.CurFacing, Is.EqualTo(Direction.North));
+        yield return labyrinthState.Rotate(labyrinthState.PointOfViewInstance.CurFacing.RotateLeft());
+        Assert.That(labyrinthState.PointOfViewInstance.CurFacing, Is.EqualTo(Direction.North));
     }
 
     /// <summary>
@@ -109,31 +108,25 @@ public class LabyrinthTraversalTests
     [UnityTest]
     public IEnumerator Step_CanStepBackward()
     {
-        GlobalStateMachine stateMachine = new GlobalStateMachine(new WarrencrawlInputs());
-
-        LabyrinthState state = new LabyrinthState(new TestLabyrinthProvider());
-
-        yield return stateMachine.ChangeToState(state);
-
-        yield return state.Step(state.PointOfViewInstance.CurFacing.Backward());
-        Assert.That(state.PointOfViewInstance.CurCoordinates, Is.EqualTo(new CellCoordinates(0, -1, 0)));
+        yield return labyrinthState.Step(labyrinthState.PointOfViewInstance.CurFacing.Backward());
+        Assert.That(labyrinthState.PointOfViewInstance.CurCoordinates, Is.EqualTo(new CellCoordinates(0, -1, 0)));
 
         // Should fail to move in to non-walkable space
-        yield return state.Step(state.PointOfViewInstance.CurFacing.Backward());
-        Assert.That(state.PointOfViewInstance.CurCoordinates, Is.EqualTo(new CellCoordinates(0, -1, 0)));
+        yield return labyrinthState.Step(labyrinthState.PointOfViewInstance.CurFacing.Backward());
+        Assert.That(labyrinthState.PointOfViewInstance.CurCoordinates, Is.EqualTo(new CellCoordinates(0, -1, 0)));
 
-        yield return state.Rotate(state.PointOfViewInstance.CurFacing.RotateRight());
-        yield return state.Rotate(state.PointOfViewInstance.CurFacing.RotateRight());
+        yield return labyrinthState.Rotate(labyrinthState.PointOfViewInstance.CurFacing.RotateRight());
+        yield return labyrinthState.Rotate(labyrinthState.PointOfViewInstance.CurFacing.RotateRight());
 
-        yield return state.Step(state.PointOfViewInstance.CurFacing.Backward());
-        Assert.That(state.PointOfViewInstance.CurCoordinates, Is.EqualTo(new CellCoordinates(0, 0, 0)));
+        yield return labyrinthState.Step(labyrinthState.PointOfViewInstance.CurFacing.Backward());
+        Assert.That(labyrinthState.PointOfViewInstance.CurCoordinates, Is.EqualTo(new CellCoordinates(0, 0, 0)));
 
-        yield return state.Step(state.PointOfViewInstance.CurFacing.Backward());
-        Assert.That(state.PointOfViewInstance.CurCoordinates, Is.EqualTo(new CellCoordinates(0, 1, 0)));
+        yield return labyrinthState.Step(labyrinthState.PointOfViewInstance.CurFacing.Backward());
+        Assert.That(labyrinthState.PointOfViewInstance.CurCoordinates, Is.EqualTo(new CellCoordinates(0, 1, 0)));
 
         // Should fail to move in to non-walkable space
-        yield return state.Step(state.PointOfViewInstance.CurFacing.Backward());
-        Assert.That(state.PointOfViewInstance.CurCoordinates, Is.EqualTo(new CellCoordinates(0, 1, 0)));
+        yield return labyrinthState.Step(labyrinthState.PointOfViewInstance.CurFacing.Backward());
+        Assert.That(labyrinthState.PointOfViewInstance.CurCoordinates, Is.EqualTo(new CellCoordinates(0, 1, 0)));
     }
 
     class TestLabyrinthProvider : IGameLevelProvider

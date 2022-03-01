@@ -116,7 +116,6 @@ public class LabyrinthState : SceneLoadingGameplayState
     {
         yield return base.StartState(globalStateMachine, previousState);
 
-
         switch (LevelToLoad.CombatClockEnabled)
         {
             case true:

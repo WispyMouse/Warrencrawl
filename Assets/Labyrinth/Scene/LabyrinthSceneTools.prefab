@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 540416474418473651}
   - component: {fileID: 540416474418473652}
+  - component: {fileID: 1503785045}
+  - component: {fileID: 1503785046}
   m_Layer: 0
   m_Name: LabyrinthSceneTools
   m_TagString: Untagged
@@ -51,4 +53,33 @@ MonoBehaviour:
   Blocked:
     serializedVersion: 2
     m_Bits: 128
-  DefaultLevel: {fileID: 0}
+  Interactive:
+    serializedVersion: 2
+    m_Bits: 256
+  DefaultLevel: {fileID: 11400000, guid: 3235800359f89dd469145e265937a7cd, type: 2}
+  InputHandler: {fileID: 1503785045}
+  AnimationHandler: {fileID: 1503785046}
+--- !u!114 &1503785045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 540416474418473653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c2f9365b9ee4954595637ea7577bb38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1503785046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 540416474418473653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 072c224fc9101d04cb50fdda84fc2b18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
