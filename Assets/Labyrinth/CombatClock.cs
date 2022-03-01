@@ -41,6 +41,11 @@ public class CombatClock
 
     public void StepTaken()
     {
+        if (!Enabled)
+        {
+            return;
+        }
+
         StepsToEncounter--;
     }
 
