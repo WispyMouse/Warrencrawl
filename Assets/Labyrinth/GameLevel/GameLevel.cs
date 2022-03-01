@@ -26,4 +26,9 @@ public class GameLevel : ScriptableObject
     /// If null, no scene is loaded for the Labyrinth, which is likely an error state.
     /// </summary>
     public AssetReference Scene;
+
+    /// <summary>
+    /// Sets whether to have the <see cref="CombatClock"/> enabled by default.
+    /// </summary>
+    public bool CombatClockEnabled = true;
 }

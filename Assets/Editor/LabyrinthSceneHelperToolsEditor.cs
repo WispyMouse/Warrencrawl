@@ -64,6 +64,7 @@ public class LabyrinthSceneHelperToolsEditor : Editor
             if (GUILayout.Button("Scan Level"))
             {
                 castCurrentLevel.LabyrinthData = ScanLevel();
+                EditorUtility.SetDirty(castCurrentLevel);
             }
         }
 

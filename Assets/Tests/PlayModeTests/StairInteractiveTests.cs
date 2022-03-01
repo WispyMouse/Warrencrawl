@@ -40,6 +40,7 @@ public class StairInteractiveTests
                 new LabyrinthCell() { Coordinate = new CellCoordinates(0, 0, 0), Walkable = true },
                 new LabyrinthCell() { Coordinate = new CellCoordinates(0, 1, 0), Walkable = false, Interactive = new InteractiveData() { Kind = InteractiveKind.Stairs } },
             };
+            testLevel.CombatClockEnabled = false;
             return testLevel;
         }
     }

@@ -150,6 +150,7 @@ public class LabyrinthTraversalTests
                 new LabyrinthCell() { Coordinate = new CellCoordinates(0, 1, 0), Walkable = true },
                 new LabyrinthCell() { Coordinate = new CellCoordinates(0, 2, 0), Walkable = false },
             };
+            testLevel.CombatClockEnabled = false;
             return testLevel;
         }
     }
