@@ -108,15 +108,14 @@ public class LabyrinthState : SceneLoadingGameplayState
 
         ActiveCombatClock = new CombatClock();
         PointOfViewInstance = GameObject.FindObjectOfType<PointOfView>();
+        PointOfViewInstance.CurFacing = Direction.North;
+        PointOfViewInstance.CurCoordinates = CellCoordinates.Origin;
     }
 
     public override IEnumerator StartState(GlobalStateMachine globalStateMachine, IGameplayState previousState)
     {
         yield return base.StartState(globalStateMachine, previousState);
 
-        // TODO: Get POV coordinates somehow; probably going to be the labyrinthscenetools again
-        PointOfViewInstance.CurFacing = Direction.North;
-        PointOfViewInstance.CurCoordinates = CellCoordinates.Origin;
 
         switch (LevelToLoad.CombatClockEnabled)
         {
