@@ -106,8 +106,14 @@ public class LabyrinthSceneHelperToolsEditor : Editor
             CellCoordinates curFront = frontier.Dequeue();
 
             RaycastHit hit;
+            Collider[] boxColliders = Physics.OverlapBox(new Vector3(curFront.X, 0f, curFront.Y), Vector3.one / 2f, Quaternion.identity, blocked.intValue);
 
-            if (Physics.Raycast(new Vector3(curFront.X, 3f, curFront.Y), Vector3.down, out hit, 4f, blocked.intValue | walkable.intValue | interactive.intValue))
+            if (boxColliders.Length > 0)
+            {
+                LabyrinthCell detectedCell = new LabyrinthCell() { Coordinate = curFront, Walkable = false };
+                newLevel.Cells.Add(detectedCell);
+            }
+            else if (Physics.Raycast(new Vector3(curFront.X, 3f, curFront.Y), Vector3.down, out hit, 4f, walkable.intValue | interactive.intValue))
             {
                 bool isWalkable = (1 << hit.collider.gameObject.layer) == walkable.intValue;
 
