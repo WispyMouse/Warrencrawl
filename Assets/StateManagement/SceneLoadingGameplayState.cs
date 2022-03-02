@@ -17,6 +17,8 @@ public abstract class SceneLoadingGameplayState : IGameplayState
 
     public GlobalStateMachine StateMachineInstance { get; private set; }
 
+    public SceneHelper SceneHelperInstance { get; private set; }
+
     public virtual IEnumerator Load()
     {
         if (!SceneManager.GetAllScenes().Any(sc => sc.name == SceneName))
@@ -27,6 +29,8 @@ public abstract class SceneLoadingGameplayState : IGameplayState
                 yield return loadScene.progress;
             }
         }
+
+        SceneHelperInstance = GameObject.FindObjectOfType<SceneHelper>();
     }
 
     public virtual IEnumerator ExitState(IGameplayState nextState)

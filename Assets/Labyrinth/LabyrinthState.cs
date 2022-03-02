@@ -136,10 +136,14 @@ public class LabyrinthState : SceneLoadingGameplayState
 
         PointOfViewInstance.transform.rotation = Quaternion.Euler(0, PointOfViewInstance.CurFacing.Degrees(), 0);
         PointOfViewInstance.transform.position = cellAtStart.Worldspace;
+
+        yield return SceneHelperInstance.TransitionsInstance.TransitionOut();
     }
 
     public override IEnumerator ExitState(IGameplayState nextState)
     {
+        yield return SceneHelperInstance.TransitionsInstance.TransitionIn();
+
         yield return base.ExitState(nextState);
 
         if (LoadedScene.HasValue)

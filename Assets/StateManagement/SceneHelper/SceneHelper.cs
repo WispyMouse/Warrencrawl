@@ -16,6 +16,8 @@ public class SceneHelper : MonoBehaviour
     public GlobalStateMachine GlobalStateMachineInstance { get; set; }
     private WarrencrawlInputs Inputs { get; set; }
 
+    public Transitions TransitionsInstance;
+
     private void Start()
     {
         Inputs = new WarrencrawlInputs();

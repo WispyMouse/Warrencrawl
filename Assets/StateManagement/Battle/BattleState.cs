@@ -10,4 +10,18 @@ public class BattleState : SceneLoadingGameplayState
     {
         // TODO: Enable battle controls
     }
+
+    public override IEnumerator ExitState(IGameplayState nextState)
+    {
+        yield return SceneHelperInstance.TransitionsInstance.TransitionIn();
+
+        yield return base.ExitState(nextState);
+    }
+
+    public override IEnumerator StartState(GlobalStateMachine globalStateMachine, IGameplayState previousState)
+    {
+        yield return base.StartState(globalStateMachine, previousState);
+
+        yield return SceneHelperInstance.TransitionsInstance.TransitionOut();
+    }
 }
