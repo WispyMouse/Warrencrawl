@@ -8,16 +8,26 @@ using UnityEngine.TestTools;
 
 public class StateManagementTests
 {
+    GlobalStateMachine stateMachine { get; set; }
+
+    [SetUp]
+    public void SetUp()
+    {
+        stateMachine = new GlobalStateMachine(new WarrencrawlInputs());
+    }
+
+    [UnityTearDown]
+    public IEnumerator TearDown()
+    {
+        yield return stateMachine.CollapseAllStates();
+    }
+
     /// <summary>
     /// Asserts that a Main Menu State can be loaded, then unloaded.
     /// </summary>
     [UnityTest]
     public IEnumerator PushNewState_ScenesAdding_AddsAndEndsScenes()
     {
-        GlobalStateMachine stateMachine = new GlobalStateMachine(new WarrencrawlInputs());
-
-        Assert.That(stateMachine.CurrentState, Is.Null);
-
         MainMenuState newState = new MainMenuState();
 
         yield return stateMachine.PushNewState(newState);
@@ -29,8 +39,6 @@ public class StateManagementTests
         yield return stateMachine.EndCurrentState();
         Assert.That(stateMachine.CurrentState, Is.Null);
         Assert.That(SceneManager.GetAllScenes().Any(scene => scene.name == newState.SceneName), Is.False);
-
-        yield return stateMachine.CollapseAllStates();
     }
 
     /// <summary>
@@ -40,8 +48,6 @@ public class StateManagementTests
     [UnityTest]
     public IEnumerator ChangeToState_HappyPath_ChangesState()
     {
-        GlobalStateMachine stateMachine = new GlobalStateMachine(new WarrencrawlInputs());
-
         MainMenuState mainMenuState = new MainMenuState();
         yield return stateMachine.ChangeToState(mainMenuState);
         Assert.That(stateMachine.CurrentState, Is.EqualTo(mainMenuState));
@@ -60,7 +66,5 @@ public class StateManagementTests
 
         yield return stateMachine.EndCurrentState();
         Assert.That(stateMachine.CurrentState, Is.EqualTo(labyrinthState));
-
-        yield return stateMachine.CollapseAllStates();
     }
 }
