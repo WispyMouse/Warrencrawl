@@ -20,7 +20,7 @@ public abstract class SceneHelperTools : MonoBehaviour
             AsyncOperation bootstrapperScene = SceneManager.LoadSceneAsync("SceneHelper", LoadSceneMode.Additive);
             while (!bootstrapperScene.isDone)
             {
-                yield return null;
+                yield return bootstrapperScene.progress;
             }
         }
 

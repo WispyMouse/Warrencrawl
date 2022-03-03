@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 
-public class StairInteractiveTests
+
+public class LabyrinthInputTests : InputTestFixture
 {
     GlobalStateMachine stateMachine;
     LabyrinthState labyrinthState;
@@ -23,24 +25,18 @@ public class StairInteractiveTests
     }
 
     [UnityTearDown]
-    public IEnumerator TearDown()
+    public IEnumerator UnityTearDown()
     {
         yield return stateMachine.CollapseAllStates();
     }
 
-    /// <summary>
-    /// Asserts that you can take the stairs to leave the labyrinth.
-    /// </summary>
     [UnityTest]
-    public IEnumerator Interact_CanTakeStairsToTown()
+    public IEnumerator OnForward_StepsWork()
     {
-        Assert.That(stateMachine.CurrentState, Is.EqualTo(labyrinthState));
+        Gamepad newGamepad = InputSystem.AddDevice<Gamepad>();
 
-        // Should take the stairs immediately in front of the POV
-        yield return labyrinthState.Interact();
-
-        Assert.That(stateMachine.CurrentState, Is.TypeOf(typeof(TownState)));
-        Assert.That(SceneManager.GetAllScenes().Any(scene => scene.name == "Town"), Is.True);
+        Press(newGamepad.dpad.up);
+        yield break;
     }
 
     class TestLabyrinthProvider : IGameLevelProvider
@@ -51,8 +47,11 @@ public class StairInteractiveTests
             testLevel.LabyrinthData = new LabyrinthLevel();
             testLevel.LabyrinthData.Cells = new List<LabyrinthCell>()
             {
+                new LabyrinthCell() { Coordinate = new CellCoordinates(0, -2, 0), Walkable = false },
+                new LabyrinthCell() { Coordinate = new CellCoordinates(0, -1, 0), Walkable = true },
                 new LabyrinthCell() { Coordinate = new CellCoordinates(0, 0, 0), Walkable = true },
-                new LabyrinthCell() { Coordinate = new CellCoordinates(0, 1, 0), Walkable = false, Interactive = new InteractiveData() { Kind = InteractiveKind.Stairs } },
+                new LabyrinthCell() { Coordinate = new CellCoordinates(0, 1, 0), Walkable = true },
+                new LabyrinthCell() { Coordinate = new CellCoordinates(0, 2, 0), Walkable = false },
             };
             testLevel.CombatClockEnabled = false;
             return testLevel;

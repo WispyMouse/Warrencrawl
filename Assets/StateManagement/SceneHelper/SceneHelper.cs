@@ -13,27 +13,49 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class SceneHelper : MonoBehaviour
 {
-    public GlobalStateMachine GlobalStateMachineInstance { get; set; }
-    private WarrencrawlInputs Inputs { get; set; }
+    public static GlobalStateMachine GlobalStateMachineInstance { get; private set; }
+    public static WarrencrawlInputs Inputs { get; private set; }
 
     public Transitions TransitionsInstance;
 
     private void Start()
     {
-        Inputs = new WarrencrawlInputs();
-        GlobalStateMachineInstance = new GlobalStateMachine(Inputs);
-
-        SceneHelperTools bootstrapperTools = GameObject.FindObjectOfType<SceneHelperTools>();
-
-        if (bootstrapperTools == null)
+        if (Inputs == null)
         {
-            MainMenuState mainMenuState = new MainMenuState();
-            StartCoroutine(GlobalStateMachineInstance.ChangeToState(mainMenuState));
+            Inputs = new WarrencrawlInputs();
         }
-        else
+        
+        if (GlobalStateMachineInstance == null)
         {
-            IGameplayState firstState = bootstrapperTools.GetNewDemoState();
-            StartCoroutine(GlobalStateMachineInstance.ChangeToState(firstState));
+            GlobalStateMachineInstance = new GlobalStateMachine(Inputs);
+
+            SceneHelperTools bootstrapperTools = GameObject.FindObjectOfType<SceneHelperTools>();
+
+            if (bootstrapperTools == null)
+            {
+                MainMenuState mainMenuState = new MainMenuState();
+                StartCoroutine(GlobalStateMachineInstance.ChangeToState(mainMenuState));
+            }
+            else
+            {
+                IGameplayState firstState = bootstrapperTools.GetNewDemoState();
+                StartCoroutine(GlobalStateMachineInstance.ChangeToState(firstState));
+            }
+        }
+    }
+
+    public static IEnumerator SetSceneHelper(GlobalStateMachine withGSM, WarrencrawlInputs inputs)
+    {
+        GlobalStateMachineInstance = withGSM;
+        Inputs = inputs;
+
+        if (!SceneManager.GetAllScenes().Any(sc => sc.name == "SceneHelper"))
+        {
+            AsyncOperation bootstrapperScene = SceneManager.LoadSceneAsync("SceneHelper", LoadSceneMode.Additive);
+            while (!bootstrapperScene.isDone)
+            {
+                yield return bootstrapperScene.progress;
+            }
         }
     }
 }

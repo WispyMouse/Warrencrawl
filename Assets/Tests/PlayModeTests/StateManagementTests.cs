@@ -8,12 +8,15 @@ using UnityEngine.TestTools;
 
 public class StateManagementTests
 {
-    GlobalStateMachine stateMachine { get; set; }
+    GlobalStateMachine stateMachine;
+    WarrencrawlInputs inputs;
 
-    [SetUp]
-    public void SetUp()
+    [UnitySetUp]
+    public IEnumerator SetUp()
     {
-        stateMachine = new GlobalStateMachine(new WarrencrawlInputs());
+        inputs = new WarrencrawlInputs();
+        stateMachine = new GlobalStateMachine(inputs);
+        yield return SceneHelper.SetSceneHelper(stateMachine, inputs);
     }
 
     [UnityTearDown]
