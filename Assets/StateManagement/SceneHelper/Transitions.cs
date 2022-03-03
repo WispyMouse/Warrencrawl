@@ -4,30 +4,37 @@ using UnityEngine;
 
 public class Transitions : MonoBehaviour
 {
-    bool Finished { get; set; } = false;
+    public TransitionInputAllowanceState InputAllowance = TransitionInputAllowanceState.NotInTransition;
+    public bool AnimationFinished;
 
     public Animator AnimatorInstance;
 
     public IEnumerator TransitionIn()
     {
-        Finished = false;
+        AnimationFinished = false;
 
         AnimatorInstance.SetTrigger("TransitionIn");
 
-        yield return new WaitUntil(() => Finished);
+        yield return new WaitUntil(() => AnimationFinished);
     }
 
     public IEnumerator TransitionOut()
     {
-        Finished = false;
+        AnimationFinished = false;
 
         AnimatorInstance.SetTrigger("TransitionOut");
 
-        yield return new WaitUntil(() => Finished);
+        yield return new WaitUntil(() => AnimationFinished);
     }
 
-    public void TransitionFinished()
+    public void SetInputAllowance(TransitionInputAllowanceState stage)
     {
-        Finished = true;
+        InputAllowance = stage;
+    }
+
+    public void Finished()
+    {
+        AnimationFinished = true;
+        InputAllowance = TransitionInputAllowanceState.NotInTransition;
     }
 }

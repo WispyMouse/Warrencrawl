@@ -22,6 +22,9 @@ public class MainMenuState : SceneLoadingGameplayState
     {
         yield return base.StartState(globalStateMachine, previousState);
 
-        yield return SceneHelperInstance.TransitionsInstance.TransitionOut();
+        SceneHelperInstance.StartCoroutine(SceneHelperInstance.TransitionsInstance.TransitionOut());
+        yield return new WaitUntil(() =>
+            SceneHelperInstance.TransitionsInstance.AnimationFinished
+            || SceneHelperInstance.TransitionsInstance.InputAllowance == TransitionInputAllowanceState.InputsOK);
     }
 }

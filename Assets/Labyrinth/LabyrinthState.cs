@@ -137,7 +137,10 @@ public class LabyrinthState : SceneLoadingGameplayState
         PointOfViewInstance.transform.rotation = Quaternion.Euler(0, PointOfViewInstance.CurFacing.Degrees(), 0);
         PointOfViewInstance.transform.position = cellAtStart.Worldspace;
 
-        yield return SceneHelperInstance.TransitionsInstance.TransitionOut();
+        SceneHelperInstance.StartCoroutine(SceneHelperInstance.TransitionsInstance.TransitionOut());
+        yield return new WaitUntil(() =>
+            SceneHelperInstance.TransitionsInstance.AnimationFinished
+            || SceneHelperInstance.TransitionsInstance.InputAllowance == TransitionInputAllowanceState.InputsOK);
     }
 
     public override IEnumerator ExitState(IGameplayState nextState)
@@ -150,6 +153,13 @@ public class LabyrinthState : SceneLoadingGameplayState
         {
             yield return Addressables.UnloadSceneAsync(LoadedScene.Value);
         }
+    }
+
+    public override IEnumerator TransitionUp(IGameplayState nextState)
+    {
+        yield return base.TransitionUp(nextState);
+
+        yield return SceneHelperInstance.TransitionsInstance.TransitionIn();
     }
 
     public override void SetControls(WarrencrawlInputs controls)
