@@ -30,12 +30,23 @@ public abstract class SceneLoadingGameplayState : IGameplayState
             }
         }
 
+        foreach (GameObject rootObj in SceneManager.GetSceneByName(SceneName).GetRootGameObjects())
+        {
+            rootObj.SetActive(true);
+        }
+
         SceneHelperInstance = GameObject.FindObjectOfType<SceneHelper>();
     }
 
     public virtual IEnumerator ExitState(IGameplayState nextState)
     {
         AsyncOperation unloadScene = SceneManager.UnloadSceneAsync(SceneName);
+
+        if (unloadScene == null)
+        {
+            Debug.Log($"Could not find scene to exit: {GetType()}");
+        }
+
         while (!unloadScene.isDone)
         {
             yield return unloadScene.progress;
@@ -46,11 +57,6 @@ public abstract class SceneLoadingGameplayState : IGameplayState
     {
         // TODO: Animated transition system
         StateMachineInstance = globalStateMachine;
-
-        foreach (GameObject rootObj in SceneManager.GetSceneByName(SceneName).GetRootGameObjects())
-        {
-            rootObj.SetActive(true);
-        }
 
         yield break;
     }
