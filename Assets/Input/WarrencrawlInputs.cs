@@ -1266,7 +1266,6 @@ public partial class @WarrencrawlInputs : IInputActionCollection2, IDisposable
                 @Forward.started += instance.OnForward;
                 @Forward.performed += instance.OnForward;
                 @Forward.canceled += instance.OnForward;
-                @Forward.started += (InputAction.CallbackContext context) => { UnityEngine.Debug.Log("Forward"); };
                 @Backward.started += instance.OnBackward;
                 @Backward.performed += instance.OnBackward;
                 @Backward.canceled += instance.OnBackward;

@@ -37,4 +37,13 @@ public class Transitions : MonoBehaviour
         AnimationFinished = true;
         InputAllowance = TransitionInputAllowanceState.NotInTransition;
     }
+
+    public IEnumerator ContinueTransitionYieldUntilInputsOK()
+    {
+        AnimationFinished = false;
+
+        AnimatorInstance.SetTrigger("TransitionOut");
+
+        yield return new WaitUntil(() => AnimationFinished || InputAllowance == TransitionInputAllowanceState.InputsOK);
+    }
 }

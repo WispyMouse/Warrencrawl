@@ -13,7 +13,10 @@ public class TownState : SceneLoadingGameplayState
 
     public override IEnumerator ExitState(IGameplayState nextState)
     {
-        yield return SceneHelperInstance.TransitionsInstance.TransitionIn();
+        if (nextState != null)
+        {
+            yield return SceneHelperInstance.TransitionsInstance.TransitionIn();
+        }
 
         yield return base.ExitState(nextState);
     }
@@ -22,9 +25,6 @@ public class TownState : SceneLoadingGameplayState
     {
         yield return base.StartState(globalStateMachine, previousState);
 
-        SceneHelperInstance.StartCoroutine(SceneHelperInstance.TransitionsInstance.TransitionOut());
-        yield return new WaitUntil(() =>
-            SceneHelperInstance.TransitionsInstance.AnimationFinished
-            || SceneHelperInstance.TransitionsInstance.InputAllowance == TransitionInputAllowanceState.InputsOK);
+        yield return SceneHelperInstance.TransitionsInstance.ContinueTransitionYieldUntilInputsOK();
     }
 }
