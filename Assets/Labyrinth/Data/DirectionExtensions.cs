@@ -154,4 +154,26 @@ public static class DirectionExtensions
                 return 270f;
         }
     }
+
+    /// <summary>
+    /// Given a direction you're facing, and a relative direction to move, return a step in the relative direction.
+    /// </summary>
+    /// <param name="facing">The cardinal direction being faced.</param>
+    /// <param name="relativeDirection">The direction to step.</param>
+    /// <returns>One step in the appropriate direction.</returns>
+    public static Vector3Int EvaluateRelativeDirection(this Direction facing, RelativeDirection relativeDirection)
+    {
+        switch (relativeDirection)
+        {
+            default:
+            case RelativeDirection.Forward:
+                return facing.Forward();
+            case RelativeDirection.Right:
+                return facing.Right();
+            case RelativeDirection.Backward:
+                return facing.Backward();
+            case RelativeDirection.Left:
+                return facing.Left();
+        }
+    }
 }

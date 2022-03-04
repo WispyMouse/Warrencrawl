@@ -68,22 +68,22 @@ public class LabyrinthInputHandler : MonoBehaviour, ILabyrinthActions
 
     public void OnForward(InputAction.CallbackContext context)
     {
-        MoveDirection(context, referencedState.PointOfViewInstance.CurFacing.Forward());
+        MoveDirection(context, RelativeDirection.Forward);
     }
 
     public void OnBackward(InputAction.CallbackContext context)
     {
-        MoveDirection(context, referencedState.PointOfViewInstance.CurFacing.Backward());
+        MoveDirection(context, RelativeDirection.Backward);
     }
 
     public void OnRight(InputAction.CallbackContext context)
     {
-        MoveDirection(context, referencedState.PointOfViewInstance.CurFacing.Right());
+        MoveDirection(context, RelativeDirection.Right);
     }
 
     public void OnLeft(InputAction.CallbackContext context)
     {
-        MoveDirection(context, referencedState.PointOfViewInstance.CurFacing.Left());
+        MoveDirection(context, RelativeDirection.Left);
     }
 
     public void OnRotateRight(InputAction.CallbackContext context)
@@ -107,9 +107,9 @@ public class LabyrinthInputHandler : MonoBehaviour, ILabyrinthActions
         sceneHelperInstance.StartCoroutine(referencedState.Interact());
     }
 
-    void MoveDirection(InputAction.CallbackContext context, Vector3Int toMove)
+    void MoveDirection(InputAction.CallbackContext context, RelativeDirection relativeMovement)
     {
-        ApplyCoroutineContinuously(context, () => referencedState.Step(toMove));
+        ApplyCoroutineContinuously(context, () => referencedState.Step(referencedState.PointOfViewInstance.CurFacing.EvaluateRelativeDirection(relativeMovement)));
     }
 
     /// <summary>
