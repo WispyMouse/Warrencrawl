@@ -106,21 +106,32 @@ public class LabyrinthSceneHelperToolsEditor : Editor
             CellCoordinates curFront = frontier.Dequeue();
 
             RaycastHit hit;
+            Collider[] boxColliders = Physics.OverlapBox(new Vector3(curFront.X, 0f, curFront.Y), Vector3.one / 2f, Quaternion.identity, blocked.intValue | interactive.intValue);
 
-            if (Physics.Raycast(new Vector3(curFront.X, 3f, curFront.Y), Vector3.down, out hit, 4f, blocked.intValue | walkable.intValue | interactive.intValue))
+            if (boxColliders.Length > 0)
+            {
+                LabyrinthCell detectedCell = new LabyrinthCell() { Coordinate = curFront, Walkable = false };
+
+                // HACK TODO: This assumes one interactive, and only in nonwalkable areas; this will need to move to another check
+                foreach (Collider col in boxColliders)
+                {
+                    bool isInteractive = (1 << col.gameObject.layer) == interactive.intValue;
+
+                    if (isInteractive)
+                    {
+                        LabyrinthInteractive interactiveScript = col.gameObject.GetComponentInParent<LabyrinthInteractive>();
+                        InteractiveData data = interactiveScript.Data;
+                        detectedCell.Interactive = data;
+                    }
+                }
+
+                newLevel.Cells.Add(detectedCell);
+            }
+            else if (Physics.Raycast(new Vector3(curFront.X, 3f, curFront.Y), Vector3.down, out hit, 4f, walkable.intValue))
             {
                 bool isWalkable = (1 << hit.collider.gameObject.layer) == walkable.intValue;
 
                 LabyrinthCell detectedCell = new LabyrinthCell() { Coordinate = curFront, Height = hit.point.y, Walkable = isWalkable };
-
-                bool isInteractive = (1 << hit.collider.gameObject.layer) == interactive.intValue;
-
-                if (isInteractive)
-                {
-                    LabyrinthInteractive interactiveScript = hit.collider.gameObject.GetComponentInParent<LabyrinthInteractive>();
-                    InteractiveData data = interactiveScript.Data;
-                    detectedCell.Interactive = data;
-                }
 
                 newLevel.Cells.Add(detectedCell);
             }

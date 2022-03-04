@@ -38,21 +38,21 @@ public class LabyrinthSceneHelperTools : SceneHelperTools, IGameLevelProvider
 
     public void ToTheTown()
     {
-        SceneHelperInstance.StartCoroutine(SceneHelperInstance.GlobalStateMachineInstance.ChangeToState(new TownState()));
+        SceneHelperInstance.StartCoroutine(SceneHelper.GlobalStateMachineInstance.ChangeToState(new TownState()));
     }
 
     public void ToBattle()
     {
-        SceneHelperInstance.StartCoroutine(SceneHelperInstance.GlobalStateMachineInstance.PushNewState(new BattleState()));
+        SceneHelperInstance.StartCoroutine(SceneHelper.GlobalStateMachineInstance.PushNewState(new BattleState()));
     }
 
     protected override IEnumerator StartChild()
     {
-        LabyrinthState curState = (SceneHelperInstance.GlobalStateMachineInstance.CurrentState as LabyrinthState);
+        LabyrinthState curState = (SceneHelper.GlobalStateMachineInstance.CurrentState as LabyrinthState);
 
         if (curState == null)
         {
-            Debug.LogWarning($"Expected {nameof(LabyrinthState)} to be the {nameof(SceneHelperInstance.GlobalStateMachineInstance.CurrentState)}, but it was not.");
+            Debug.LogWarning($"Expected {nameof(LabyrinthState)} to be the {nameof(SceneHelper.GlobalStateMachineInstance.CurrentState)}, but it was not.");
             yield break;
         }
 

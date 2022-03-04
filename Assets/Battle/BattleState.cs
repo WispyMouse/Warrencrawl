@@ -1,0 +1,30 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class BattleState : SceneLoadingGameplayState
+{
+    public override string SceneName => "Battle";
+
+    public override void SetControls(WarrencrawlInputs controls)
+    {
+        // TODO: Enable battle controls
+    }
+
+    public override IEnumerator ExitState(IGameplayState nextState)
+    {
+        if (nextState != null)
+        {
+            yield return SceneHelperInstance.TransitionsInstance.TransitionIn();
+        }
+
+        yield return base.ExitState(nextState);
+    }
+
+    public override IEnumerator StartState(GlobalStateMachine globalStateMachine, IGameplayState previousState)
+    {
+        yield return base.StartState(globalStateMachine, previousState);
+
+        yield return SceneHelperInstance.TransitionsInstance.ContinueTransitionYieldUntilInputsOK();
+    }
+}

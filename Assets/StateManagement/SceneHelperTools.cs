@@ -11,7 +11,7 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public abstract class SceneHelperTools : MonoBehaviour
 {
-    protected SceneHelper SceneHelperInstance { get; private set; }
+    public SceneHelper SceneHelperInstance { get; private set; }
 
     private IEnumerator Start()
     {
@@ -20,7 +20,7 @@ public abstract class SceneHelperTools : MonoBehaviour
             AsyncOperation bootstrapperScene = SceneManager.LoadSceneAsync("SceneHelper", LoadSceneMode.Additive);
             while (!bootstrapperScene.isDone)
             {
-                yield return null;
+                yield return bootstrapperScene.progress;
             }
         }
 

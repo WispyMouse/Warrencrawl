@@ -10,12 +10,15 @@ public class StairInteractiveTests
 {
     GlobalStateMachine stateMachine;
     LabyrinthState labyrinthState;
+    WarrencrawlInputs inputs;
 
     [UnitySetUp]
     public IEnumerator SetUp()
     {
-        stateMachine = new GlobalStateMachine(new WarrencrawlInputs());
+        inputs = new WarrencrawlInputs();
+        stateMachine = new GlobalStateMachine(inputs);
         labyrinthState = new LabyrinthState(new TestLabyrinthProvider());
+        yield return SceneHelper.SetSceneHelper(stateMachine, inputs);
         yield return stateMachine.ChangeToState(labyrinthState);
     }
 
