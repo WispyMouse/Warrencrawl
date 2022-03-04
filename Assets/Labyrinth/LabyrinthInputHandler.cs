@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static WarrencrawlInputs;
@@ -31,9 +32,11 @@ public class LabyrinthInputHandler : MonoBehaviour, ILabyrinthActions
     bool initialized { get; set; } = false;
 
     /// <summary>
-    /// A function that creates an IEnumerator to run a coroutine with.
+    /// The buffered inputs for the player.
+    /// Each input is stacked on top of eachother, with the top most one being evaluated in <see cref="Update"/>.
+    /// These are present until the relevant input is not being held down.
     /// </summary>
-    Func<IEnumerator> bufferedAction { get; set; }
+    InputStack bufferedActions { get; set; } = new InputStack();
 
     /// <summary>
     /// Initializes the Input Handler with everything it needs to run.
@@ -57,13 +60,14 @@ public class LabyrinthInputHandler : MonoBehaviour, ILabyrinthActions
             return;
         }
 
-        if (bufferedAction == null)
+        if (bufferedActions.CurrentInput == null)
         {
             return;
         }
 
         animating = true;
-        sceneHelperInstance.StartCoroutine(bufferedAction());
+        BufferedInput bufferedInput = bufferedActions.CurrentInput;
+        sceneHelperInstance.StartCoroutine(bufferedInput.FunctionToPerform());
     }
 
     public void OnForward(InputAction.CallbackContext context)
@@ -121,11 +125,11 @@ public class LabyrinthInputHandler : MonoBehaviour, ILabyrinthActions
     {
         if (context.canceled)
         {
-            bufferedAction = null;
+            bufferedActions.Remove(context.action);
             return;
         }
 
-        bufferedAction = toApply;
+        bufferedActions.Add(new BufferedInput(context.action, toApply));
     }
 
     /// <summary>

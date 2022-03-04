@@ -106,10 +106,13 @@ public class LabyrinthState : SceneLoadingGameplayState
             }
         }
 
+        if (PointOfViewInstance == null)
+        {
+            PointOfViewInstance = GameObject.FindObjectOfType<PointOfView>();
+            PointOfViewInstance.CurFacing = Direction.North;
+            PointOfViewInstance.CurCoordinates = CellCoordinates.Origin;
+        }
         ActiveCombatClock = new CombatClock();
-        PointOfViewInstance = GameObject.FindObjectOfType<PointOfView>();
-        PointOfViewInstance.CurFacing = Direction.North;
-        PointOfViewInstance.CurCoordinates = CellCoordinates.Origin;
     }
 
     public override IEnumerator StartState(GlobalStateMachine globalStateMachine, IGameplayState previousState)
