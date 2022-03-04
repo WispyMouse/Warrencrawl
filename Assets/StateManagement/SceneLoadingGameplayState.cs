@@ -44,7 +44,7 @@ public abstract class SceneLoadingGameplayState : IGameplayState
 
         if (unloadScene == null)
         {
-            Debug.Log($"Could not find scene to exit: {GetType()}");
+            Debug.LogError($"Could not find scene to exit: {GetType()}");
         }
 
         while (!unloadScene.isDone)

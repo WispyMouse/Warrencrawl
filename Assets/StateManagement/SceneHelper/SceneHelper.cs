@@ -44,6 +44,13 @@ public class SceneHelper : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets the static-ally available variables for the SceneHelper.
+    /// When it's seeded this way, it won't create its own <see cref="GlobalStateMachine"/> or <see cref="WarrencrawlInputs"/>.
+    /// This is useful for tests, which want to provide their own state machines for testing.
+    /// </summary>
+    /// <param name="withGSM">Active Global State Machine to use.</param>
+    /// <param name="inputs">Active input mappings to use.</param>
     public static IEnumerator SetSceneHelper(GlobalStateMachine withGSM, WarrencrawlInputs inputs)
     {
         GlobalStateMachineInstance = withGSM;
