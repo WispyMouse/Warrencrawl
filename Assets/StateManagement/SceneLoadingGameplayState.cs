@@ -21,13 +21,9 @@ public abstract class SceneLoadingGameplayState : IGameplayState
 
     public virtual IEnumerator Load()
     {
-        if (!SceneManager.GetAllScenes().Any(sc => sc.name == SceneName))
+        if (!StaticSceneTools.IsSceneLoaded(SceneName))
         {
-            AsyncOperation loadScene = SceneManager.LoadSceneAsync(SceneName, LoadSceneMode.Additive);
-            while (!loadScene.isDone)
-            {
-                yield return loadScene.progress;
-            }
+            yield return StaticSceneTools.LoadSceneAdditvely(SceneName);
         }
 
         foreach (GameObject rootObj in SceneManager.GetSceneByName(SceneName).GetRootGameObjects())
@@ -50,17 +46,7 @@ public abstract class SceneLoadingGameplayState : IGameplayState
 
     public virtual IEnumerator ExitState(IGameplayState nextState)
     {
-        AsyncOperation unloadScene = SceneManager.UnloadSceneAsync(SceneName);
-
-        if (unloadScene == null)
-        {
-            Debug.LogError($"Could not find scene to exit: {GetType()}");
-        }
-
-        while (!unloadScene.isDone)
-        {
-            yield return unloadScene.progress;
-        }
+        yield return StaticSceneTools.UnloadScene(SceneName);
     }
 
     public virtual IEnumerator AnimateTransitionIn(IGameplayState previousState)

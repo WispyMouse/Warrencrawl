@@ -56,13 +56,9 @@ public class SceneHelper : MonoBehaviour
         GlobalStateMachineInstance = withGSM;
         Inputs = inputs;
 
-        if (!SceneManager.GetAllScenes().Any(sc => sc.name == "SceneHelper"))
+        if (!StaticSceneTools.IsSceneLoaded(nameof(SceneHelper)))
         {
-            AsyncOperation bootstrapperScene = SceneManager.LoadSceneAsync("SceneHelper", LoadSceneMode.Additive);
-            while (!bootstrapperScene.isDone)
-            {
-                yield return bootstrapperScene.progress;
-            }
+            yield return StaticSceneTools.LoadSceneAdditvely(nameof(SceneHelper));
         }
     }
 }
