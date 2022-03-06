@@ -40,7 +40,7 @@ public class StairInteractiveTests
         yield return labyrinthState.Interact();
 
         Assert.That(stateMachine.CurrentState, Is.TypeOf(typeof(TownState)));
-        Assert.That(StaticSceneTools.IsSceneLoaded(labyrinthState.SceneName), Is.True);
+        Assert.That(StaticSceneTools.IsSceneLoaded("Town"), Is.True);
     }
 
     class TestLabyrinthProvider : IGameLevelProvider
