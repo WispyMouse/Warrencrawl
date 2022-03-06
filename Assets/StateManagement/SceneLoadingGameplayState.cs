@@ -21,13 +21,9 @@ public abstract class SceneLoadingGameplayState : IGameplayState
 
     public virtual IEnumerator Load()
     {
-        if (!SceneManager.GetAllScenes().Any(sc => sc.name == SceneName))
+        if (!StaticSceneTools.IsSceneLoaded(SceneName))
         {
-            AsyncOperation loadScene = SceneManager.LoadSceneAsync(SceneName, LoadSceneMode.Additive);
-            while (!loadScene.isDone)
-            {
-                yield return loadScene.progress;
-            }
+            yield return StaticSceneTools.LoadSceneAdditvely(SceneName);
         }
 
         foreach (GameObject rootObj in SceneManager.GetSceneByName(SceneName).GetRootGameObjects())
@@ -38,30 +34,39 @@ public abstract class SceneLoadingGameplayState : IGameplayState
         SceneHelperInstance = GameObject.FindObjectOfType<SceneHelper>();
     }
 
+    public virtual IEnumerator AnimateTransitionOut(IGameplayState nextState)
+    {
+        if (nextState == null)
+        {
+            yield break;
+        }
+
+        yield return SceneHelperInstance.TransitionsInstance.StartTransition();
+    }
+
     public virtual IEnumerator ExitState(IGameplayState nextState)
     {
-        AsyncOperation unloadScene = SceneManager.UnloadSceneAsync(SceneName);
+        yield return StaticSceneTools.UnloadScene(SceneName);
+    }
 
-        if (unloadScene == null)
+    public virtual IEnumerator AnimateTransitionIn(IGameplayState previousState)
+    {
+        if (previousState == null)
         {
-            Debug.LogError($"Could not find scene to exit: {GetType()}");
+            yield break;
         }
 
-        while (!unloadScene.isDone)
-        {
-            yield return unloadScene.progress;
-        }
+        yield return SceneHelperInstance.TransitionsInstance.FinishTransitionYieldUntilInputsOK();
     }
 
     public virtual IEnumerator StartState(GlobalStateMachine globalStateMachine, IGameplayState previousState)
     {
-        // TODO: Animated transition system
         StateMachineInstance = globalStateMachine;
 
         yield break;
     }
 
-    public virtual IEnumerator TransitionUp(IGameplayState nextState)
+    public virtual IEnumerator ChangeUp(IGameplayState nextState)
     {
         foreach(GameObject rootObj in SceneManager.GetSceneByName(SceneName).GetRootGameObjects())
         {

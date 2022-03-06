@@ -20,12 +20,6 @@ public class LabyrinthState : SceneLoadingGameplayState
     public GameLevel LevelToLoad { get; private set; }
 
     /// <summary>
-    /// A reference to the loaded scene's instance.
-    /// This is used to later unload the scene.
-    /// </summary>
-    private SceneInstance? LoadedScene { get; set; }
-
-    /// <summary>
     /// The current game object representing the player's point of view.
     /// </summary>
     public PointOfView PointOfViewInstance { get; private set; }
@@ -89,27 +83,22 @@ public class LabyrinthState : SceneLoadingGameplayState
             yield break;
         }
 
-        if (LevelToLoad.Scene == null)
+        if (LevelToLoad?.Scene?.Asset == null)
         {
             Debug.LogWarning("No Scene detected for the provided LevelToLoad.");
         }
-        else
+        else if (!StaticSceneTools.IsSceneLoaded(LevelToLoad.Scene.Asset.name))
         {
-            var loc = Addressables.LoadResourceLocationsAsync(LevelToLoad.Scene);
-            yield return loc;
-            if (!SceneManager.GetSceneByPath(loc.Result[0].InternalId).isLoaded)
-            {
-                AsyncOperationHandle<SceneInstance> loadingOperation = Addressables.LoadSceneAsync(LevelToLoad.Scene, LoadSceneMode.Additive);
-                yield return loadingOperation;
-
-                LoadedScene = loadingOperation.Result;
-            }
+            yield return StaticSceneTools.LoadAddressableSceneAdditvely(LevelToLoad);
         }
 
+        if (PointOfViewInstance == null)
+        {
+            PointOfViewInstance = GameObject.FindObjectOfType<PointOfView>();
+            PointOfViewInstance.CurFacing = Direction.North;
+            PointOfViewInstance.CurCoordinates = CellCoordinates.Origin;
+        }
         ActiveCombatClock = new CombatClock();
-        PointOfViewInstance = GameObject.FindObjectOfType<PointOfView>();
-        PointOfViewInstance.CurFacing = Direction.North;
-        PointOfViewInstance.CurCoordinates = CellCoordinates.Origin;
     }
 
     public override IEnumerator StartState(GlobalStateMachine globalStateMachine, IGameplayState previousState)
@@ -136,30 +125,16 @@ public class LabyrinthState : SceneLoadingGameplayState
 
         PointOfViewInstance.transform.rotation = Quaternion.Euler(0, PointOfViewInstance.CurFacing.Degrees(), 0);
         PointOfViewInstance.transform.position = cellAtStart.Worldspace;
-
-        yield return SceneHelperInstance.TransitionsInstance.ContinueTransitionYieldUntilInputsOK();
     }
 
     public override IEnumerator ExitState(IGameplayState nextState)
     {
-        if (nextState != null)
+        if (LevelToLoad?.Scene?.Asset != null && StaticSceneTools.IsSceneLoaded(LevelToLoad.Scene.Asset.name))
         {
-            yield return SceneHelperInstance.TransitionsInstance.TransitionIn();
+            yield return StaticSceneTools.UnloadScene(LevelToLoad.Scene.Asset.name);
         }
 
         yield return base.ExitState(nextState);
-
-        if (LoadedScene.HasValue)
-        {
-            yield return Addressables.UnloadSceneAsync(LoadedScene.Value);
-        }
-    }
-
-    public override IEnumerator TransitionUp(IGameplayState nextState)
-    {
-        yield return base.TransitionUp(nextState);
-
-        yield return SceneHelperInstance.TransitionsInstance.TransitionIn();
     }
 
     public override void SetControls(WarrencrawlInputs controls)

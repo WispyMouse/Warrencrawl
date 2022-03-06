@@ -31,17 +31,17 @@ public class StateManagementTests
     [UnityTest]
     public IEnumerator PushNewState_ScenesAdding_AddsAndEndsScenes()
     {
-        MainMenuState newState = new MainMenuState();
+        MainMenuState menuState = new MainMenuState();
 
-        yield return stateMachine.PushNewState(newState);
-        Assert.That(stateMachine.CurrentState, Is.EqualTo(newState));
+        yield return stateMachine.PushNewState(menuState);
+        Assert.That(stateMachine.CurrentState, Is.EqualTo(menuState));
 
         // todo: Perhaps we want a function that fetches whether or not a scene is loaded
-        Assert.That(SceneManager.GetAllScenes().Any(scene => scene.name == newState.SceneName), Is.True);
+        Assert.That(StaticSceneTools.IsSceneLoaded(menuState.SceneName), Is.True);
 
         yield return stateMachine.EndCurrentState();
         Assert.That(stateMachine.CurrentState, Is.Null);
-        Assert.That(SceneManager.GetAllScenes().Any(scene => scene.name == newState.SceneName), Is.False);
+        Assert.That(StaticSceneTools.IsSceneLoaded(menuState.SceneName), Is.False);
     }
 
     /// <summary>
