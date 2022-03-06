@@ -58,6 +58,7 @@ public class GlobalStateMachine
         IGameplayState oldState = CurrentState;
         if (oldState != null)
         {
+            yield return oldState.AnimateTransitionOut(newState);
             yield return oldState.ExitState(newState);
             PresentStates.Pop();
         }
@@ -75,7 +76,8 @@ public class GlobalStateMachine
     public IEnumerator PushNewState(IGameplayState newState)
     {
         IGameplayState oldState = CurrentState;
-        yield return oldState?.TransitionUp(newState);
+        yield return oldState?.AnimateTransitionOut(newState);
+        yield return oldState?.ChangeUp(newState);
         PresentStates.Push(newState);
         yield return WarmUpAndStartCurrentState(oldState);
     }
@@ -90,6 +92,7 @@ public class GlobalStateMachine
         PresentStates.Pop();
 
         PresentStates.TryPeek(out IGameplayState nextState);
+        yield return oldState?.AnimateTransitionOut(nextState);
         yield return oldState?.ExitState(nextState);
 
         yield return WarmUpAndStartCurrentState(oldState);
@@ -107,6 +110,7 @@ public class GlobalStateMachine
         }
 
         yield return CurrentState.Load();
+        yield return CurrentState.AnimateTransitionIn(lastState);
         CurrentState.SetControls(lastActiveControls);
         yield return CurrentState.StartState(this, lastState);
     }

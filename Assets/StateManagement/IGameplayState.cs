@@ -9,33 +9,42 @@ using UnityEngine.InputSystem;
 public interface IGameplayState
 {
     /// <summary>
-    /// Unload and prepare a transition to the provided state.
+    /// Processes a change to a new state.
     /// This preserves this state in the stack, for coming back to later.
     /// </summary>
     /// <param name="nextState">State that is being transitioned in to. Should not be null.</param>
-    /// <returns>Yieldable IEnumerator.</returns>
-    IEnumerator TransitionUp(IGameplayState nextState);
+    IEnumerator ChangeUp(IGameplayState nextState);
 
     /// <summary>
-    /// Unload and prepare a transition out of this state.
-    /// This removes it from the stack, so it should be fully cleaned up.
+    /// Plays any animations that are related to this state no longer being at the front.
+    /// </summary>
+    /// <param name="nextState">The state that will be active next.</param>
+    IEnumerator AnimateTransitionOut(IGameplayState nextState);
+
+    /// <summary>
+    /// Process leaving the state, intending to unload it entirely.
     /// </summary>
     /// <param name="nextState">State that is being transitioned in to, under this one. Can be null.</param>
-    /// <returns>Yieldable IEnumerator.</returns>
     IEnumerator ExitState(IGameplayState nextState);
 
     /// <summary>
     /// Load the assets for this state. Does not display them yet.
     /// </summary>
-    /// <returns>Yieldable IEnumerator.</returns>
     IEnumerator Load();
+
+    /// <summary>
+    /// Plays any animations that are related to this state coming to the front.
+    /// At the end of this IEnumerator, the game should be ready to play and receive input.
+    /// Start a coroutine (not yield it) for animations that play while the transitioning is finishing.
+    /// </summary>
+    /// <param name="previousState">The state that was active before this.</param>
+    IEnumerator AnimateTransitionIn(IGameplayState previousState);
 
     /// <summary>
     /// Animate a transition in to this state. At this point the assets should all be loaded and ready for display.
     /// </summary>
     /// <param name="previousState">The state before this one was loaded. Can be null.</param>
     /// <param name="nextState">State that is being transitioned in to.</param>
-    /// <returns>Yieldable IEnumerator.</returns>
     IEnumerator StartState(GlobalStateMachine stateMachine, IGameplayState previousState);
 
     /// <summary>
@@ -43,6 +52,5 @@ public interface IGameplayState
     /// Called whenever a new control method is found, or the state is entered.
     /// </summary>
     /// <param name="activeInput">The input map to update.</param>
-    /// <returns>Yieldable IEnumerator.</returns>
     void SetControls(WarrencrawlInputs activeInput);
 }

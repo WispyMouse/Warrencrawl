@@ -38,6 +38,16 @@ public abstract class SceneLoadingGameplayState : IGameplayState
         SceneHelperInstance = GameObject.FindObjectOfType<SceneHelper>();
     }
 
+    public virtual IEnumerator AnimateTransitionOut(IGameplayState nextState)
+    {
+        if (nextState == null)
+        {
+            yield break;
+        }
+
+        yield return SceneHelperInstance.TransitionsInstance.StartTransition();
+    }
+
     public virtual IEnumerator ExitState(IGameplayState nextState)
     {
         AsyncOperation unloadScene = SceneManager.UnloadSceneAsync(SceneName);
@@ -53,15 +63,24 @@ public abstract class SceneLoadingGameplayState : IGameplayState
         }
     }
 
+    public virtual IEnumerator AnimateTransitionIn(IGameplayState previousState)
+    {
+        if (previousState == null)
+        {
+            yield break;
+        }
+
+        yield return SceneHelperInstance.TransitionsInstance.FinishTransitionYieldUntilInputsOK();
+    }
+
     public virtual IEnumerator StartState(GlobalStateMachine globalStateMachine, IGameplayState previousState)
     {
-        // TODO: Animated transition system
         StateMachineInstance = globalStateMachine;
 
         yield break;
     }
 
-    public virtual IEnumerator TransitionUp(IGameplayState nextState)
+    public virtual IEnumerator ChangeUp(IGameplayState nextState)
     {
         foreach(GameObject rootObj in SceneManager.GetSceneByName(SceneName).GetRootGameObjects())
         {
