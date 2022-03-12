@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ce5f9dab31a76544889f2f474ffbe13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentLevel: {fileID: 11400000, guid: 3235800359f89dd469145e265937a7cd, type: 2}
+  CurrentLevel: {fileID: 11400000, guid: 20b89a3ff63b4e94097a6e3633c602b1, type: 2}
   Walkable:
     serializedVersion: 2
     m_Bits: 64
@@ -56,7 +56,7 @@ MonoBehaviour:
   Interactive:
     serializedVersion: 2
     m_Bits: 256
-  DefaultLevel: {fileID: 11400000, guid: 3235800359f89dd469145e265937a7cd, type: 2}
+  DefaultLevel: {fileID: 11400000, guid: 20b89a3ff63b4e94097a6e3633c602b1, type: 2}
   InputHandler: {fileID: 1503785045}
   AnimationHandler: {fileID: 1503785046}
 --- !u!114 &1503785045

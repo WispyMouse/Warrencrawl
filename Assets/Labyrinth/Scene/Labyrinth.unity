@@ -356,14 +356,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 540416474418473652, guid: ef944d8d899305d4a9098a6e9b0605f5, type: 3}
-      propertyPath: CurrentLevel
-      value: 
-      objectReference: {fileID: 11400000, guid: 20b89a3ff63b4e94097a6e3633c602b1, type: 2}
-    - target: {fileID: 540416474418473652, guid: ef944d8d899305d4a9098a6e9b0605f5, type: 3}
-      propertyPath: DefaultLevel
-      value: 
-      objectReference: {fileID: 11400000, guid: 20b89a3ff63b4e94097a6e3633c602b1, type: 2}
     - target: {fileID: 540416474418473653, guid: ef944d8d899305d4a9098a6e9b0605f5, type: 3}
       propertyPath: m_Name
       value: LabyrinthSceneTools

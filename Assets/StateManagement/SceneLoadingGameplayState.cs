@@ -41,7 +41,10 @@ public abstract class SceneLoadingGameplayState : IGameplayState
             yield break;
         }
 
-        yield return SceneHelperInstance.TransitionsInstance.StartTransition();
+        if (nextState is SceneLoadingGameplayState)
+        {
+            yield return SceneHelperInstance.TransitionsInstance.StartTransition();
+        }
     }
 
     public virtual IEnumerator ExitState(IGameplayState nextState)
@@ -56,7 +59,10 @@ public abstract class SceneLoadingGameplayState : IGameplayState
             yield break;
         }
 
-        yield return SceneHelperInstance.TransitionsInstance.FinishTransitionYieldUntilInputsOK();
+        if (previousState is SceneLoadingGameplayState)
+        {
+            yield return SceneHelperInstance.TransitionsInstance.FinishTransitionYieldUntilInputsOK();
+        }
     }
 
     public virtual IEnumerator StartState(GlobalStateMachine globalStateMachine, IGameplayState previousState)
@@ -68,9 +74,12 @@ public abstract class SceneLoadingGameplayState : IGameplayState
 
     public virtual IEnumerator ChangeUp(IGameplayState nextState)
     {
-        foreach(GameObject rootObj in SceneManager.GetSceneByName(SceneName).GetRootGameObjects())
+        if (nextState is SceneLoadingGameplayState)
         {
-            rootObj.SetActive(false);
+            foreach (GameObject rootObj in SceneManager.GetSceneByName(SceneName).GetRootGameObjects())
+            {
+                rootObj.SetActive(false);
+            }
         }
 
         yield break;
