@@ -11,6 +11,16 @@ public class BattleSceneHelperTools : SceneHelperTools
 
     public override IGameplayState GetNewDemoState()
     {
-        return new BattleState();
+        BattleOpponents opponents = new BattleOpponents();
+
+        opponents.AddOpposingMember(new CombatMember());
+        opponents.AddOpposingMember(new CombatMember());
+        opponents.AddOpposingMember(new CombatMember());
+
+        opponents.AddOpposingMember(new CombatMember());
+        opponents.AddOpposingMember(new CombatMember());
+        opponents.AddOpposingMember(new CombatMember());
+
+        return new BattleState(opponents);
     }
 }

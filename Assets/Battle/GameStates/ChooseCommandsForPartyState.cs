@@ -7,14 +7,12 @@ public class ChooseCommandsForPartyState : IGameplayState
     BattleState ActiveBattleState { get; set; }
     GlobalStateMachine StateMachineInstance { get; set; }
     int curPartyMemberIndex { get; set; } = 0;
-    PlayerParty playerPartyPointer { get; set; }
     public List<BattleCommand> BattleCommands { get; set; } = new List<BattleCommand> ();
 
-    public ChooseCommandsForPartyState(BattleState activeBattleState, GlobalStateMachine stateMachine, PlayerParty PlayerPartyPointer)
+    public ChooseCommandsForPartyState(BattleState activeBattleState, GlobalStateMachine stateMachine)
     {
         ActiveBattleState = activeBattleState;
         StateMachineInstance = stateMachine;
-        playerPartyPointer = PlayerPartyPointer;
     }
 
     public IEnumerator AnimateTransitionIn(IGameplayState previousState)
@@ -49,15 +47,15 @@ public class ChooseCommandsForPartyState : IGameplayState
 
     public IEnumerator StartState(GlobalStateMachine stateMachine, IGameplayState previousState)
     {
-        if (curPartyMemberIndex >= playerPartyPointer.PartyMembers.Count)
+        if (curPartyMemberIndex >= ActiveBattleState.PlayerPartyPointer.PartyMembers.Count)
         {
             ActiveBattleState.BattleCommands = BattleCommands;
             yield return stateMachine.EndCurrentState();
             yield break;
         }
 
-        CombatMember thisPartyMember = playerPartyPointer.PartyMembers[curPartyMemberIndex];
+        CombatMember thisPartyMember = ActiveBattleState.PlayerPartyPointer.PartyMembers[curPartyMemberIndex];
         curPartyMemberIndex++;
-        yield return stateMachine.PushNewState(new ChooseCommandForAllyState(this, stateMachine, thisPartyMember));
+        yield return stateMachine.PushNewState(new ChooseCommandForAllyState(this, stateMachine, ActiveBattleState, thisPartyMember));
     }
 }

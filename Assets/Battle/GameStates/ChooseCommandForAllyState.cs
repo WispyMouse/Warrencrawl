@@ -6,15 +6,17 @@ public class ChooseCommandForAllyState : IGameplayState
 {
     ChooseCommandsForPartyState PartyCommandState { get; set; }
     GlobalStateMachine StateMachineInstance { get; set; }
+    BattleState ActiveBattleState { get; set; }
     CombatMember ActingAlly { get; set; }
-    BattleCommand ChosenCommand { get; set; }
+    public BattleCommand ChosenCommand { get; set; }
 
     public BattleMenu BattleMenuInstance { get; set; }
 
-    public ChooseCommandForAllyState(ChooseCommandsForPartyState partyCommandState, GlobalStateMachine stateMachine, CombatMember forMember)
+    public ChooseCommandForAllyState(ChooseCommandsForPartyState partyCommandState, GlobalStateMachine stateMachine, BattleState activeBattleState, CombatMember forMember)
     {
         PartyCommandState = partyCommandState;
         StateMachineInstance = stateMachine;
+        ActiveBattleState = activeBattleState;
         ActingAlly = forMember;
     }
 
@@ -30,6 +32,7 @@ public class ChooseCommandForAllyState : IGameplayState
 
     public IEnumerator ChangeUp(IGameplayState nextState)
     {
+        BattleMenuInstance.ClearItems();
         yield break;
     }
 
@@ -52,16 +55,23 @@ public class ChooseCommandForAllyState : IGameplayState
 
     public IEnumerator StartState(GlobalStateMachine stateMachine, IGameplayState previousState)
     {
-        BattleMenuInstance.AddMenuItem("Attack", AttackChosen);
-        BattleMenuInstance.AddMenuItem("Escape", EscapeChosen);
+        if (previousState is ChooseTargetState)
+        {
+            PartyCommandState.BattleCommands.Add(ChosenCommand);
+            yield return stateMachine.EndCurrentState();
+            yield break;
+        }
+
+        BattleMenuInstance.AddMenuItem("Attack", AttackChosen());
+        BattleMenuInstance.AddMenuItem("Escape", EscapeChosen());
         yield break;
     }
 
     IEnumerator AttackChosen()
     {
         ChosenCommand = new BattleCommand();
-        PartyCommandState.BattleCommands.Add(ChosenCommand);
-        yield return StateMachineInstance.EndCurrentState();
+
+        yield return StateMachineInstance.PushNewState(new ChooseTargetState(StateMachineInstance, this, ActiveBattleState));
     }
 
     IEnumerator EscapeChosen()

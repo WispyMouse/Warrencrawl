@@ -3,16 +3,42 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// Represents the state of conflict between the player's party and another, usually of monsters of somesort.
+/// </summary>
 public class BattleState : SceneLoadingGameplayState
 {
     public override string SceneName => "Battle";
 
-    PlayerParty PlayerPartyPointer { get; set; }
+    /// <summary>
+    /// A reference to the current party. There should be one of these during gameplay, and when most of this script runs.
+    /// </summary>
+    public PlayerParty PlayerPartyPointer { get; set; }
+
+    /// <summary>
+    /// A reference to an opposing party for this conflict. Passed in the constructor or built during it.
+    /// </summary>
+    public BattleOpponents Opponents { get; set; }
+
+    /// <summary>
+    /// A list of commands to execute gameplay with.
+    /// Set by the level above it, <see cref="ChooseCommandsForPartyState"/>, to be executed in <see cref="ResolveCommandsState"/>.
+    /// </summary>
     public List<BattleCommand> BattleCommands { get; set; } = new List<BattleCommand>();
 
     public override void SetControls(WarrencrawlInputs controls)
     {
         // TODO: Enable battle controls
+    }
+
+    public BattleState()
+    {
+        Opponents = new BattleOpponents();
+    }
+
+    public BattleState(BattleOpponents opponents)
+    {
+        Opponents = opponents;
     }
 
     public override IEnumerator Load()
@@ -38,7 +64,7 @@ public class BattleState : SceneLoadingGameplayState
         }
         else
         {
-            yield return globalStateMachine.PushNewState(new ChooseCommandsForPartyState(this, globalStateMachine, PlayerPartyPointer));
+            yield return globalStateMachine.PushNewState(new ChooseCommandsForPartyState(this, globalStateMachine));
         }
     }
 }

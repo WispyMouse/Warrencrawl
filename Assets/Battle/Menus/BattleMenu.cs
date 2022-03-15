@@ -10,11 +10,11 @@ public class BattleMenu : MonoBehaviour
 
     public Transform ButtonParent;
 
-    public void AddMenuItem(string label, YieldableDelegate buttonAction)
+    public void AddMenuItem(string label, IEnumerator buttonAction)
     {
         BattleMenuItem newItem = Instantiate(BattleMenuItemPF, ButtonParent);
         newItem.ButtonTextLabel = label;
-        newItem.ButtonInstance.onClick.AddListener(() => StartCoroutine(buttonAction()));
+        newItem.ButtonInstance.onClick.AddListener(() => StartCoroutine(buttonAction));
         ActiveBattleMenuItems.Add (newItem);
     }
 
