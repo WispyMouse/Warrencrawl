@@ -7,6 +7,9 @@ public class ChooseCommandForAllyState : IGameplayState
     ChooseCommandsForPartyState PartyCommandState { get; set; }
     GlobalStateMachine StateMachineInstance { get; set; }
     CombatMember ActingAlly { get; set; }
+    BattleCommand ChosenCommand { get; set; }
+
+    public BattleMenu BattleMenuInstance { get; set; }
 
     public ChooseCommandForAllyState(ChooseCommandsForPartyState partyCommandState, GlobalStateMachine stateMachine, CombatMember forMember)
     {
@@ -32,11 +35,13 @@ public class ChooseCommandForAllyState : IGameplayState
 
     public IEnumerator ExitState(IGameplayState nextState)
     {
+        BattleMenuInstance.ClearItems();
         yield break;
     }
 
     public IEnumerator Load()
     {
+        BattleMenuInstance = GameObject.FindObjectOfType<BattleMenu>();
         yield break;
     }
 
@@ -47,8 +52,22 @@ public class ChooseCommandForAllyState : IGameplayState
 
     public IEnumerator StartState(GlobalStateMachine stateMachine, IGameplayState previousState)
     {
-        Debug.Log(ActingAlly.GetType().Name);
-        PartyCommandState.BattleCommands.Add(new BattleCommand());
-        yield return stateMachine.EndCurrentState();
+        BattleMenuInstance.AddMenuItem("Attack", AttackChosen);
+        BattleMenuInstance.AddMenuItem("Escape", EscapeChosen);
+        yield break;
+    }
+
+    IEnumerator AttackChosen()
+    {
+        ChosenCommand = new BattleCommand();
+        PartyCommandState.BattleCommands.Add(ChosenCommand);
+        yield return StateMachineInstance.EndCurrentState();
+    }
+
+    IEnumerator EscapeChosen()
+    {
+        ChosenCommand = new BattleCommand();
+        PartyCommandState.BattleCommands.Add(ChosenCommand);
+        yield return StateMachineInstance.EndCurrentState();
     }
 }

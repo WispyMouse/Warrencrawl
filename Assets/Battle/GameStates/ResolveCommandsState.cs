@@ -47,6 +47,7 @@ public class ResolveCommandsState : IGameplayState
     {
         foreach (BattleCommand command in AllBattleCommands)
         {
+            Debug.Log("Resolving command...");
             Debug.Log(command.GetType().Name);
         }
 

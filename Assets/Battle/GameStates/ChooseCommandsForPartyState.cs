@@ -51,7 +51,7 @@ public class ChooseCommandsForPartyState : IGameplayState
     {
         if (curPartyMemberIndex >= playerPartyPointer.PartyMembers.Count)
         {
-            
+            ActiveBattleState.BattleCommands = BattleCommands;
             yield return stateMachine.EndCurrentState();
             yield break;
         }
