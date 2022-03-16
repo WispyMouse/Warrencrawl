@@ -17,6 +17,7 @@ public class SceneHelper : MonoBehaviour
     public static WarrencrawlInputs Inputs { get; private set; }
 
     public Transitions TransitionsInstance;
+    public PlayerParty PlayerParty { get; set; }
 
     private void Start()
     {
@@ -24,7 +25,17 @@ public class SceneHelper : MonoBehaviour
         {
             Inputs = new WarrencrawlInputs();
         }
-        
+
+        if (PlayerParty == null)
+        {
+            PlayerParty = new PlayerParty();
+            PlayerParty.AddPartyMember(new CombatMember() { DisplayName = "Velcro" });
+            PlayerParty.AddPartyMember(new CombatMember() { DisplayName = "Lace" });
+            PlayerParty.AddPartyMember(new CombatMember() { DisplayName = "Zipper" });
+            PlayerParty.AddPartyMember(new CombatMember() { DisplayName = "Stitch" });
+            PlayerParty.AddPartyMember(new CombatMember() { DisplayName = "Button" });
+        }
+
         if (GlobalStateMachineInstance == null)
         {
             GlobalStateMachineInstance = new GlobalStateMachine(Inputs);
