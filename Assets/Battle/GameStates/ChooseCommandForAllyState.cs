@@ -69,14 +69,12 @@ public class ChooseCommandForAllyState : IGameplayState
 
     IEnumerator AttackChosen()
     {
-        ChosenCommand = new BattleCommand();
-
-        yield return StateMachineInstance.PushNewState(new ChooseTargetState(StateMachineInstance, this, ActiveBattleState));
+        yield return StateMachineInstance.PushNewState(new ChooseTargetState(StateMachineInstance, this, ActiveBattleState, ActingAlly));
     }
 
     IEnumerator EscapeChosen()
     {
-        ChosenCommand = new BattleCommand();
+        ChosenCommand = new BattleCommand(ActingAlly, null);
         PartyCommandState.BattleCommands.Add(ChosenCommand);
         yield return StateMachineInstance.EndCurrentState();
     }

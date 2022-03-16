@@ -52,18 +52,18 @@ public class BattleState : SceneLoadingGameplayState
     {
         if (previousState is ChooseCommandsForPartyState)
         {
-            // If the previousState was a ChoosecommandsForPartyState, then we've chosen all of our commands; combine the player commands and the opponent commands and process.
-            List<BattleCommand> allCommands = BattleCommands.Union(new List<BattleCommand>() 
+            foreach (CombatMember opponent in Opponents.OpposingMembers)
             {
-                new BattleCommand(), new BattleCommand(), new BattleCommand(), new BattleCommand(), new BattleCommand(), new BattleCommand() 
-            }).ToList();
+                int randomTarget = Random.Range(0, PlayerPartyPointer.PartyMembers.Count);
 
-            BattleCommands.Clear();
+                BattleCommands.Add(new BattleCommand(opponent, PlayerPartyPointer.PartyMembers[randomTarget]));
+            }
 
-            yield return globalStateMachine.PushNewState(new ResolveCommandsState(this, allCommands));
+            yield return globalStateMachine.PushNewState(new ResolveCommandsState(this, BattleCommands));
         }
         else
         {
+            BattleCommands = new List<BattleCommand>();
             yield return globalStateMachine.PushNewState(new ChooseCommandsForPartyState(this, globalStateMachine));
         }
     }

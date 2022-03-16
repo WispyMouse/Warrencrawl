@@ -48,7 +48,7 @@ public class ResolveCommandsState : IGameplayState
         foreach (BattleCommand command in AllBattleCommands)
         {
             Debug.Log("Resolving command...");
-            Debug.Log(command.GetType().Name);
+            Debug.Log($"{command.ActingMember.DisplayName} targets {command.Target?.DisplayName}");
         }
 
         yield return stateMachine.EndCurrentState();

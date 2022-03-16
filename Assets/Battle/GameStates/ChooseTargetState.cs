@@ -8,12 +8,14 @@ public class ChooseTargetState : IGameplayState
     GlobalStateMachine StateMachineInstance { get; set; }
     ChooseCommandForAllyState ChooseCommandForAllyInstance { get; set; }
     BattleState BattleStateInstance { get; set; }
+    CombatMember ActingAlly { get; set; }
 
-    public ChooseTargetState(GlobalStateMachine stateMachineInstance, ChooseCommandForAllyState allyCommandState, BattleState battleStateInstance)
+    public ChooseTargetState(GlobalStateMachine stateMachineInstance, ChooseCommandForAllyState allyCommandState, BattleState battleStateInstance, CombatMember actingAlly)
     {
         StateMachineInstance = stateMachineInstance;
         ChooseCommandForAllyInstance = allyCommandState;
         BattleStateInstance = battleStateInstance;
+        ActingAlly = actingAlly;
     }
 
     public IEnumerator AnimateTransitionIn(IGameplayState previousState)
@@ -55,7 +57,7 @@ public class ChooseTargetState : IGameplayState
         foreach (CombatMember opponent in BattleStateInstance.Opponents.OpposingMembers)
         {
             int indexHolder = index;
-            BattleMenuInstance.AddMenuItem(opponent.GetType().ToString(), TargetChosen(index));
+            BattleMenuInstance.AddMenuItem(opponent.DisplayName, TargetChosen(index));
             index++;
         }
 
@@ -64,6 +66,7 @@ public class ChooseTargetState : IGameplayState
 
     IEnumerator TargetChosen(int index)
     {
+        ChooseCommandForAllyInstance.ChosenCommand = new BattleCommand(ActingAlly, BattleStateInstance.Opponents.OpposingMembers[index]);
         yield return StateMachineInstance.EndCurrentState();
     }
 }
