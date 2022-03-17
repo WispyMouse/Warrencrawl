@@ -64,7 +64,7 @@ public class BattleState : SceneLoadingGameplayState
         else
         {
             BattleCommands = new List<BattleCommand>();
-            yield return globalStateMachine.PushNewState(new ChooseCommandsForPartyState(this, globalStateMachine));
+            yield return globalStateMachine.PushNewState(new ChooseCommandsForPartyState(this));
         }
     }
 }
