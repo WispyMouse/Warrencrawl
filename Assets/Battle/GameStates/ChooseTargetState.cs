@@ -22,12 +22,20 @@ public class ChooseTargetState : CombatGameState
             index++;
         }
 
+        BattleMenuInstance.AddMenuItem("Back", Back(stateMachine));
+
         yield break;
     }
 
     IEnumerator TargetChosen(GlobalStateMachine stateMachine, int index)
     {
         ChooseCommandForAllyInstance.ChosenCommand = new BattleCommand(ActingAlly, BaseBattleState.Opponents.OpposingMembers[index]);
+        yield return stateMachine.EndCurrentState();
+    }
+
+    IEnumerator Back(GlobalStateMachine stateMachine)
+    {
+        ChooseCommandForAllyInstance.ChosenCommand = null;
         yield return stateMachine.EndCurrentState();
     }
 }

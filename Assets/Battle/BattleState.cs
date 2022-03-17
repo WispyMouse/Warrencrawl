@@ -50,7 +50,7 @@ public class BattleState : SceneLoadingGameplayState
 
     public override IEnumerator StartState(GlobalStateMachine globalStateMachine, IGameplayState previousState)
     {
-        if (previousState is ChooseCommandsForPartyState)
+        if (previousState is ChooseCommandsForPartyState && BattleCommands.Any())
         {
             foreach (CombatMember opponent in Opponents.OpposingMembers)
             {

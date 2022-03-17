@@ -16,6 +16,13 @@ public class ChooseCommandForAllyState : CombatGameState
     {
         if (previousState is ChooseTargetState)
         {
+            // If we were sent to this state, and the ChosenCommand is null, then back
+            if (ChosenCommand == null)
+            {
+                yield return Back(stateMachine);
+                yield break;
+            }
+
             BaseBattleState.BattleCommands.Add(ChosenCommand);
             yield return stateMachine.EndCurrentState();
             yield break;
@@ -23,6 +30,12 @@ public class ChooseCommandForAllyState : CombatGameState
 
         BattleMenuInstance.AddMenuItem("Attack", AttackChosen(stateMachine));
         BattleMenuInstance.AddMenuItem("Escape", EscapeChosen(stateMachine));
+
+        if (BaseBattleState.BattleCommands.Count > 0)
+        {
+            BattleMenuInstance.AddMenuItem("Back", Back(stateMachine));
+        }
+
         yield break;
     }
 
@@ -35,6 +48,17 @@ public class ChooseCommandForAllyState : CombatGameState
     {
         ChosenCommand = new BattleCommand(ActingAlly, null);
         BaseBattleState.BattleCommands.Add(ChosenCommand);
+        yield return stateMachine.EndCurrentState();
+    }
+
+    IEnumerator Back(GlobalStateMachine stateMachine)
+    {
+        // If there are any commands, remove the latest one
+        if (BaseBattleState.BattleCommands.Count > 0)
+        {
+            BaseBattleState.BattleCommands.RemoveAt(BaseBattleState.BattleCommands.Count - 1);
+        }
+
         yield return stateMachine.EndCurrentState();
     }
 }

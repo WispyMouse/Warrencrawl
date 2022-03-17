@@ -4,7 +4,13 @@ using UnityEngine;
 
 public class ChooseCommandsForPartyState : CombatGameState
 {
-    int curPartyMemberIndex { get; set; } = 0;
+    int curPartyMemberIndex
+    {
+        get
+        {
+            return BaseBattleState.BattleCommands.Count;
+        }
+    }
 
     public ChooseCommandsForPartyState(BattleState baseBattleState) : base(baseBattleState)
     {
@@ -19,7 +25,6 @@ public class ChooseCommandsForPartyState : CombatGameState
         }
 
         CombatMember thisPartyMember = BaseBattleState.PlayerPartyPointer.PartyMembers[curPartyMemberIndex];
-        curPartyMemberIndex++;
         yield return stateMachine.PushNewState(new ChooseCommandForAllyState(BaseBattleState, thisPartyMember));
     }
 }
