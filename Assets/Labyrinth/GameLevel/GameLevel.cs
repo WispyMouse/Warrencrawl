@@ -25,7 +25,7 @@ public class GameLevel : ScriptableObject
     /// A reference to the scene to additively load for this Labyrinth.
     /// If null, no scene is loaded for the Labyrinth, which is likely an error state.
     /// </summary>
-    public AssetReference Scene;
+    public string Scene;
 
     /// <summary>
     /// Sets whether to have the <see cref="CombatClock"/> enabled by default.

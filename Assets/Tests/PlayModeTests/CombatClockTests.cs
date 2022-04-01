@@ -98,8 +98,8 @@ public class CombatClockTests
             testLevel.LabyrinthData = new LabyrinthLevel();
             testLevel.LabyrinthData.Cells = new List<LabyrinthCell>()
             {
-                new LabyrinthCell() { Coordinate = new CellCoordinates(0, 0, 0), Walkable = true },
-                new LabyrinthCell() { Coordinate = new CellCoordinates(0, 1, 0), Walkable = true },
+                new LabyrinthCell() { Coordinate = new CellCoordinates(0, 0, 0), DefaultWalkable = true },
+                new LabyrinthCell() { Coordinate = new CellCoordinates(0, 1, 0), DefaultWalkable = true },
             };
             testLevel.CombatClockEnabled = true;
             return testLevel;

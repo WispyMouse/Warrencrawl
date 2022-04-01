@@ -52,7 +52,7 @@ public static class StaticSceneTools
     /// <param name="level">The GameLevel to load the scene for.</param>
     public static IEnumerator LoadAddressableSceneAdditvely(GameLevel level)
     {
-        AsyncOperationHandle<SceneInstance> loadingOperation = Addressables.LoadSceneAsync(level, LoadSceneMode.Additive);
+        AsyncOperationHandle<SceneInstance> loadingOperation = Addressables.LoadSceneAsync(level.Scene, LoadSceneMode.Additive);
         yield return loadingOperation;
     }
 

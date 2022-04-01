@@ -83,11 +83,7 @@ public class LabyrinthState : SceneLoadingGameplayState
             yield break;
         }
 
-        if (LevelToLoad?.Scene?.Asset == null)
-        {
-            Debug.LogWarning("No Scene detected for the provided LevelToLoad.");
-        }
-        else if (!StaticSceneTools.IsSceneLoaded(LevelToLoad.Scene.Asset.name))
+        if (!string.IsNullOrEmpty(LevelToLoad.Scene))
         {
             yield return StaticSceneTools.LoadAddressableSceneAdditvely(LevelToLoad);
         }
@@ -129,9 +125,9 @@ public class LabyrinthState : SceneLoadingGameplayState
 
     public override IEnumerator ExitState(IGameplayState nextState)
     {
-        if (LevelToLoad?.Scene?.Asset != null && StaticSceneTools.IsSceneLoaded(LevelToLoad.Scene.Asset.name))
+        if (!string.IsNullOrEmpty(LevelToLoad.Scene) && StaticSceneTools.IsSceneLoaded(LevelToLoad.Scene))
         {
-            yield return StaticSceneTools.UnloadScene(LevelToLoad.Scene.Asset.name);
+            yield return StaticSceneTools.UnloadScene(LevelToLoad.Scene);
         }
 
         yield return base.ExitState(nextState);
@@ -161,7 +157,7 @@ public class LabyrinthState : SceneLoadingGameplayState
             yield break;
         }
 
-        if (!cellAtPosition.Walkable)
+        if (!cellAtPosition.IsCurrentlyWalkable())
         {
             Debug.Log("Couldn't move there, the cell is not walkable.");
             LockingAnimationFinished?.Invoke(this, new EventArgs());
@@ -200,6 +196,17 @@ public class LabyrinthState : SceneLoadingGameplayState
     /// </summary>
     public IEnumerator Interact()
     {
+        // Are we on top of a same tile interactive?
+        LabyrinthCell curCell = LevelToLoad.LabyrinthData.CellAtCoordinate(PointOfViewInstance.CurCoordinates);
+
+        if (curCell != null && curCell.Interactive != null && curCell.Interactive.Kind == InteractiveKind.SameTileInteractive)
+        {
+            Debug.Log($"Should interact with object in same tile. Interactive kind is not implemented: {curCell.Interactive.Kind}");
+            Debug.Log(curCell.Interactive.Message);
+            LockingAnimationFinished?.Invoke(this, new EventArgs());
+            yield break;
+        }
+
         CellCoordinates coordinatesInFacing = PointOfViewInstance.CurCoordinates + PointOfViewInstance.CurFacing.Forward();
         LabyrinthCell cell = LevelToLoad.LabyrinthData.CellAtCoordinate(coordinatesInFacing);
 
@@ -220,6 +227,11 @@ public class LabyrinthState : SceneLoadingGameplayState
         {
             case InteractiveKind.Stairs:
                 yield return StateMachineInstance.ChangeToState(new TownState());
+                break;
+            case InteractiveKind.OutsideTileInteractive:
+                Debug.Log($"Should interact with object. Interactive kind is not implemented: {cell.Interactive.Kind}");
+                Debug.Log(cell.Interactive.Message);
+                LockingAnimationFinished?.Invoke(this, new EventArgs());
                 break;
             default:
                 Debug.Log($"Interactive kind is not implemented: {cell.Interactive.Kind}");

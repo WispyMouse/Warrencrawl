@@ -110,7 +110,7 @@ public class LabyrinthSceneHelperToolsEditor : Editor
 
             if (boxColliders.Length > 0)
             {
-                LabyrinthCell detectedCell = new LabyrinthCell() { Coordinate = curFront, Walkable = false };
+                LabyrinthCell detectedCell = new LabyrinthCell() { Coordinate = curFront, DefaultWalkable = false };
 
                 // HACK TODO: This assumes one interactive, and only in nonwalkable areas; this will need to move to another check
                 foreach (Collider col in boxColliders)
@@ -131,7 +131,7 @@ public class LabyrinthSceneHelperToolsEditor : Editor
             {
                 bool isWalkable = (1 << hit.collider.gameObject.layer) == walkable.intValue;
 
-                LabyrinthCell detectedCell = new LabyrinthCell() { Coordinate = curFront, Height = hit.point.y, Walkable = isWalkable };
+                LabyrinthCell detectedCell = new LabyrinthCell() { Coordinate = curFront, Height = hit.point.y, DefaultWalkable = isWalkable };
 
                 newLevel.Cells.Add(detectedCell);
             }

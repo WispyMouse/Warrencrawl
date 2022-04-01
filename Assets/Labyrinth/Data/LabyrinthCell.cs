@@ -17,8 +17,9 @@ public class LabyrinthCell
 
     /// <summary>
     /// Can this cell be walked on to?
+    /// This assumes no Interactives on top of it, or any situational modifiers.
     /// </summary>
-    public bool Walkable;
+    public bool DefaultWalkable;
 
     /// <summary>
     /// The worldspace Y that identifies the floor of this tile.
@@ -39,7 +40,7 @@ public class LabyrinthCell
     {
         get
         {
-            if (Walkable)
+            if (DefaultWalkable)
             {
                 return new Color(.6f, 1f, 1f, .6f);
             }
@@ -63,5 +64,15 @@ public class LabyrinthCell
         {
             return new Vector3(Coordinate.X, Height, Coordinate.Y);
         }
+    }
+
+    public bool IsCurrentlyWalkable()
+    {
+        if (Interactive != null)
+        {
+            return Interactive.Walkable;
+        }
+
+        return DefaultWalkable;
     }
 }
