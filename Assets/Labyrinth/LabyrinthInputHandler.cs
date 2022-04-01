@@ -102,6 +102,11 @@ public class LabyrinthInputHandler : MonoBehaviour, ILabyrinthActions
 
     public void OnInteract(InputAction.CallbackContext context)
     {
+        if (!context.performed)
+        {
+            return;
+        }
+
         if (!CanAnimate())
         {
             return;

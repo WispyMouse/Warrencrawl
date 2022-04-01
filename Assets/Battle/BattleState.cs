@@ -31,6 +31,11 @@ public class BattleState : SceneLoadingGameplayState
         // TODO: Enable battle controls
     }
 
+    public override void UnsetControls(WarrencrawlInputs controls)
+    {
+        
+    }
+
     public BattleState()
     {
         Opponents = new BattleOpponents();

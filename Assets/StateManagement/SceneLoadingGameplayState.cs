@@ -86,4 +86,6 @@ public abstract class SceneLoadingGameplayState : IGameplayState
     }
 
     public abstract void SetControls(WarrencrawlInputs controls);
+
+    public abstract void UnsetControls(WarrencrawlInputs controls);
 }

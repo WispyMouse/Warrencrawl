@@ -19,7 +19,7 @@ public class SceneHelper : MonoBehaviour
     public Transitions TransitionsInstance;
     public PlayerParty PlayerParty { get; set; }
 
-    private void Start()
+    private void Awake()
     {
         if (Inputs == null)
         {

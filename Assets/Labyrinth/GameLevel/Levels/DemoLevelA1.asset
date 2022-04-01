@@ -823,7 +823,7 @@ MonoBehaviour:
       Height: 0
       Interactive:
         rid: -2
-  Scene: Assets/Labyrinth/Scene/Levels/DemoLevelA1.unity
+  Scene: DemoLevelA1
   CombatClockEnabled: 1
   references:
     version: 2

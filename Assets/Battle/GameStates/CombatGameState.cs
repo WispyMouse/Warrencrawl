@@ -50,5 +50,10 @@ public abstract class CombatGameState : IGameplayState
         
     }
 
+    public void UnsetControls(WarrencrawlInputs inputs)
+    {
+        
+    }
+
     public abstract IEnumerator StartState(GlobalStateMachine stateMachine, IGameplayState previousState);
 }

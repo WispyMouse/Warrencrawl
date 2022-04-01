@@ -18,12 +18,12 @@ MonoBehaviour:
   m_GUID: 39127dd4fd4809a4ca7c036bd0a76ac0
   m_SerializeEntries:
   - m_GUID: 2f4345f630adbec498ccc2c0fd555aa8
-    m_Address: Assets/Labyrinth/Scene/Levels/DemoLevelA1.unity
+    m_Address: DemoLevelA1
     m_ReadOnly: 0
     m_SerializedLabels:
     - levelScene
   - m_GUID: 1ddeceaf1844d264b874d02672f552e2
-    m_Address: Assets/Labyrinth/GameLevel/Levels/FlushedOutDemoFloor.unity
+    m_Address: FlushedOutDemoFloor
     m_ReadOnly: 0
     m_SerializedLabels:
     - levelScene

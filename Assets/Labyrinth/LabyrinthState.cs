@@ -83,7 +83,7 @@ public class LabyrinthState : SceneLoadingGameplayState
             yield break;
         }
 
-        if (!string.IsNullOrEmpty(LevelToLoad.Scene))
+        if (!string.IsNullOrEmpty(LevelToLoad.Scene) && !StaticSceneTools.IsSceneLoaded(LevelToLoad.Scene))
         {
             yield return StaticSceneTools.LoadAddressableSceneAdditvely(LevelToLoad);
         }
@@ -99,6 +99,8 @@ public class LabyrinthState : SceneLoadingGameplayState
 
     public override IEnumerator StartState(GlobalStateMachine globalStateMachine, IGameplayState previousState)
     {
+        LockingAnimationFinished?.Invoke(this, new EventArgs());
+
         yield return base.StartState(globalStateMachine, previousState);
 
         switch (LevelToLoad.CombatClockEnabled)
@@ -201,9 +203,7 @@ public class LabyrinthState : SceneLoadingGameplayState
 
         if (curCell != null && curCell.Interactive != null && curCell.Interactive.Kind == InteractiveKind.SameTileInteractive)
         {
-            Debug.Log($"Should interact with object in same tile. Interactive kind is not implemented: {curCell.Interactive.Kind}");
-            Debug.Log(curCell.Interactive.Message);
-            LockingAnimationFinished?.Invoke(this, new EventArgs());
+            yield return StateMachineInstance.PushNewState(new MessageBoxState(curCell.Interactive.Message));
             yield break;
         }
 
@@ -227,16 +227,20 @@ public class LabyrinthState : SceneLoadingGameplayState
         {
             case InteractiveKind.Stairs:
                 yield return StateMachineInstance.ChangeToState(new TownState());
-                break;
+                yield break;
             case InteractiveKind.OutsideTileInteractive:
-                Debug.Log($"Should interact with object. Interactive kind is not implemented: {cell.Interactive.Kind}");
-                Debug.Log(cell.Interactive.Message);
-                LockingAnimationFinished?.Invoke(this, new EventArgs());
-                break;
+                yield return StateMachineInstance.PushNewState(new MessageBoxState(cell.Interactive.Message));
+                yield break;
             default:
                 Debug.Log($"Interactive kind is not implemented: {cell.Interactive.Kind}");
                 LockingAnimationFinished?.Invoke(this, new EventArgs());
-                break;
+                yield break;
         }
+    }
+
+    public override void UnsetControls(WarrencrawlInputs inputs)
+    {
+        inputs.Labyrinth.SetCallbacks(null);
+        inputs.Labyrinth.Disable();
     }
 }
