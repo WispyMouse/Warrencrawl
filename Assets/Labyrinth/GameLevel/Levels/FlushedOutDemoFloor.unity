@@ -1086,8 +1086,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Data:
+    InteractiveID:
+      serializedGuid: 9020bb61-812e-4715-9bef-a700c1f3c4d2
     Kind: 1
     Message: 
+    Checks: []
+    FlagSet: []
+  WorldObject: {fileID: 0}
 --- !u!65 &783179955
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1669,8 +1674,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Data:
+    InteractiveID:
+      serializedGuid: 462a007b-23fb-4e50-8a0b-d392f6ea3386
     Kind: 3
     Message: Barrel!
+    Checks:
+    - FlagNameToCheck: BarrelRemoved
+      ShouldBeVisible: 0
+    FlagSet: []
+  WorldObject: {fileID: 1420160733}
 --- !u!65 &1420160738
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1842,8 +1854,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Data:
+    InteractiveID:
+      serializedGuid: 3ad9b3a1-9295-44f0-baed-2e164acd3c7c
     Kind: 2
     Message: Tastes better than it looks, and I was already excited to drink strawberry!
+      Let's remove those barrels.
+    Checks:
+    - FlagNameToCheck: DrankPotion
+      ShouldBeVisible: 0
+    FlagSet:
+    - FlagName: DrankPotion
+      Value: 1
+    - FlagName: BarrelRemoved
+      Value: 1
+  WorldObject: {fileID: 1555686762}
 --- !u!65 &1555686767
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2077,8 +2101,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Data:
+    InteractiveID:
+      serializedGuid: a3b43264-6b45-488f-9fc8-43b66ef8424f
     Kind: 3
     Message: This is a barrel.
+    Checks:
+    - FlagNameToCheck: BarrelRemoved
+      ShouldBeVisible: 0
+    FlagSet: []
+  WorldObject: {fileID: 1766962805}
 --- !u!65 &1766962810
 BoxCollider:
   m_ObjectHideFlags: 0

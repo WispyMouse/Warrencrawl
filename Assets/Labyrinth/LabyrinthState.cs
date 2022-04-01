@@ -88,18 +88,37 @@ public class LabyrinthState : SceneLoadingGameplayState
             yield return StaticSceneTools.LoadAddressableSceneAdditvely(LevelToLoad);
         }
 
+        LabyrinthInteractive[] allInteractives = GameObject.FindObjectsOfType<LabyrinthInteractive>();
+
+        foreach (LabyrinthCell curCell in LevelToLoad.LabyrinthData.Cells)
+        {
+            if (curCell.Interactive != null)
+            {
+                LabyrinthInteractive matchingInteractive = allInteractives.FirstOrDefault(matching => matching.Data.InteractiveID == curCell.Interactive.InteractiveID);
+                if (matchingInteractive)
+                {
+                    curCell.Interactive.WorldInteractive = matchingInteractive;
+                }
+            }
+        }
+
         if (PointOfViewInstance == null)
         {
             PointOfViewInstance = GameObject.FindObjectOfType<PointOfView>();
             PointOfViewInstance.CurFacing = Direction.North;
             PointOfViewInstance.CurCoordinates = CellCoordinates.Origin;
         }
+
         ActiveCombatClock = new CombatClock();
+
+        ScanInteractivesUsingFlags();
     }
 
     public override IEnumerator StartState(GlobalStateMachine globalStateMachine, IGameplayState previousState)
     {
         LockingAnimationFinished?.Invoke(this, new EventArgs());
+
+        ScanInteractivesUsingFlags();
 
         yield return base.StartState(globalStateMachine, previousState);
 
@@ -203,7 +222,7 @@ public class LabyrinthState : SceneLoadingGameplayState
 
         if (curCell != null && curCell.Interactive != null && curCell.Interactive.Kind == InteractiveKind.SameTileInteractive)
         {
-            yield return StateMachineInstance.PushNewState(new MessageBoxState(curCell.Interactive.Message));
+            yield return InteractWithInteractive(curCell);
             yield break;
         }
 
@@ -229,7 +248,7 @@ public class LabyrinthState : SceneLoadingGameplayState
                 yield return StateMachineInstance.ChangeToState(new TownState());
                 yield break;
             case InteractiveKind.OutsideTileInteractive:
-                yield return StateMachineInstance.PushNewState(new MessageBoxState(cell.Interactive.Message));
+                yield return InteractWithInteractive(cell);
                 yield break;
             default:
                 Debug.Log($"Interactive kind is not implemented: {cell.Interactive.Kind}");
@@ -242,5 +261,35 @@ public class LabyrinthState : SceneLoadingGameplayState
     {
         inputs.Labyrinth.SetCallbacks(null);
         inputs.Labyrinth.Disable();
+    }
+
+    void ScanInteractivesUsingFlags()
+    {
+        foreach (LabyrinthCell curCell in LevelToLoad.LabyrinthData.Cells)
+        {
+            if (curCell.Interactive != null)
+            {
+                if (curCell.Interactive.ShouldEnableBasedOnSetFlags(SceneHelperInstance.SaveDataManagerInstance.CurrentSaveData))
+                {
+                    curCell.Interactive.WorldInteractive?.EnableInteractive();
+                    curCell.Interactive.IsActive = true;
+                }
+                else
+                {
+                    curCell.Interactive.WorldInteractive?.DisableInteractive();
+                    curCell.Interactive.IsActive = false;
+                }
+            }
+        }
+    }
+
+    IEnumerator InteractWithInteractive(LabyrinthCell onCell)
+    {
+        yield return StateMachineInstance.PushNewState(new MessageBoxState(onCell.Interactive.Message));
+
+        foreach (InteractiveSetFlag flagSet in onCell.Interactive.FlagSet)
+        {
+            SceneHelperInstance.SaveDataManagerInstance.CurrentSaveData.SetFlag(flagSet.FlagName, flagSet.Value);
+        }
     }
 }

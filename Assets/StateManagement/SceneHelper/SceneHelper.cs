@@ -18,6 +18,7 @@ public class SceneHelper : MonoBehaviour
 
     public Transitions TransitionsInstance;
     public PlayerParty PlayerParty { get; set; }
+    public SaveDataManager SaveDataManagerInstance;
 
     private void Awake()
     {

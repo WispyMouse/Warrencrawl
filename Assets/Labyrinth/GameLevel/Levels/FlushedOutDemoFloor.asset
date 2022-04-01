@@ -94,7 +94,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851846
+        rid: 8340642360946851850
     - Coordinate:
         X: -2
         Y: 0
@@ -174,7 +174,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851846
+        rid: 8340642360946851850
     - Coordinate:
         X: -2
         Y: 1
@@ -182,7 +182,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851846
+        rid: 8340642360946851850
     - Coordinate:
         X: -3
         Y: 0
@@ -214,7 +214,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851847
+        rid: 8340642360946851851
     - Coordinate:
         X: 4
         Y: 0
@@ -262,7 +262,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851848
+        rid: 8340642360946851852
     - Coordinate:
         X: 1
         Y: -3
@@ -270,7 +270,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851849
+        rid: 8340642360946851853
     - Coordinate:
         X: 0
         Y: 4
@@ -294,7 +294,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851846
+        rid: 8340642360946851850
     - Coordinate:
         X: -3
         Y: 1
@@ -342,7 +342,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851847
+        rid: 8340642360946851851
     - Coordinate:
         X: 5
         Y: 0
@@ -390,7 +390,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851848
+        rid: 8340642360946851852
     - Coordinate:
         X: 2
         Y: -3
@@ -398,7 +398,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851849
+        rid: 8340642360946851853
     - Coordinate:
         X: 1
         Y: 4
@@ -406,7 +406,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851848
+        rid: 8340642360946851852
     - Coordinate:
         X: 1
         Y: -4
@@ -414,7 +414,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851849
+        rid: 8340642360946851853
     - Coordinate:
         X: -1
         Y: 4
@@ -534,7 +534,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851848
+        rid: 8340642360946851852
     - Coordinate:
         X: 3
         Y: -3
@@ -550,7 +550,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851848
+        rid: 8340642360946851852
     - Coordinate:
         X: 2
         Y: -4
@@ -558,7 +558,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851849
+        rid: 8340642360946851853
     - Coordinate:
         X: 1
         Y: 5
@@ -566,7 +566,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851848
+        rid: 8340642360946851852
     - Coordinate:
         X: 1
         Y: -5
@@ -702,7 +702,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851848
+        rid: 8340642360946851852
     - Coordinate:
         X: 3
         Y: -4
@@ -718,7 +718,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851848
+        rid: 8340642360946851852
     - Coordinate:
         X: 2
         Y: -5
@@ -734,7 +734,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851848
+        rid: 8340642360946851852
     - Coordinate:
         X: 1
         Y: -6
@@ -878,7 +878,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851848
+        rid: 8340642360946851852
     - Coordinate:
         X: 3
         Y: -5
@@ -894,7 +894,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851848
+        rid: 8340642360946851852
     - Coordinate:
         X: 2
         Y: -6
@@ -910,7 +910,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851848
+        rid: 8340642360946851852
     - Coordinate:
         X: 1
         Y: -7
@@ -1046,7 +1046,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851848
+        rid: 8340642360946851852
     - Coordinate:
         X: 3
         Y: -6
@@ -1062,7 +1062,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851848
+        rid: 8340642360946851852
     - Coordinate:
         X: 2
         Y: -7
@@ -1078,7 +1078,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851848
+        rid: 8340642360946851852
     - Coordinate:
         X: 1
         Y: -8
@@ -1222,7 +1222,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851848
+        rid: 8340642360946851852
     - Coordinate:
         X: 3
         Y: -7
@@ -1238,7 +1238,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851848
+        rid: 8340642360946851852
     - Coordinate:
         X: 2
         Y: -8
@@ -1254,7 +1254,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851848
+        rid: 8340642360946851852
     - Coordinate:
         X: 1
         Y: -9
@@ -1398,7 +1398,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851848
+        rid: 8340642360946851852
     - Coordinate:
         X: 3
         Y: -8
@@ -1414,7 +1414,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851848
+        rid: 8340642360946851852
     - Coordinate:
         X: 2
         Y: -9
@@ -1558,7 +1558,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851848
+        rid: 8340642360946851852
     - Coordinate:
         X: 3
         Y: -9
@@ -2518,24 +2518,50 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 8340642360946851846
+    - rid: 8340642360946851850
       type: {class: InteractiveData, ns: , asm: Scripts}
       data:
+        InteractiveID:
+          serializedGuid: 3ad9b3a1-9295-44f0-baed-2e164acd3c7c
         Kind: 2
         Message: Tastes better than it looks, and I was already excited to drink
-          strawberry!
-    - rid: 8340642360946851847
+          strawberry! Let's remove those barrels.
+        Checks:
+        - FlagNameToCheck: DrankPotion
+          ShouldBeVisible: 0
+        FlagSet:
+        - FlagName: DrankPotion
+          Value: 1
+        - FlagName: BarrelRemoved
+          Value: 1
+    - rid: 8340642360946851851
       type: {class: InteractiveData, ns: , asm: Scripts}
       data:
+        InteractiveID:
+          serializedGuid: a3b43264-6b45-488f-9fc8-43b66ef8424f
         Kind: 3
         Message: This is a barrel.
-    - rid: 8340642360946851848
+        Checks:
+        - FlagNameToCheck: BarrelRemoved
+          ShouldBeVisible: 0
+        FlagSet: []
+    - rid: 8340642360946851852
       type: {class: InteractiveData, ns: , asm: Scripts}
       data:
+        InteractiveID:
+          serializedGuid: 9020bb61-812e-4715-9bef-a700c1f3c4d2
         Kind: 1
         Message: 
-    - rid: 8340642360946851849
+        Checks: []
+        FlagSet: []
+    - rid: 8340642360946851853
       type: {class: InteractiveData, ns: , asm: Scripts}
       data:
+        InteractiveID:
+          serializedGuid: 462a007b-23fb-4e50-8a0b-d392f6ea3386
         Kind: 3
         Message: Barrel!
+        Checks:
+        - FlagNameToCheck: BarrelRemoved
+          ShouldBeVisible: 0
+        FlagSet: []

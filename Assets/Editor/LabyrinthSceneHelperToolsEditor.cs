@@ -83,6 +83,12 @@ public class LabyrinthSceneHelperToolsEditor : Editor
         {
             Gizmos.color = curCell.DebugColor;
             Gizmos.DrawCube(curCell.Worldspace, Vector3.one);
+
+            if (curCell.Interactive != null)
+            {
+                Gizmos.color = Color.yellow;
+                Gizmos.DrawSphere(curCell.Worldspace + Vector3.up * .25f, .5f);
+            }
         }
     }
 

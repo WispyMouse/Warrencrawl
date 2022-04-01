@@ -44,10 +44,6 @@ public class LabyrinthCell
             {
                 return new Color(.6f, 1f, 1f, .6f);
             }
-            else if (Interactive != null)
-            {
-                return new Color(1f, 1f, .2f, .6f);
-            }
             else
             {
                 return new Color(1f, .4f, .4f, .6f);
