@@ -334,7 +334,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851858
+        rid: 8340642360946851860
     - Coordinate:
         X: 5
         Y: -1
@@ -406,7 +406,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851858
+        rid: 8340642360946851860
     - Coordinate:
         X: 6
         Y: -1
@@ -422,7 +422,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851858
+        rid: 8340642360946851860
     - Coordinate:
         X: 3
         Y: 4
@@ -486,7 +486,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851858
+        rid: 8340642360946851860
     - Coordinate:
         X: 6
         Y: 2
@@ -494,7 +494,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851858
+        rid: 8340642360946851860
     - Coordinate:
         X: 5
         Y: 3
@@ -502,7 +502,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851858
+        rid: 8340642360946851860
     - Coordinate:
         X: 4
         Y: 4
@@ -534,7 +534,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851859
+        rid: 8340642360946851861
     - Coordinate:
         X: 0
         Y: 8
@@ -590,7 +590,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851858
+        rid: 8340642360946851860
     - Coordinate:
         X: 6
         Y: 3
@@ -598,7 +598,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851858
+        rid: 8340642360946851860
     - Coordinate:
         X: 5
         Y: 4
@@ -630,7 +630,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851859
+        rid: 8340642360946851861
     - Coordinate:
         X: 1
         Y: 8
@@ -638,7 +638,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851859
+        rid: 8340642360946851861
     - Coordinate:
         X: 0
         Y: 9
@@ -702,7 +702,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851858
+        rid: 8340642360946851860
     - Coordinate:
         X: 6
         Y: 4
@@ -734,7 +734,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851859
+        rid: 8340642360946851861
     - Coordinate:
         X: 2
         Y: 8
@@ -742,15 +742,15 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851859
+        rid: 8340642360946851861
     - Coordinate:
         X: 1
         Y: 9
         Z: 0
-      DefaultWalkable: 1
-      Height: 0.55999994
+      DefaultWalkable: 0
+      Height: 0
       Interactive:
-        rid: -2
+        rid: 8340642360946851862
     - Coordinate:
         X: -3
         Y: 7
@@ -822,7 +822,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851859
+        rid: 8340642360946851861
     - Coordinate:
         X: 3
         Y: 8
@@ -830,15 +830,15 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851859
+        rid: 8340642360946851861
     - Coordinate:
         X: 2
         Y: 9
         Z: 0
-      DefaultWalkable: 1
-      Height: 0.55999994
+      DefaultWalkable: 0
+      Height: 0
       Interactive:
-        rid: -2
+        rid: 8340642360946851862
     - Coordinate:
         X: -4
         Y: 7
@@ -886,7 +886,7 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851859
+        rid: 8340642360946851861
     - Coordinate:
         X: 4
         Y: 8
@@ -894,15 +894,15 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851859
+        rid: 8340642360946851861
     - Coordinate:
         X: 3
         Y: 9
         Z: 0
-      DefaultWalkable: 1
-      Height: 0.55999994
+      DefaultWalkable: 0
+      Height: 0
       Interactive:
-        rid: -2
+        rid: 8340642360946851862
     - Coordinate:
         X: 9
         Y: 4
@@ -942,15 +942,15 @@ MonoBehaviour:
       DefaultWalkable: 0
       Height: 0
       Interactive:
-        rid: 8340642360946851859
+        rid: 8340642360946851861
     - Coordinate:
         X: 4
         Y: 9
         Z: 0
-      DefaultWalkable: 1
-      Height: 0.55999994
+      DefaultWalkable: 0
+      Height: 0
       Interactive:
-        rid: -2
+        rid: 8340642360946851862
     - Coordinate:
         X: 9
         Y: 5
@@ -979,10 +979,10 @@ MonoBehaviour:
         X: 5
         Y: 9
         Z: 0
-      DefaultWalkable: 1
-      Height: 0.55999994
+      DefaultWalkable: 0
+      Height: 0
       Interactive:
-        rid: -2
+        rid: 8340642360946851862
     - Coordinate:
         X: 9
         Y: 6
@@ -1014,7 +1014,7 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 8340642360946851858
+    - rid: 8340642360946851860
       type: {class: InteractiveData, ns: , asm: Scripts}
       data:
         InteractiveID:
@@ -1027,7 +1027,7 @@ MonoBehaviour:
         FlagSet:
         - FlagName: gateopen
           Value: 2
-    - rid: 8340642360946851859
+    - rid: 8340642360946851861
       type: {class: InteractiveData, ns: , asm: Scripts}
       data:
         InteractiveID:
@@ -1037,4 +1037,15 @@ MonoBehaviour:
         Checks:
         - FlagNameToCheck: gateopen
           ShouldBeVisible: 0
+        FlagSet: []
+    - rid: 8340642360946851862
+      type: {class: InteractiveData, ns: , asm: Scripts}
+      data:
+        InteractiveID:
+          serializedGuid: 3e7366a4-b220-4902-bd4f-e2b54c1b8d47
+        Kind: 0
+        Message: 
+        Checks:
+        - FlagNameToCheck: gateopen
+          ShouldBeVisible: 1
         FlagSet: []
