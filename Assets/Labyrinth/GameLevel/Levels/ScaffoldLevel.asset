@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5001e9d517566d646ae38a879bf56ec4, type: 3}
-  m_Name: FlushedOutDemoFloor
+  m_Name: ScaffoldLevel
   m_EditorClassIdentifier: 
-  LevelName: Demo Game Level
+  LevelName: Scaffold Level
   LabyrinthData:
     Cells:
     - Coordinate:
@@ -136,6 +136,14 @@ MonoBehaviour:
       Interactive:
         rid: -2
     - Coordinate:
+        X: 1
+        Y: 2
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
         X: 0
         Y: 3
         Z: 0
@@ -192,6 +200,22 @@ MonoBehaviour:
       Interactive:
         rid: -2
     - Coordinate:
+        X: 2
+        Y: 2
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 1
+        Y: 3
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
         X: 0
         Y: 4
         Z: 0
@@ -228,7 +252,7 @@ MonoBehaviour:
         Y: 0
         Z: 0
       DefaultWalkable: 1
-      Height: 2.1
+      Height: 2.1600003
       Interactive:
         rid: -2
     - Coordinate:
@@ -248,6 +272,14 @@ MonoBehaviour:
       Interactive:
         rid: -2
     - Coordinate:
+        X: 2
+        Y: 3
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
         X: 1
         Y: 4
         Z: 0
@@ -288,18 +320,34 @@ MonoBehaviour:
       Interactive:
         rid: -2
     - Coordinate:
+        X: 6
+        Y: 0
+        Z: 0
+      DefaultWalkable: 1
+      Height: 2.1600003
+      Interactive:
+        rid: -2
+    - Coordinate:
         X: 5
         Y: 1
         Z: 0
-      DefaultWalkable: 1
-      Height: 2.1
+      DefaultWalkable: 0
+      Height: 0
       Interactive:
-        rid: -2
+        rid: 8340642360946851858
     - Coordinate:
         X: 5
         Y: -1
         Z: 0
       DefaultWalkable: 1
+      Height: 2.1600003
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 4
+        Y: 2
+        Z: 0
+      DefaultWalkable: 1
       Height: 2.1
       Interactive:
         rid: -2
@@ -352,6 +400,30 @@ MonoBehaviour:
       Interactive:
         rid: -2
     - Coordinate:
+        X: 6
+        Y: 1
+        Z: 0
+      DefaultWalkable: 0
+      Height: 0
+      Interactive:
+        rid: 8340642360946851858
+    - Coordinate:
+        X: 6
+        Y: -1
+        Z: 0
+      DefaultWalkable: 1
+      Height: 2.1600003
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 5
+        Y: 2
+        Z: 0
+      DefaultWalkable: 0
+      Height: 0
+      Interactive:
+        rid: 8340642360946851858
+    - Coordinate:
         X: 3
         Y: 4
         Z: 0
@@ -408,6 +480,30 @@ MonoBehaviour:
       Interactive:
         rid: -2
     - Coordinate:
+        X: 7
+        Y: 1
+        Z: 0
+      DefaultWalkable: 0
+      Height: 0
+      Interactive:
+        rid: 8340642360946851858
+    - Coordinate:
+        X: 6
+        Y: 2
+        Z: 0
+      DefaultWalkable: 0
+      Height: 0
+      Interactive:
+        rid: 8340642360946851858
+    - Coordinate:
+        X: 5
+        Y: 3
+        Z: 0
+      DefaultWalkable: 0
+      Height: 0
+      Interactive:
+        rid: 8340642360946851858
+    - Coordinate:
         X: 4
         Y: 4
         Z: 0
@@ -435,10 +531,10 @@ MonoBehaviour:
         X: 1
         Y: 7
         Z: 0
-      DefaultWalkable: 1
-      Height: 0.55999994
+      DefaultWalkable: 0
+      Height: 0
       Interactive:
-        rid: -2
+        rid: 8340642360946851859
     - Coordinate:
         X: 0
         Y: 8
@@ -480,6 +576,30 @@ MonoBehaviour:
       Interactive:
         rid: -2
     - Coordinate:
+        X: 8
+        Y: 1
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 7
+        Y: 2
+        Z: 0
+      DefaultWalkable: 0
+      Height: 0
+      Interactive:
+        rid: 8340642360946851858
+    - Coordinate:
+        X: 6
+        Y: 3
+        Z: 0
+      DefaultWalkable: 0
+      Height: 0
+      Interactive:
+        rid: 8340642360946851858
+    - Coordinate:
         X: 5
         Y: 4
         Z: 0
@@ -507,18 +627,18 @@ MonoBehaviour:
         X: 2
         Y: 7
         Z: 0
-      DefaultWalkable: 1
-      Height: 0.55999994
+      DefaultWalkable: 0
+      Height: 0
       Interactive:
-        rid: -2
+        rid: 8340642360946851859
     - Coordinate:
         X: 1
         Y: 8
         Z: 0
-      DefaultWalkable: 1
-      Height: 0.55999994
+      DefaultWalkable: 0
+      Height: 0
       Interactive:
-        rid: -2
+        rid: 8340642360946851859
     - Coordinate:
         X: 0
         Y: 9
@@ -552,6 +672,38 @@ MonoBehaviour:
       Interactive:
         rid: -2
     - Coordinate:
+        X: 9
+        Y: 1
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 8
+        Y: 2
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 8
+        Y: 0
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 7
+        Y: 3
+        Z: 0
+      DefaultWalkable: 0
+      Height: 0
+      Interactive:
+        rid: 8340642360946851858
+    - Coordinate:
         X: 6
         Y: 4
         Z: 0
@@ -579,18 +731,18 @@ MonoBehaviour:
         X: 3
         Y: 7
         Z: 0
-      DefaultWalkable: 1
-      Height: 0.55999994
+      DefaultWalkable: 0
+      Height: 0
       Interactive:
-        rid: -2
+        rid: 8340642360946851859
     - Coordinate:
         X: 2
         Y: 8
         Z: 0
-      DefaultWalkable: 1
-      Height: 0.55999994
+      DefaultWalkable: 0
+      Height: 0
       Interactive:
-        rid: -2
+        rid: 8340642360946851859
     - Coordinate:
         X: 1
         Y: 9
@@ -616,6 +768,30 @@ MonoBehaviour:
       Interactive:
         rid: -2
     - Coordinate:
+        X: 9
+        Y: 2
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 9
+        Y: 0
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 8
+        Y: 3
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
         X: 7
         Y: 4
         Z: 0
@@ -643,18 +819,18 @@ MonoBehaviour:
         X: 4
         Y: 7
         Z: 0
-      DefaultWalkable: 1
-      Height: 0.55999994
+      DefaultWalkable: 0
+      Height: 0
       Interactive:
-        rid: -2
+        rid: 8340642360946851859
     - Coordinate:
         X: 3
         Y: 8
         Z: 0
-      DefaultWalkable: 1
-      Height: 0.55999994
+      DefaultWalkable: 0
+      Height: 0
       Interactive:
-        rid: -2
+        rid: 8340642360946851859
     - Coordinate:
         X: 2
         Y: 9
@@ -672,6 +848,14 @@ MonoBehaviour:
       Interactive:
         rid: -2
     - Coordinate:
+        X: 9
+        Y: 3
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
         X: 8
         Y: 4
         Z: 0
@@ -682,14 +866,6 @@ MonoBehaviour:
     - Coordinate:
         X: 7
         Y: 5
-        Z: 0
-      DefaultWalkable: 1
-      Height: 0.55999994
-      Interactive:
-        rid: -2
-    - Coordinate:
-        X: 7
-        Y: 3
         Z: 0
       DefaultWalkable: 1
       Height: 0.55999994
@@ -707,18 +883,18 @@ MonoBehaviour:
         X: 5
         Y: 7
         Z: 0
-      DefaultWalkable: 1
-      Height: 0.55999994
+      DefaultWalkable: 0
+      Height: 0
       Interactive:
-        rid: -2
+        rid: 8340642360946851859
     - Coordinate:
         X: 4
         Y: 8
         Z: 0
-      DefaultWalkable: 1
-      Height: 0.55999994
+      DefaultWalkable: 0
+      Height: 0
       Interactive:
-        rid: -2
+        rid: 8340642360946851859
     - Coordinate:
         X: 3
         Y: 9
@@ -744,24 +920,8 @@ MonoBehaviour:
       Interactive:
         rid: -2
     - Coordinate:
-        X: 8
-        Y: 3
-        Z: 0
-      DefaultWalkable: 1
-      Height: 0.55999994
-      Interactive:
-        rid: -2
-    - Coordinate:
         X: 7
         Y: 6
-        Z: 0
-      DefaultWalkable: 1
-      Height: 0.55999994
-      Interactive:
-        rid: -2
-    - Coordinate:
-        X: 7
-        Y: 2
         Z: 0
       DefaultWalkable: 1
       Height: 0.55999994
@@ -779,10 +939,10 @@ MonoBehaviour:
         X: 5
         Y: 8
         Z: 0
-      DefaultWalkable: 1
-      Height: 0.55999994
+      DefaultWalkable: 0
+      Height: 0
       Interactive:
-        rid: -2
+        rid: 8340642360946851859
     - Coordinate:
         X: 4
         Y: 9
@@ -800,14 +960,6 @@ MonoBehaviour:
       Interactive:
         rid: -2
     - Coordinate:
-        X: 9
-        Y: 3
-        Z: 0
-      DefaultWalkable: 1
-      Height: 0.55999994
-      Interactive:
-        rid: -2
-    - Coordinate:
         X: 8
         Y: 6
         Z: 0
@@ -816,24 +968,8 @@ MonoBehaviour:
       Interactive:
         rid: -2
     - Coordinate:
-        X: 8
-        Y: 2
-        Z: 0
-      DefaultWalkable: 1
-      Height: 0.55999994
-      Interactive:
-        rid: -2
-    - Coordinate:
         X: 7
         Y: 7
-        Z: 0
-      DefaultWalkable: 1
-      Height: 0.55999994
-      Interactive:
-        rid: -2
-    - Coordinate:
-        X: 7
-        Y: 1
         Z: 0
       DefaultWalkable: 1
       Height: 0.55999994
@@ -856,32 +992,8 @@ MonoBehaviour:
       Interactive:
         rid: -2
     - Coordinate:
-        X: 9
-        Y: 2
-        Z: 0
-      DefaultWalkable: 1
-      Height: 0.55999994
-      Interactive:
-        rid: -2
-    - Coordinate:
         X: 8
         Y: 7
-        Z: 0
-      DefaultWalkable: 1
-      Height: 0.55999994
-      Interactive:
-        rid: -2
-    - Coordinate:
-        X: 8
-        Y: 1
-        Z: 0
-      DefaultWalkable: 1
-      Height: 0.55999994
-      Interactive:
-        rid: -2
-    - Coordinate:
-        X: 7
-        Y: 0
         Z: 0
       DefaultWalkable: 1
       Height: 0.55999994
@@ -895,34 +1007,34 @@ MonoBehaviour:
       Height: 0.55999994
       Interactive:
         rid: -2
-    - Coordinate:
-        X: 9
-        Y: 1
-        Z: 0
-      DefaultWalkable: 1
-      Height: 0.55999994
-      Interactive:
-        rid: -2
-    - Coordinate:
-        X: 8
-        Y: 0
-        Z: 0
-      DefaultWalkable: 1
-      Height: 0.55999994
-      Interactive:
-        rid: -2
-    - Coordinate:
-        X: 9
-        Y: 0
-        Z: 0
-      DefaultWalkable: 1
-      Height: 0.55999994
-      Interactive:
-        rid: -2
-  Scene: FlushedOutDemoFloor
+  Scene: ScaffoldLevel
   CombatClockEnabled: 0
   references:
     version: 2
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+    - rid: 8340642360946851858
+      type: {class: InteractiveData, ns: , asm: Scripts}
+      data:
+        InteractiveID:
+          serializedGuid: 7b537dda-d0db-4072-a783-429644c62967
+        Kind: 3
+        Message: You opened the gate!
+        Checks:
+        - FlagNameToCheck: gateopen
+          ShouldBeVisible: 0
+        FlagSet:
+        - FlagName: gateopen
+          Value: 2
+    - rid: 8340642360946851859
+      type: {class: InteractiveData, ns: , asm: Scripts}
+      data:
+        InteractiveID:
+          serializedGuid: 86eb0441-f598-4612-b7a1-0dfd91230e1f
+        Kind: 0
+        Message: 
+        Checks:
+        - FlagNameToCheck: gateopen
+          ShouldBeVisible: 0
+        FlagSet: []
