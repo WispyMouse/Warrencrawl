@@ -88,20 +88,6 @@ public class LabyrinthState : SceneLoadingGameplayState
             yield return StaticSceneTools.LoadAddressableSceneAdditvely(LevelToLoad);
         }
 
-        LabyrinthInteractive[] allInteractives = GameObject.FindObjectsOfType<LabyrinthInteractive>();
-
-        foreach (LabyrinthCell curCell in LevelToLoad.LabyrinthData.Cells)
-        {
-            if (curCell.Interactive != null)
-            {
-                LabyrinthInteractive matchingInteractive = allInteractives.FirstOrDefault(matching => matching.Data.InteractiveID == curCell.Interactive.InteractiveID);
-                if (matchingInteractive)
-                {
-                    curCell.Interactive.WorldInteractive = matchingInteractive;
-                }
-            }
-        }
-
         if (PointOfViewInstance == null)
         {
             PointOfViewInstance = GameObject.FindObjectOfType<PointOfView>();
@@ -178,11 +164,28 @@ public class LabyrinthState : SceneLoadingGameplayState
             yield break;
         }
 
-        if (!cellAtPosition.IsCurrentlyWalkable())
+        if (!cellAtPosition.DefaultWalkable)
         {
             Debug.Log("Couldn't move there, the cell is not walkable.");
             LockingAnimationFinished?.Invoke(this, new EventArgs());
             yield break;
+        }
+
+        foreach (InteractiveData interactive in LevelToLoad.LabyrinthData.InteractivesAtCoordinate(newCoordinates))
+        {
+            if (interactive.ShouldEnableBasedOnSetFlags(SceneHelperInstance.SaveDataManagerInstance.CurrentSaveData))
+            {
+                if (interactive.Kind == InteractiveKind.SameTileInteractive)
+                {
+                    continue;
+                }
+                else
+                {
+                    Debug.Log("Couldn't move there, an interactive is in the spot and enabled and doesn't share space.");
+                    LockingAnimationFinished?.Invoke(this, new EventArgs());
+                    yield break;
+                }
+            }
         }
 
         yield return AnimationHandler.StepTo(PointOfViewInstance, cellAtPosition);
@@ -220,38 +223,42 @@ public class LabyrinthState : SceneLoadingGameplayState
         // Are we on top of a same tile interactive?
         LabyrinthCell curCell = LevelToLoad.LabyrinthData.CellAtCoordinate(PointOfViewInstance.CurCoordinates);
 
-        if (curCell != null && curCell.Interactive != null && curCell.Interactive.Kind == InteractiveKind.SameTileInteractive)
+        if (curCell != null && LevelToLoad.LabyrinthData.InteractivesAtCoordinate(curCell.Coordinate).Any(x => x.Kind == InteractiveKind.SameTileInteractive))
         {
             yield return InteractWithInteractive(curCell);
             yield break;
         }
 
         CellCoordinates coordinatesInFacing = PointOfViewInstance.CurCoordinates + PointOfViewInstance.CurFacing.Forward();
-        LabyrinthCell cell = LevelToLoad.LabyrinthData.CellAtCoordinate(coordinatesInFacing);
+        LabyrinthCell forwardCell = LevelToLoad.LabyrinthData.CellAtCoordinate(coordinatesInFacing);
 
-        if (cell == null)
+        if (forwardCell == null)
         {
             LockingAnimationFinished?.Invoke(this, new EventArgs());
             yield break;
         }
 
-        if (cell.Interactive == null)
+        IEnumerable<InteractiveData> interactivesAtCell = LevelToLoad.LabyrinthData.InteractivesAtCoordinate(forwardCell.Coordinate);
+
+        if (interactivesAtCell == null || !interactivesAtCell.Any())
         {
             LockingAnimationFinished?.Invoke(this, new EventArgs());
             yield break;
         }
+
+        InteractiveData firstInteractive = interactivesAtCell.First();
 
         // todo: other kinds of interactives!
-        switch (cell.Interactive.Kind)
+        switch (firstInteractive.Kind)
         {
             case InteractiveKind.Stairs:
                 yield return StateMachineInstance.ChangeToState(new TownState());
                 yield break;
             case InteractiveKind.OutsideTileInteractive:
-                yield return InteractWithInteractive(cell);
+                yield return InteractWithInteractive(forwardCell);
                 yield break;
             default:
-                Debug.Log($"Interactive kind is not implemented: {cell.Interactive.Kind}");
+                Debug.Log($"Interactive kind is not implemented: {firstInteractive.Kind}");
                 LockingAnimationFinished?.Invoke(this, new EventArgs());
                 yield break;
         }
@@ -265,19 +272,19 @@ public class LabyrinthState : SceneLoadingGameplayState
 
     void ScanInteractivesUsingFlags()
     {
-        foreach (LabyrinthCell curCell in LevelToLoad.LabyrinthData.Cells)
+        foreach (InteractiveData interactive in LevelToLoad.LabyrinthData.LabyrinthInteractives)
         {
-            if (curCell.Interactive != null)
+            if (interactive != null)
             {
-                if (curCell.Interactive.ShouldEnableBasedOnSetFlags(SceneHelperInstance.SaveDataManagerInstance.CurrentSaveData))
+                if (interactive.ShouldEnableBasedOnSetFlags(SceneHelperInstance.SaveDataManagerInstance.CurrentSaveData))
                 {
-                    curCell.Interactive.WorldInteractive?.EnableInteractive();
-                    curCell.Interactive.IsActive = true;
+                    interactive.WorldInteractive?.EnableInteractive();
+                    interactive.IsActive = true;
                 }
                 else
                 {
-                    curCell.Interactive.WorldInteractive?.DisableInteractive();
-                    curCell.Interactive.IsActive = false;
+                    interactive.WorldInteractive?.DisableInteractive();
+                    interactive.IsActive = false;
                 }
             }
         }
@@ -285,9 +292,19 @@ public class LabyrinthState : SceneLoadingGameplayState
 
     IEnumerator InteractWithInteractive(LabyrinthCell onCell)
     {
-        yield return StateMachineInstance.PushNewState(new MessageBoxState(onCell.Interactive.Message));
+        IEnumerable<InteractiveData> interactivesOnCell = LevelToLoad.LabyrinthData.InteractivesAtCoordinate(onCell.Coordinate);
 
-        foreach (InteractiveSetFlag flagSet in onCell.Interactive.FlagSet)
+        if (!interactivesOnCell.Any())
+        {
+            yield break;
+        }
+
+        // todo: consistent handling of choosing which interactive to interface with if there are multiple options
+        InteractiveData firstInteractive = interactivesOnCell.First();
+        
+        yield return StateMachineInstance.PushNewState(new MessageBoxState(firstInteractive.Message));
+
+        foreach (InteractiveSetFlag flagSet in firstInteractive.FlagSet)
         {
             SceneHelperInstance.SaveDataManagerInstance.CurrentSaveData.SetFlag(flagSet.FlagName, flagSet.Value);
         }

@@ -31,6 +31,8 @@ public class InteractiveData
     public List<InteractiveAppearanceCheck> Checks;
     public List<InteractiveSetFlag> FlagSet;
 
+    public HashSet<CellCoordinates> OnCoordinates;
+
     public bool IsActive { get; set; } = true;
     public LabyrinthInteractive WorldInteractive { get; set; }
 

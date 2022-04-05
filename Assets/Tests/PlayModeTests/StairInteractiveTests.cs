@@ -52,7 +52,11 @@ public class StairInteractiveTests
             testLevel.LabyrinthData.Cells = new List<LabyrinthCell>()
             {
                 new LabyrinthCell() { Coordinate = new CellCoordinates(0, 0, 0), DefaultWalkable = true },
-                new LabyrinthCell() { Coordinate = new CellCoordinates(0, 1, 0), DefaultWalkable = false, Interactive = new InteractiveData() { Kind = InteractiveKind.Stairs } },
+                new LabyrinthCell() { Coordinate = new CellCoordinates(0, 1, 0), DefaultWalkable = false },
+            };
+            testLevel.LabyrinthData.LabyrinthInteractives = new List<InteractiveData>()
+            {
+                new InteractiveData() { Kind = InteractiveKind.Stairs, OnCoordinates = new HashSet<CellCoordinates> { new CellCoordinates(0, 1, 0)}}
             };
             testLevel.CombatClockEnabled = false;
             return testLevel;

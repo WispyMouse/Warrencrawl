@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -359,11 +359,11 @@ PrefabInstance:
     - target: {fileID: 540416474418473652, guid: ef944d8d899305d4a9098a6e9b0605f5, type: 3}
       propertyPath: CurrentLevel
       value: 
-      objectReference: {fileID: 11400000, guid: 041304eb141449e41a7a06640d10b690, type: 2}
+      objectReference: {fileID: 11400000, guid: 20b89a3ff63b4e94097a6e3633c602b1, type: 2}
     - target: {fileID: 540416474418473652, guid: ef944d8d899305d4a9098a6e9b0605f5, type: 3}
       propertyPath: DefaultLevel
       value: 
-      objectReference: {fileID: 11400000, guid: 041304eb141449e41a7a06640d10b690, type: 2}
+      objectReference: {fileID: 11400000, guid: 20b89a3ff63b4e94097a6e3633c602b1, type: 2}
     - target: {fileID: 540416474418473653, guid: ef944d8d899305d4a9098a6e9b0605f5, type: 3}
       propertyPath: m_Name
       value: LabyrinthSceneTools

@@ -27,12 +27,6 @@ public class LabyrinthCell
     public float Height;
 
     /// <summary>
-    /// The interactive element on this cell, if any. Can be null.
-    /// </summary>
-    [SerializeReference]
-    public InteractiveData Interactive;
-
-    /// <summary>
     /// The color to show for this object when <see cref="LabyrinthSceneHelperToolsEditor.showCells"/> is checked.
     /// </summary>
     [ExcludeFromCodeCoverage]
@@ -60,15 +54,5 @@ public class LabyrinthCell
         {
             return new Vector3(Coordinate.X, Height, Coordinate.Y);
         }
-    }
-
-    public bool IsCurrentlyWalkable()
-    {
-        if (Interactive != null)
-        {
-            return Interactive.Walkable;
-        }
-
-        return DefaultWalkable;
     }
 }

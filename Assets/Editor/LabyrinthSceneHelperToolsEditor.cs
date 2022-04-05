@@ -83,11 +83,14 @@ public class LabyrinthSceneHelperToolsEditor : Editor
         {
             Gizmos.color = curCell.DebugColor;
             Gizmos.DrawCube(curCell.Worldspace, Vector3.one);
+        }
 
-            if (curCell.Interactive != null)
+        foreach (InteractiveData interactive in editorScript.CurrentLevel.LabyrinthData.LabyrinthInteractives)
+        {
+            foreach (CellCoordinates coordinate in interactive.OnCoordinates)
             {
                 Gizmos.color = Color.yellow;
-                Gizmos.DrawSphere(curCell.Worldspace + Vector3.up * .25f, .5f);
+                Gizmos.DrawSphere(editorScript.CurrentLevel.LabyrinthData.CellAtCoordinate(coordinate).Worldspace, .5f);
             }
         }
     }
@@ -112,25 +115,11 @@ public class LabyrinthSceneHelperToolsEditor : Editor
             CellCoordinates curFront = frontier.Dequeue();
 
             RaycastHit hit;
-            Collider[] boxColliders = Physics.OverlapBox(new Vector3(curFront.X, 0f, curFront.Y), Vector3.one / 2f, Quaternion.identity, blocked.intValue | interactive.intValue);
+            Collider[] boxColliders = Physics.OverlapBox(new Vector3(curFront.X, 0f, curFront.Y), Vector3.one / 2f, Quaternion.identity, blocked.intValue);
 
             if (boxColliders.Length > 0)
             {
                 LabyrinthCell detectedCell = new LabyrinthCell() { Coordinate = curFront, DefaultWalkable = false };
-
-                // HACK TODO: This assumes one interactive, and only in nonwalkable areas; this will need to move to another check
-                foreach (Collider col in boxColliders)
-                {
-                    bool isInteractive = (1 << col.gameObject.layer) == interactive.intValue;
-
-                    if (isInteractive)
-                    {
-                        LabyrinthInteractive interactiveScript = col.gameObject.GetComponentInParent<LabyrinthInteractive>();
-                        InteractiveData data = interactiveScript.Data;
-                        detectedCell.Interactive = data;
-                    }
-                }
-
                 newLevel.Cells.Add(detectedCell);
             }
             else if (Physics.Raycast(new Vector3(curFront.X, 3f, curFront.Y), Vector3.down, out hit, 4f, walkable.intValue))
@@ -157,6 +146,41 @@ public class LabyrinthSceneHelperToolsEditor : Editor
                 seen.Add(curNeighbor);
                 frontier.Enqueue(curNeighbor);
             }
+        }
+
+        foreach (LabyrinthInteractive processingInteractive in FindObjectsOfType<LabyrinthInteractive>())
+        {
+            HashSet<CellCoordinates> onCoordinates = new HashSet<CellCoordinates>();
+
+            foreach (Collider interactiveCollider in processingInteractive.GetComponentsInChildren<Collider>())
+            {
+                int farthestWest = Mathf.FloorToInt(interactiveCollider.bounds.min.x);
+                int farthestSouth = Mathf.FloorToInt(interactiveCollider.bounds.min.z);
+                int farthestBottom = Mathf.FloorToInt(interactiveCollider.bounds.min.y);
+
+                int farthestEast = Mathf.CeilToInt(interactiveCollider.bounds.max.x);
+                int farthestNorth = Mathf.CeilToInt(interactiveCollider.bounds.max.z);
+                int farthestTop = Mathf.CeilToInt(interactiveCollider.bounds.max.y);
+
+                for (int xx = farthestWest; xx <= farthestEast; xx++)
+                {
+                    for (int zz = farthestSouth; zz <= farthestSouth; zz++)
+                    {
+                        // todo: implement farthestBottom, farthestTop; multiple types of verticality
+
+                        IEnumerable<LabyrinthCell> matchingCells = newLevel.Cells.Where(c => c.Coordinate.X == xx && c.Coordinate.Y == zz);
+                        foreach (LabyrinthCell cell in matchingCells)
+                        {
+                            if (Physics.OverlapBox(cell.Worldspace, Vector3.one / 2f, Quaternion.identity, interactive.intValue).Any(foundCollider => foundCollider == interactiveCollider))
+                            {
+                                processingInteractive.Data.OnCoordinates.Add(cell.Coordinate);
+                            }
+                        }
+                    }
+                }
+            }
+
+            newLevel.LabyrinthInteractives.Add(processingInteractive.Data);
         }
 
         return newLevel;

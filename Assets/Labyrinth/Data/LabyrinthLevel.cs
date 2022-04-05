@@ -40,6 +40,26 @@ public class LabyrinthLevel
     }
     private Dictionary<CellCoordinates, List<CellCoordinates>> loadedNeighborMap { get; set; }
 
+    protected Dictionary<CellCoordinates, HashSet<InteractiveData>> InteractiveMap
+    {
+        get
+        {
+            if (loadedCellMap != null && lastCellsHash == Cells.GetHashCode())
+            {
+                return loadedInteractiveMap;
+            }
+
+            UnrollMap();
+            return loadedInteractiveMap;
+        }
+    }
+    private Dictionary<CellCoordinates, HashSet<InteractiveData>> loadedInteractiveMap { get; set; }
+
+    /// <summary>
+    /// The data structure for all of the interactives on the map. This is serialized.
+    /// </summary>
+    public List<InteractiveData> LabyrinthInteractives = new List<InteractiveData>();
+
     /// <summary>
     /// The data structure for all of the pieces in a level. This is serialized.
     /// </summary>
@@ -73,6 +93,22 @@ public class LabyrinthLevel
             loadedNeighborMap.Add(cell.Coordinate, neighbors);
         }
 
+        loadedInteractiveMap = new Dictionary<CellCoordinates, HashSet<InteractiveData>>();
+        foreach (InteractiveData interactive in LabyrinthInteractives)
+        {
+            foreach (CellCoordinates coordinate in interactive.OnCoordinates)
+            {
+                if (loadedInteractiveMap.ContainsKey(coordinate))
+                {
+                    loadedInteractiveMap[coordinate].Add(interactive);
+                }
+                else
+                {
+                    loadedInteractiveMap.Add(coordinate, new HashSet<InteractiveData> { interactive });
+                }
+            }
+        }
+
         lastCellsHash = Cells.GetHashCode();
     }
     
@@ -104,5 +140,15 @@ public class LabyrinthLevel
             return neighbors;
         }
         return new List<CellCoordinates>();
+    }
+
+    public IEnumerable<InteractiveData> InteractivesAtCoordinate(CellCoordinates coordinate)
+    {
+        if (InteractiveMap.TryGetValue(coordinate, out HashSet<InteractiveData> interactives))
+        {
+            return interactives;
+        }
+
+        return new HashSet<InteractiveData>();
     }
 }
