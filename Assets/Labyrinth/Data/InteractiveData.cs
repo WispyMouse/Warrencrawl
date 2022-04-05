@@ -28,10 +28,10 @@ public class InteractiveData
 
     public string Message;
 
-    public List<InteractiveAppearanceCheck> Checks;
-    public List<InteractiveSetFlag> FlagSet;
+    public List<InteractiveAppearanceCheck> Checks = new List<InteractiveAppearanceCheck>();
+    public List<InteractiveSetFlag> FlagSet = new List<InteractiveSetFlag>();
 
-    public HashSet<CellCoordinates> OnCoordinates;
+    public HashSet<CellCoordinates> OnCoordinates = new HashSet<CellCoordinates>();
 
     public bool IsActive { get; set; } = true;
     public LabyrinthInteractive WorldInteractive { get; set; }

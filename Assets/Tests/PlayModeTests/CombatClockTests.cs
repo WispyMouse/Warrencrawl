@@ -42,7 +42,7 @@ public class CombatClockTests
             yield return labyrinthState.Step(labyrinthState.PointOfViewInstance.CurFacing.Forward());
             steps++;
 
-            if (stateMachine.CurrentState is BattleState)
+            if (stateMachine.CurrentState is CombatGameState)
             {
                 break;
             }
@@ -50,13 +50,13 @@ public class CombatClockTests
             yield return labyrinthState.Step(labyrinthState.PointOfViewInstance.CurFacing.Backward());
             steps++;
 
-            if (stateMachine.CurrentState is BattleState)
+            if (stateMachine.CurrentState is CombatGameState)
             {
                 break;
             }
         }
 
-        Assert.That(stateMachine.CurrentState, Is.TypeOf<BattleState>());
+        Assert.That(stateMachine.CurrentState, Is.InstanceOf<CombatGameState>());
     }
 
     /// <summary>
