@@ -10,4 +10,9 @@ public class MainMenuState : SceneLoadingGameplayState
     {
         controls.UI.Enable();
     }
+
+    public override void UnsetControls(WarrencrawlInputs controls)
+    {
+        controls.UI.Disable();
+    }
 }

@@ -140,11 +140,11 @@ public class LabyrinthTraversalTests
             testLevel.LabyrinthData = new LabyrinthLevel();
             testLevel.LabyrinthData.Cells = new List<LabyrinthCell>()
             {
-                new LabyrinthCell() { Coordinate = new CellCoordinates(0, -2, 0), Walkable = false },
-                new LabyrinthCell() { Coordinate = new CellCoordinates(0, -1, 0), Walkable = true },
-                new LabyrinthCell() { Coordinate = new CellCoordinates(0, 0, 0), Walkable = true },
-                new LabyrinthCell() { Coordinate = new CellCoordinates(0, 1, 0), Walkable = true },
-                new LabyrinthCell() { Coordinate = new CellCoordinates(0, 2, 0), Walkable = false },
+                new LabyrinthCell() { Coordinate = new CellCoordinates(0, -2, 0), DefaultWalkable = false },
+                new LabyrinthCell() { Coordinate = new CellCoordinates(0, -1, 0), DefaultWalkable = true },
+                new LabyrinthCell() { Coordinate = new CellCoordinates(0, 0, 0), DefaultWalkable = true },
+                new LabyrinthCell() { Coordinate = new CellCoordinates(0, 1, 0), DefaultWalkable = true },
+                new LabyrinthCell() { Coordinate = new CellCoordinates(0, 2, 0), DefaultWalkable = false },
             };
             testLevel.CombatClockEnabled = false;
             return testLevel;

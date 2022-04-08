@@ -10,4 +10,9 @@ public class TownState : SceneLoadingGameplayState
     {
         controls.UI.Enable();
     }
+
+    public override void UnsetControls(WarrencrawlInputs activeInput)
+    {
+        activeInput.UI.Disable();
+    }
 }

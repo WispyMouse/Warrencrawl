@@ -53,4 +53,10 @@ public interface IGameplayState
     /// </summary>
     /// <param name="activeInput">The input map to update.</param>
     void SetControls(WarrencrawlInputs activeInput);
+
+    /// <summary>
+    /// Unsets all control bindings made during <see cref="SetControls(WarrencrawlInputs)"/>
+    /// </summary>
+    /// <param name="activeInput">The input map to update.</param>
+    void UnsetControls(WarrencrawlInputs activeInput);
 }

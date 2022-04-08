@@ -17,19 +17,14 @@ public class LabyrinthCell
 
     /// <summary>
     /// Can this cell be walked on to?
+    /// This assumes no Interactives on top of it, or any situational modifiers.
     /// </summary>
-    public bool Walkable;
+    public bool DefaultWalkable;
 
     /// <summary>
     /// The worldspace Y that identifies the floor of this tile.
     /// </summary>
     public float Height;
-
-    /// <summary>
-    /// The interactive element on this cell, if any. Can be null.
-    /// </summary>
-    [SerializeReference]
-    public InteractiveData Interactive;
 
     /// <summary>
     /// The color to show for this object when <see cref="LabyrinthSceneHelperToolsEditor.showCells"/> is checked.
@@ -39,13 +34,9 @@ public class LabyrinthCell
     {
         get
         {
-            if (Walkable)
+            if (DefaultWalkable)
             {
                 return new Color(.6f, 1f, 1f, .6f);
-            }
-            else if (Interactive != null)
-            {
-                return new Color(1f, 1f, .2f, .6f);
             }
             else
             {

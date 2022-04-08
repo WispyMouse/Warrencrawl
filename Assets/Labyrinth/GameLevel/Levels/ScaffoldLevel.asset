@@ -1,0 +1,1051 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5001e9d517566d646ae38a879bf56ec4, type: 3}
+  m_Name: ScaffoldLevel
+  m_EditorClassIdentifier: 
+  LevelName: Scaffold Level
+  LabyrinthData:
+    Cells:
+    - Coordinate:
+        X: 0
+        Y: 0
+        Z: 0
+      DefaultWalkable: 1
+      Height: 2.1
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 1
+        Y: 0
+        Z: 0
+      DefaultWalkable: 1
+      Height: 2.1
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 0
+        Y: 1
+        Z: 0
+      DefaultWalkable: 1
+      Height: 2.1
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: -1
+        Y: 0
+        Z: 0
+      DefaultWalkable: 1
+      Height: 2.1
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 0
+        Y: -1
+        Z: 0
+      DefaultWalkable: 1
+      Height: 2.1
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 2
+        Y: 0
+        Z: 0
+      DefaultWalkable: 1
+      Height: 2.1
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 1
+        Y: 1
+        Z: 0
+      DefaultWalkable: 1
+      Height: 2.1
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 1
+        Y: -1
+        Z: 0
+      DefaultWalkable: 1
+      Height: 2.1
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 0
+        Y: 2
+        Z: 0
+      DefaultWalkable: 1
+      Height: 2.1
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: -1
+        Y: 1
+        Z: 0
+      DefaultWalkable: 1
+      Height: 2.1
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: -2
+        Y: 0
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: -1
+        Y: -1
+        Z: 0
+      DefaultWalkable: 1
+      Height: 2.1
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 3
+        Y: 0
+        Z: 0
+      DefaultWalkable: 1
+      Height: 2.1
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 2
+        Y: 1
+        Z: 0
+      DefaultWalkable: 1
+      Height: 2.1
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 2
+        Y: -1
+        Z: 0
+      DefaultWalkable: 1
+      Height: 2.1
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 1
+        Y: 2
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 0
+        Y: 3
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: -1
+        Y: 2
+        Z: 0
+      DefaultWalkable: 1
+      Height: 2.1
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: -2
+        Y: 1
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: -3
+        Y: 0
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 4
+        Y: 0
+        Z: 0
+      DefaultWalkable: 1
+      Height: 2.1
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 3
+        Y: 1
+        Z: 0
+      DefaultWalkable: 1
+      Height: 2.1
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 3
+        Y: -1
+        Z: 0
+      DefaultWalkable: 1
+      Height: 2.1
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 2
+        Y: 2
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 1
+        Y: 3
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 0
+        Y: 4
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: -1
+        Y: 3
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: -2
+        Y: 2
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: -3
+        Y: 1
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 5
+        Y: 0
+        Z: 0
+      DefaultWalkable: 1
+      Height: 2.1600003
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 4
+        Y: 1
+        Z: 0
+      DefaultWalkable: 1
+      Height: 2.1
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 4
+        Y: -1
+        Z: 0
+      DefaultWalkable: 1
+      Height: 2.1
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 2
+        Y: 3
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 1
+        Y: 4
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 0
+        Y: 5
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: -1
+        Y: 4
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: -2
+        Y: 3
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: -3
+        Y: 2
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 6
+        Y: 0
+        Z: 0
+      DefaultWalkable: 1
+      Height: 2.1600003
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 5
+        Y: 1
+        Z: 0
+      DefaultWalkable: 0
+      Height: 0
+      Interactive:
+        rid: 8340642360946851860
+    - Coordinate:
+        X: 5
+        Y: -1
+        Z: 0
+      DefaultWalkable: 1
+      Height: 2.1600003
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 4
+        Y: 2
+        Z: 0
+      DefaultWalkable: 1
+      Height: 2.1
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 2
+        Y: 4
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 1
+        Y: 5
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 0
+        Y: 6
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: -1
+        Y: 5
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: -2
+        Y: 4
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: -3
+        Y: 3
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 6
+        Y: 1
+        Z: 0
+      DefaultWalkable: 0
+      Height: 0
+      Interactive:
+        rid: 8340642360946851860
+    - Coordinate:
+        X: 6
+        Y: -1
+        Z: 0
+      DefaultWalkable: 1
+      Height: 2.1600003
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 5
+        Y: 2
+        Z: 0
+      DefaultWalkable: 0
+      Height: 0
+      Interactive:
+        rid: 8340642360946851860
+    - Coordinate:
+        X: 3
+        Y: 4
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 2
+        Y: 5
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 1
+        Y: 6
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 0
+        Y: 7
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: -1
+        Y: 6
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: -2
+        Y: 5
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: -3
+        Y: 4
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 7
+        Y: 1
+        Z: 0
+      DefaultWalkable: 0
+      Height: 0
+      Interactive:
+        rid: 8340642360946851860
+    - Coordinate:
+        X: 6
+        Y: 2
+        Z: 0
+      DefaultWalkable: 0
+      Height: 0
+      Interactive:
+        rid: 8340642360946851860
+    - Coordinate:
+        X: 5
+        Y: 3
+        Z: 0
+      DefaultWalkable: 0
+      Height: 0
+      Interactive:
+        rid: 8340642360946851860
+    - Coordinate:
+        X: 4
+        Y: 4
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 3
+        Y: 5
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 2
+        Y: 6
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 1
+        Y: 7
+        Z: 0
+      DefaultWalkable: 0
+      Height: 0
+      Interactive:
+        rid: 8340642360946851861
+    - Coordinate:
+        X: 0
+        Y: 8
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: -1
+        Y: 7
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: -2
+        Y: 6
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: -3
+        Y: 5
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: -4
+        Y: 4
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 8
+        Y: 1
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 7
+        Y: 2
+        Z: 0
+      DefaultWalkable: 0
+      Height: 0
+      Interactive:
+        rid: 8340642360946851860
+    - Coordinate:
+        X: 6
+        Y: 3
+        Z: 0
+      DefaultWalkable: 0
+      Height: 0
+      Interactive:
+        rid: 8340642360946851860
+    - Coordinate:
+        X: 5
+        Y: 4
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 4
+        Y: 5
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 3
+        Y: 6
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 2
+        Y: 7
+        Z: 0
+      DefaultWalkable: 0
+      Height: 0
+      Interactive:
+        rid: 8340642360946851861
+    - Coordinate:
+        X: 1
+        Y: 8
+        Z: 0
+      DefaultWalkable: 0
+      Height: 0
+      Interactive:
+        rid: 8340642360946851861
+    - Coordinate:
+        X: 0
+        Y: 9
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: -2
+        Y: 7
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: -3
+        Y: 6
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: -4
+        Y: 5
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 9
+        Y: 1
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 8
+        Y: 2
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 8
+        Y: 0
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 7
+        Y: 3
+        Z: 0
+      DefaultWalkable: 0
+      Height: 0
+      Interactive:
+        rid: 8340642360946851860
+    - Coordinate:
+        X: 6
+        Y: 4
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 5
+        Y: 5
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 4
+        Y: 6
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 3
+        Y: 7
+        Z: 0
+      DefaultWalkable: 0
+      Height: 0
+      Interactive:
+        rid: 8340642360946851861
+    - Coordinate:
+        X: 2
+        Y: 8
+        Z: 0
+      DefaultWalkable: 0
+      Height: 0
+      Interactive:
+        rid: 8340642360946851861
+    - Coordinate:
+        X: 1
+        Y: 9
+        Z: 0
+      DefaultWalkable: 0
+      Height: 0
+      Interactive:
+        rid: 8340642360946851862
+    - Coordinate:
+        X: -3
+        Y: 7
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: -4
+        Y: 6
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 9
+        Y: 2
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 9
+        Y: 0
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 8
+        Y: 3
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 7
+        Y: 4
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 6
+        Y: 5
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 5
+        Y: 6
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 4
+        Y: 7
+        Z: 0
+      DefaultWalkable: 0
+      Height: 0
+      Interactive:
+        rid: 8340642360946851861
+    - Coordinate:
+        X: 3
+        Y: 8
+        Z: 0
+      DefaultWalkable: 0
+      Height: 0
+      Interactive:
+        rid: 8340642360946851861
+    - Coordinate:
+        X: 2
+        Y: 9
+        Z: 0
+      DefaultWalkable: 0
+      Height: 0
+      Interactive:
+        rid: 8340642360946851862
+    - Coordinate:
+        X: -4
+        Y: 7
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 9
+        Y: 3
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 8
+        Y: 4
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 7
+        Y: 5
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 6
+        Y: 6
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 5
+        Y: 7
+        Z: 0
+      DefaultWalkable: 0
+      Height: 0
+      Interactive:
+        rid: 8340642360946851861
+    - Coordinate:
+        X: 4
+        Y: 8
+        Z: 0
+      DefaultWalkable: 0
+      Height: 0
+      Interactive:
+        rid: 8340642360946851861
+    - Coordinate:
+        X: 3
+        Y: 9
+        Z: 0
+      DefaultWalkable: 0
+      Height: 0
+      Interactive:
+        rid: 8340642360946851862
+    - Coordinate:
+        X: 9
+        Y: 4
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 8
+        Y: 5
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 7
+        Y: 6
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 6
+        Y: 7
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 5
+        Y: 8
+        Z: 0
+      DefaultWalkable: 0
+      Height: 0
+      Interactive:
+        rid: 8340642360946851861
+    - Coordinate:
+        X: 4
+        Y: 9
+        Z: 0
+      DefaultWalkable: 0
+      Height: 0
+      Interactive:
+        rid: 8340642360946851862
+    - Coordinate:
+        X: 9
+        Y: 5
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 8
+        Y: 6
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 7
+        Y: 7
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 5
+        Y: 9
+        Z: 0
+      DefaultWalkable: 0
+      Height: 0
+      Interactive:
+        rid: 8340642360946851862
+    - Coordinate:
+        X: 9
+        Y: 6
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 8
+        Y: 7
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+    - Coordinate:
+        X: 9
+        Y: 7
+        Z: 0
+      DefaultWalkable: 1
+      Height: 0.55999994
+      Interactive:
+        rid: -2
+  Scene: ScaffoldLevel
+  CombatClockEnabled: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 8340642360946851860
+      type: {class: InteractiveData, ns: , asm: Scripts}
+      data:
+        InteractiveID:
+          serializedGuid: 7b537dda-d0db-4072-a783-429644c62967
+        Kind: 3
+        Message: You opened the gate!
+        Checks:
+        - FlagNameToCheck: gateopen
+          ShouldBeVisible: 0
+        FlagSet:
+        - FlagName: gateopen
+          Value: 2
+    - rid: 8340642360946851861
+      type: {class: InteractiveData, ns: , asm: Scripts}
+      data:
+        InteractiveID:
+          serializedGuid: 86eb0441-f598-4612-b7a1-0dfd91230e1f
+        Kind: 0
+        Message: 
+        Checks:
+        - FlagNameToCheck: gateopen
+          ShouldBeVisible: 0
+        FlagSet: []
+    - rid: 8340642360946851862
+      type: {class: InteractiveData, ns: , asm: Scripts}
+      data:
+        InteractiveID:
+          serializedGuid: 3e7366a4-b220-4902-bd4f-e2b54c1b8d47
+        Kind: 0
+        Message: 
+        Checks:
+        - FlagNameToCheck: gateopen
+          ShouldBeVisible: 1
+        FlagSet: []
