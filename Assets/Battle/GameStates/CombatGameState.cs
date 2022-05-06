@@ -22,18 +22,12 @@ public abstract class CombatGameState : IGameplayState
         yield break;
     }
 
-    public IEnumerator AnimateTransitionOut(IGameplayState nextState)
+    public IEnumerator AnimateTransitionOut(IGameplayState nextState, StateLeavingConditions leavingConditions)
     {
         yield break;
     }
 
-    public IEnumerator ChangeUp(IGameplayState nextState)
-    {
-        BattleMenuInstance.ClearItems();
-        yield break;
-    }
-
-    public IEnumerator ExitState(IGameplayState nextState)
+    public IEnumerator ExitState(IGameplayState nextState, StateLeavingConditions leavingConditions)
     {
         BattleMenuInstance.ClearItems();
         yield break;

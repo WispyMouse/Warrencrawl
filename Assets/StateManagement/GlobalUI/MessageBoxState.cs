@@ -18,18 +18,12 @@ public class MessageBoxState : IGameplayState
         yield break;
     }
 
-    public IEnumerator AnimateTransitionOut(IGameplayState nextState)
+    public IEnumerator AnimateTransitionOut(IGameplayState nextState, StateLeavingConditions leavingConditions)
     {
         yield break;
     }
 
-    public IEnumerator ChangeUp(IGameplayState nextState)
-    {
-        messageBoxHandlerInstance.Close();
-        yield break;
-    }
-
-    public IEnumerator ExitState(IGameplayState nextState)
+    public IEnumerator ExitState(IGameplayState nextState, StateLeavingConditions leavingConditions)
     {
         messageBoxHandlerInstance.Close();
         yield break;

@@ -34,7 +34,7 @@ public abstract class SceneLoadingGameplayState : IGameplayState
         SceneHelperInstance = GameObject.FindObjectOfType<SceneHelper>();
     }
 
-    public virtual IEnumerator AnimateTransitionOut(IGameplayState nextState)
+    public virtual IEnumerator AnimateTransitionOut(IGameplayState nextState, StateLeavingConditions leavingConditions)
     {
         if (nextState == null)
         {
@@ -47,9 +47,19 @@ public abstract class SceneLoadingGameplayState : IGameplayState
         }
     }
 
-    public virtual IEnumerator ExitState(IGameplayState nextState)
+    public virtual IEnumerator ExitState(IGameplayState nextState, StateLeavingConditions leavingConditions)
     {
-        yield return StaticSceneTools.UnloadScene(SceneName);
+        if (leavingConditions == StateLeavingConditions.PushNewState && nextState is SceneLoadingGameplayState)
+        {
+            foreach (GameObject rootObj in SceneManager.GetSceneByName(SceneName).GetRootGameObjects())
+            {
+                rootObj.SetActive(false);
+            }
+        }
+        else
+        {
+            yield return StaticSceneTools.UnloadScene(SceneName);
+        }
     }
 
     public virtual IEnumerator AnimateTransitionIn(IGameplayState previousState)
@@ -68,19 +78,6 @@ public abstract class SceneLoadingGameplayState : IGameplayState
     public virtual IEnumerator StartState(GlobalStateMachine globalStateMachine, IGameplayState previousState)
     {
         StateMachineInstance = globalStateMachine;
-
-        yield break;
-    }
-
-    public virtual IEnumerator ChangeUp(IGameplayState nextState)
-    {
-        if (nextState is SceneLoadingGameplayState)
-        {
-            foreach (GameObject rootObj in SceneManager.GetSceneByName(SceneName).GetRootGameObjects())
-            {
-                rootObj.SetActive(false);
-            }
-        }
 
         yield break;
     }

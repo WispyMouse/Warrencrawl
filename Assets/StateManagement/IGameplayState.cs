@@ -9,23 +9,18 @@ using UnityEngine.InputSystem;
 public interface IGameplayState
 {
     /// <summary>
-    /// Processes a change to a new state.
-    /// This preserves this state in the stack, for coming back to later.
-    /// </summary>
-    /// <param name="nextState">State that is being transitioned in to. Should not be null.</param>
-    IEnumerator ChangeUp(IGameplayState nextState);
-
-    /// <summary>
     /// Plays any animations that are related to this state no longer being at the front.
     /// </summary>
     /// <param name="nextState">The state that will be active next.</param>
-    IEnumerator AnimateTransitionOut(IGameplayState nextState);
+    /// <param name="leavingConditions">The mode used for leaving this state.</param>
+    IEnumerator AnimateTransitionOut(IGameplayState nextState, StateLeavingConditions leavingConditions);
 
     /// <summary>
     /// Process leaving the state, intending to unload it entirely.
     /// </summary>
     /// <param name="nextState">State that is being transitioned in to, under this one. Can be null.</param>
-    IEnumerator ExitState(IGameplayState nextState);
+    /// <param name="leavingConditions">The mode used for leaving this state.</param>
+    IEnumerator ExitState(IGameplayState nextState, StateLeavingConditions leavingConditions);
 
     /// <summary>
     /// Load the assets for this state. Does not display them yet.

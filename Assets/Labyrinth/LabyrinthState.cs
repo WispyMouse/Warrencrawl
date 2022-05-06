@@ -130,14 +130,15 @@ public class LabyrinthState : SceneLoadingGameplayState
         PointOfViewInstance.transform.position = cellAtStart.Worldspace;
     }
 
-    public override IEnumerator ExitState(IGameplayState nextState)
+    public override IEnumerator ExitState(IGameplayState nextState, StateLeavingConditions leavingConditions)
     {
-        if (!string.IsNullOrEmpty(LevelToLoad.Scene) && StaticSceneTools.IsSceneLoaded(LevelToLoad.Scene))
+        if ((leavingConditions == StateLeavingConditions.LeavingState || leavingConditions == StateLeavingConditions.CollapsingState)
+            && !string.IsNullOrEmpty(LevelToLoad.Scene) && StaticSceneTools.IsSceneLoaded(LevelToLoad.Scene))
         {
             yield return StaticSceneTools.UnloadScene(LevelToLoad.Scene);
         }
 
-        yield return base.ExitState(nextState);
+        yield return base.ExitState(nextState, leavingConditions);
     }
 
     public override void SetControls(WarrencrawlInputs controls)
