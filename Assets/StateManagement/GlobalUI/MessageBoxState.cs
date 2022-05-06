@@ -47,15 +47,18 @@ public class MessageBoxState : IGameplayState
         activeInput.UI.Disable();
     }
 
-    public IEnumerator StartState(GlobalStateMachine stateMachine, IGameplayState previousState)
-    {
-        messageBoxHandlerInstance.ShowMessage(messageToShow, () => { Progress(stateMachine); });
-
-        yield break;
-    }
-
     void Progress(GlobalStateMachine stateMachine)
     {
         messageBoxHandlerInstance.StartCoroutine(stateMachine.EndCurrentState());
+    }
+
+    public NextState ImmediateNextState(IGameplayState previousState)
+    {
+        return null;
+    }
+
+    void IGameplayState.StartState(GlobalStateMachine stateMachine, IGameplayState previousState)
+    {
+        messageBoxHandlerInstance.ShowMessage(messageToShow, () => { Progress(stateMachine); });
     }
 }

@@ -67,7 +67,7 @@ public class LabyrinthInputHandler : MonoBehaviour, ILabyrinthActions
 
         animating = true;
         BufferedInput bufferedInput = bufferedActions.CurrentInput;
-        sceneHelperInstance.StartCoroutine(bufferedInput.FunctionToPerform());
+        sceneHelperInstance.PlayCoroutine(bufferedInput.FunctionToPerform());
     }
 
     public void OnForward(InputAction.CallbackContext context)
@@ -113,7 +113,7 @@ public class LabyrinthInputHandler : MonoBehaviour, ILabyrinthActions
         }
 
         animating = true;
-        sceneHelperInstance.StartCoroutine(referencedState.Interact());
+        sceneHelperInstance.PlayCoroutine(referencedState.Interact());
     }
 
     void MoveDirection(InputAction.CallbackContext context, RelativeDirection relativeMovement)

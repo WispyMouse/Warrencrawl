@@ -5,30 +5,28 @@ namespace EncounterSubStates
     public class ChooseTargetState : EncounterSubState
     {
         EncounterCommand Command { get; set; }
+        GlobalStateMachine stateMachineInstance { get; set; }
 
         public ChooseTargetState(EncounterState baseEncounterState, EncounterCommand command) : base (baseEncounterState)
         {
             Command = command;
         }
 
-        public override IEnumerator StartState(GlobalStateMachine stateMachine, IGameplayState previousState)
+        public override void StartState(GlobalStateMachine stateMachine, IGameplayState previousState)
         {
-            while (Command != null && Command.Target == null)
-            {
-                yield return null;
-            }
-
-            yield return stateMachine.EndCurrentState();
+            stateMachineInstance = stateMachine;
         }
 
         public void TargetChosen(EncounterMember target)
         {
             Command.SetTarget(target);
+            stateMachineInstance.StartEndCurrentState();
         }
 
         public void BackedOut()
         {
             Command = null;
+            stateMachineInstance.StartEndCurrentState();
         }
     }
 }

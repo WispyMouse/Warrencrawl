@@ -11,7 +11,7 @@ using UnityEngine.SceneManagement;
 /// If a scene with just this is loaded, it'll get the game started on the MainMenu.
 /// If another scene is open when this is loaded, this'll try to load the game to an appropriate state.
 /// </summary>
-public class SceneHelper : MonoBehaviour
+public class SceneHelper : MonoBehaviour, ICoroutineRunner
 {
     public static GlobalStateMachine GlobalStateMachineInstance { get; private set; }
     public static WarrencrawlInputs Inputs { get; private set; }
@@ -34,19 +34,19 @@ public class SceneHelper : MonoBehaviour
 
         if (GlobalStateMachineInstance == null)
         {
-            GlobalStateMachineInstance = new GlobalStateMachine(Inputs);
+            GlobalStateMachineInstance = new GlobalStateMachine(Inputs, this);
 
             SceneHelperTools bootstrapperTools = GameObject.FindObjectOfType<SceneHelperTools>();
 
             if (bootstrapperTools == null)
             {
                 MainMenuState mainMenuState = new MainMenuState();
-                StartCoroutine(GlobalStateMachineInstance.ChangeToState(mainMenuState));
+                PlayCoroutine(GlobalStateMachineInstance.ChangeToState(mainMenuState));
             }
             else
             {
                 IGameplayState firstState = bootstrapperTools.GetNewDemoState();
-                StartCoroutine(GlobalStateMachineInstance.ChangeToState(firstState));
+                PlayCoroutine(GlobalStateMachineInstance.ChangeToState(firstState));
             }
         }
     }
@@ -67,5 +67,10 @@ public class SceneHelper : MonoBehaviour
         {
             yield return StaticSceneTools.LoadSceneAdditvely(nameof(SceneHelper));
         }
+    }
+
+    public void PlayCoroutine(IEnumerator toRun)
+    {
+        this.StartCoroutine(toRun);
     }
 }

@@ -12,18 +12,22 @@ namespace EncounterSubStates
             CommandsToResolve = commands;
         }
 
-        public override IEnumerator StartState(GlobalStateMachine stateMachine, IGameplayState previousState)
+        public override NextState ImmediateNextState(IGameplayState previousState)
         {
             if (CommandsToResolve.Count == 0)
             {
-                yield return stateMachine.EndCurrentState();
-                yield break;
+                return NextState.EndCurrentState();
             }
 
             EncounterCommand nextCommand = CommandsToResolve[0];
             CommandsToResolve.RemoveAt(0);
 
-            yield return stateMachine.PushNewState(new ResolveCommandState(BaseEncounterState, nextCommand));
+            return NextState.PushNextState(new ResolveCommandState(BaseEncounterState, nextCommand));
+        }
+
+        public override void StartState(GlobalStateMachine stateMachine, IGameplayState previousState)
+        {
+            
         }
     }
 }

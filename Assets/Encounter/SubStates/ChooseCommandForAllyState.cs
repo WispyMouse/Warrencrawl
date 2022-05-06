@@ -5,10 +5,10 @@ namespace EncounterSubStates
     public class ChooseCommandForAllyState : EncounterSubState
     {
         EncounterMember ActingAlly { get; set; }
-        bool BackingOut { get; set; } = false;
 
         EncounterCommand ChosenCommand { get; set; }
         ChooseCommandsForPartyState PartyState { get; set; }
+        GlobalStateMachine StateMachine { get; set; }
 
         public ChooseCommandForAllyState(EncounterState baseEncounterState, ChooseCommandsForPartyState commandsForPartyState, EncounterMember thisMember) : base(baseEncounterState)
         {
@@ -16,7 +16,24 @@ namespace EncounterSubStates
             ActingAlly = thisMember;
         }
 
-        public override IEnumerator StartState(GlobalStateMachine stateMachine, IGameplayState previousState)
+        public override void StartState(GlobalStateMachine stateMachine, IGameplayState previousState)
+        {
+            StateMachine = stateMachine;
+        }
+
+        public void CommandChosen(string command)
+        {
+            ChosenCommand = new EncounterCommand(ActingAlly, command);
+            StateMachine.StartPushNewState(new ChooseTargetState(BaseEncounterState, ChosenCommand));
+        }
+
+        public void BackedOut()
+        {
+            PartyState.UndoLastCommand();
+            StateMachine.StartEndCurrentState();
+        }
+
+        public override NextState ImmediateNextState(IGameplayState previousState)
         {
             if (previousState is ChooseTargetState)
             {
@@ -28,34 +45,11 @@ namespace EncounterSubStates
                 {
                     // A target was chosen; add this command to the list and go back a level so the next party member can act
                     BaseEncounterState.EncounterCommands.Add(ChosenCommand);
-                    yield return stateMachine.EndCurrentState();
-                    yield break;
+                    return NextState.EndCurrentState();
                 }
             }
 
-            while (ChosenCommand == null && BackingOut == false)
-            {
-                yield return null;
-            }
-
-            if (BackingOut)
-            {
-                PartyState.UndoLastCommand();
-                yield return stateMachine.EndCurrentState();
-                yield break;
-            }
-
-            yield return stateMachine.PushNewState(new ChooseTargetState(BaseEncounterState, ChosenCommand));
-        }
-
-        public void CommandChosen(string command)
-        {
-            ChosenCommand = new EncounterCommand(ActingAlly, command);
-        }
-
-        public void BackedOut()
-        {
-            BackingOut = true;
+            return null;
         }
     }
 }

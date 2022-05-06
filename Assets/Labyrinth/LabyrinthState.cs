@@ -100,13 +100,13 @@ public class LabyrinthState : SceneLoadingGameplayState
         ScanInteractivesUsingFlags();
     }
 
-    public override IEnumerator StartState(GlobalStateMachine globalStateMachine, IGameplayState previousState)
+    public override void StartState(GlobalStateMachine globalStateMachine, IGameplayState previousState)
     {
         LockingAnimationFinished?.Invoke(this, new EventArgs());
 
         ScanInteractivesUsingFlags();
 
-        yield return base.StartState(globalStateMachine, previousState);
+        base.StartState(globalStateMachine, previousState);
 
         switch (LevelToLoad.CombatClockEnabled)
         {

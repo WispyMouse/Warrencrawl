@@ -52,11 +52,21 @@ public class EncounterState : IGameplayState
         
     }
 
-    public IEnumerator StartState(GlobalStateMachine stateMachine, IGameplayState previousState)
+    public void StartState(GlobalStateMachine stateMachine, IGameplayState previousState)
+    {
+        
+    }
+
+    public void UnsetControls(WarrencrawlInputs activeInput)
+    {
+        
+    }
+
+    public NextState ImmediateNextState(IGameplayState previousState)
     {
         if (EncounterCommands.Count == 0)
         {
-            yield return stateMachine.PushNewState(new ChooseCommandsForPartyState(this));
+            return NextState.PushNextState(new ChooseCommandsForPartyState(this));
         }
         else
         {
@@ -73,11 +83,11 @@ public class EncounterState : IGameplayState
                 encounterCommandsToResolve.Add(opponentCommand);
             }
 
-            yield return stateMachine.PushNewState(new ResolveCommandsState(this, encounterCommandsToResolve));
+            return NextState.PushNextState(new ResolveCommandsState(this, encounterCommandsToResolve));
         }
     }
 
-    public void UnsetControls(WarrencrawlInputs activeInput)
+    void IGameplayState.StartState(GlobalStateMachine stateMachine, IGameplayState previousState)
     {
         
     }

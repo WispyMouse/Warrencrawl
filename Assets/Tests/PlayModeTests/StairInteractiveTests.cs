@@ -16,7 +16,7 @@ public class StairInteractiveTests
     public IEnumerator SetUp()
     {
         inputs = new WarrencrawlInputs();
-        stateMachine = new GlobalStateMachine(inputs);
+        stateMachine = new GlobalStateMachine(inputs, new ImmediateCoroutineRunner());
         labyrinthState = new LabyrinthState(new TestLabyrinthProvider());
         yield return SceneHelper.SetSceneHelper(stateMachine, inputs);
         yield return stateMachine.ChangeToState(labyrinthState);

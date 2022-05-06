@@ -15,7 +15,7 @@ public class StateManagementTests
     public IEnumerator SetUp()
     {
         inputs = new WarrencrawlInputs();
-        stateMachine = new GlobalStateMachine(inputs);
+        stateMachine = new GlobalStateMachine(inputs, new ImmediateCoroutineRunner());
         yield return SceneHelper.SetSceneHelper(stateMachine, inputs);
     }
 

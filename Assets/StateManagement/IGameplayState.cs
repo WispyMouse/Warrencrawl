@@ -9,18 +9,13 @@ using UnityEngine.InputSystem;
 public interface IGameplayState
 {
     /// <summary>
-    /// Plays any animations that are related to this state no longer being at the front.
+    /// Gets the immediate next state to transition in to from this one.
+    /// If this returns null, then this state is warmed up and started regularly.
+    /// If this returns any value, that state is immediately transitioned in to instead of going through this one. AnimateTransitionIn and StartState won't be called.
     /// </summary>
-    /// <param name="nextState">The state that will be active next.</param>
-    /// <param name="leavingConditions">The mode used for leaving this state.</param>
-    IEnumerator AnimateTransitionOut(IGameplayState nextState, StateLeavingConditions leavingConditions);
-
-    /// <summary>
-    /// Process leaving the state, intending to unload it entirely.
-    /// </summary>
-    /// <param name="nextState">State that is being transitioned in to, under this one. Can be null.</param>
-    /// <param name="leavingConditions">The mode used for leaving this state.</param>
-    IEnumerator ExitState(IGameplayState nextState, StateLeavingConditions leavingConditions);
+    /// <param name="previousState">The state that was active before this.</param>
+    /// <returns>A gameplay state to transition in to and what sort of transition it is. Can be null if there shouldn't be an immediate transition.</returns>
+    NextState ImmediateNextState(IGameplayState previousState);
 
     /// <summary>
     /// Load the assets for this state. Does not display them yet.
@@ -36,11 +31,12 @@ public interface IGameplayState
     IEnumerator AnimateTransitionIn(IGameplayState previousState);
 
     /// <summary>
-    /// Begins the state. At this point the assets should all be loaded and ready for display.
+    /// Kicks off the state.
+    /// At this point the assets should all be loaded and ready for display, and the controls should be set.
     /// </summary>
     /// <param name="stateMachine">The active global state machine.</param>
     /// <param name="previousState">The state before this one was loaded. Can be null.</param>
-    IEnumerator StartState(GlobalStateMachine stateMachine, IGameplayState previousState);
+    void StartState(GlobalStateMachine stateMachine, IGameplayState previousState);
 
     /// <summary>
     /// Sets the top level controls that this state uses.
@@ -54,4 +50,18 @@ public interface IGameplayState
     /// </summary>
     /// <param name="activeInput">The input map to update.</param>
     void UnsetControls(WarrencrawlInputs activeInput);
+
+    /// <summary>
+    /// Plays any animations that are related to this state no longer being at the front.
+    /// </summary>
+    /// <param name="nextState">The state that will be active next.</param>
+    /// <param name="leavingConditions">The mode used for leaving this state.</param>
+    IEnumerator AnimateTransitionOut(IGameplayState nextState, StateLeavingConditions leavingConditions);
+
+    /// <summary>
+    /// Process leaving the state, intending to unload it entirely.
+    /// </summary>
+    /// <param name="nextState">State that is being transitioned in to, under this one. Can be null.</param>
+    /// <param name="leavingConditions">The mode used for leaving this state.</param>
+    IEnumerator ExitState(IGameplayState nextState, StateLeavingConditions leavingConditions);
 }

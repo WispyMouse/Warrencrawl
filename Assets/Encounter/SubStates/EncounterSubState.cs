@@ -36,14 +36,19 @@ namespace EncounterSubStates
 
         }
 
-        public virtual IEnumerator StartState(GlobalStateMachine stateMachine, IGameplayState previousState)
-        {
-            yield break;
-        }
-
         public virtual void UnsetControls(WarrencrawlInputs activeInput)
         {
 
+        }
+
+        public virtual NextState ImmediateNextState(IGameplayState previousState)
+        {
+            return null;
+        }
+
+        public virtual void StartState(GlobalStateMachine stateMachine, IGameplayState previousState)
+        {
+            
         }
     }
 }

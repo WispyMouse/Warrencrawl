@@ -75,14 +75,17 @@ public abstract class SceneLoadingGameplayState : IGameplayState
         }
     }
 
-    public virtual IEnumerator StartState(GlobalStateMachine globalStateMachine, IGameplayState previousState)
-    {
-        StateMachineInstance = globalStateMachine;
-
-        yield break;
-    }
-
     public abstract void SetControls(WarrencrawlInputs controls);
 
     public abstract void UnsetControls(WarrencrawlInputs controls);
+
+    public virtual NextState ImmediateNextState(IGameplayState previousState)
+    {
+        return null;
+    }
+
+    public virtual void StartState(GlobalStateMachine stateMachine, IGameplayState previousState)
+    {
+        StateMachineInstance = stateMachine;
+    }
 }

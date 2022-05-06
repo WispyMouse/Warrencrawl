@@ -12,10 +12,10 @@ namespace EncounterSubStates
             CommandToResolve = commandToResolve;
         }
 
-        public override IEnumerator StartState(GlobalStateMachine stateMachine, IGameplayState previousState)
+        public override void StartState(GlobalStateMachine stateMachine, IGameplayState previousState)
         {
             Debug.Log($"Resolving command: {CommandToResolve.ActingMember.DisplayName} uses {CommandToResolve.Command} on {CommandToResolve.Target.DisplayName}");
-            yield return stateMachine.EndCurrentState();
+            stateMachine.StartEndCurrentState();
         }
     }
 }

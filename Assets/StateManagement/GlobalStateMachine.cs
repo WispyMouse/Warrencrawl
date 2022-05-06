@@ -22,13 +22,16 @@ public class GlobalStateMachine
     /// </summary>
     Stack<IGameplayState> PresentStates { get; set; } = new Stack<IGameplayState>();
 
+    ICoroutineRunner CoroutineRunner { get; set; }
+
     /// <summary>
     /// Constructor for the GlobalStateMachine.
     /// </summary>
     /// <param name="inputs">The input map used.</param>
-    public GlobalStateMachine(WarrencrawlInputs inputs)
+    public GlobalStateMachine(WarrencrawlInputs inputs, ICoroutineRunner coroutineRunner)
     {
         this.lastActiveControls = inputs;
+        this.CoroutineRunner = coroutineRunner;
     }
 
     /// <summary>
@@ -67,6 +70,11 @@ public class GlobalStateMachine
         yield return WarmUpAndStartCurrentState(oldState);
     }
 
+    public void StartPushNewState(IGameplayState newState)
+    {
+        CoroutineRunner.PlayCoroutine(PushNewState(newState));
+    }
+
     /// <summary>
     /// Transitions to a new state, finishing when complete.
     /// The old state remains, lower on the <see cref="PresentStates"/> stack.
@@ -80,6 +88,11 @@ public class GlobalStateMachine
         yield return oldState?.ExitState(newState, StateLeavingConditions.PushNewState);
         PresentStates.Push(newState);
         yield return WarmUpAndStartCurrentState(oldState);
+    }
+
+    public void StartEndCurrentState()
+    {
+        CoroutineRunner.PlayCoroutine(EndCurrentState());
     }
 
     /// <summary>
@@ -109,10 +122,26 @@ public class GlobalStateMachine
             yield break;
         }
 
+        NextState immediateNextState = CurrentState.ImmediateNextState(lastState);
+
+        if (immediateNextState != null)
+        {
+            if (immediateNextState.LeavingConditions == StateLeavingConditions.PushNewState)
+            {
+                yield return PushNewState(immediateNextState.NextPushedState);
+                yield break;
+            }
+            else
+            {
+                yield return EndCurrentState();
+                yield break;
+            }
+        }
+
         yield return CurrentState.Load();
         yield return CurrentState.AnimateTransitionIn(lastState);
         CurrentState.SetControls(lastActiveControls);
-        yield return CurrentState.StartState(this, lastState);
+        CurrentState.StartState(this, lastState);
     }
 
     /// <summary>

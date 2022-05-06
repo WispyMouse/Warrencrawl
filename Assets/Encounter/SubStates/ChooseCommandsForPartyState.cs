@@ -11,16 +11,15 @@ namespace EncounterSubStates
 
         }
 
-        public override IEnumerator StartState(GlobalStateMachine stateMachine, IGameplayState previousState)
+        public override NextState ImmediateNextState(IGameplayState previousState)
         {
             if (CurPartyMemberIndex >= BaseEncounterState.PlayerPartyPointer.PartyMembers.Count)
             {
-                yield return stateMachine.EndCurrentState();
-                yield break;
+                return NextState.EndCurrentState();
             }
 
             EncounterMember thisPartyMember = BaseEncounterState.PlayerPartyPointer.PartyMembers[CurPartyMemberIndex++];
-            yield return stateMachine.PushNewState(new ChooseCommandForAllyState(BaseEncounterState, this, thisPartyMember));
+            return NextState.PushNextState(new ChooseCommandForAllyState(BaseEncounterState, this, thisPartyMember));
         }
 
         public void UndoLastCommand()

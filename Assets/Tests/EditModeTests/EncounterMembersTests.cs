@@ -15,11 +15,11 @@ public class EncounterMembersTests
     public void SetUp()
     {
         inputs = new WarrencrawlInputs();
-        stateMachine = new GlobalStateMachine(inputs);
+        stateMachine = new GlobalStateMachine(inputs, new ImmediateCoroutineRunner());
     }
 
-    [TearDown]
-    public IEnumerator TearDown()
+    [UnityTearDown]
+    public IEnumerator UnityTearDown()
     {
         yield return stateMachine.CollapseAllStates();
     }
@@ -27,7 +27,7 @@ public class EncounterMembersTests
     /// <summary>
     /// Checks that battles started with BattleOpponents 
     /// </summary>
-    [Test]
+    [UnityTest]
     public IEnumerator EncounterState_OpponentMembersAreAsExpected()
     {
         BattleOpponents expectedOpponents = new BattleOpponents();
@@ -59,7 +59,7 @@ public class EncounterMembersTests
     /// <summary>
     /// Checks that battles started with BattleOpponents 
     /// </summary>
-    [Test]
+    [UnityTest]
     public IEnumerator EncounterState_PartyMembersAreAsExpected()
     {
         BattleOpponents expectedOpponents = new BattleOpponents();
