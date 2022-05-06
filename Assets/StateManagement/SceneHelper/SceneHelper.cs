@@ -29,12 +29,7 @@ public class SceneHelper : MonoBehaviour
 
         if (PlayerParty == null)
         {
-            PlayerParty = new PlayerParty();
-            PlayerParty.AddPartyMember(new CombatMember() { DisplayName = "Velcro" });
-            PlayerParty.AddPartyMember(new CombatMember() { DisplayName = "Lace" });
-            PlayerParty.AddPartyMember(new CombatMember() { DisplayName = "Zipper" });
-            PlayerParty.AddPartyMember(new CombatMember() { DisplayName = "Stitch" });
-            PlayerParty.AddPartyMember(new CombatMember() { DisplayName = "Button" });
+            PlayerParty = PlayerParty.GetDemoParty();
         }
 
         if (GlobalStateMachineInstance == null)

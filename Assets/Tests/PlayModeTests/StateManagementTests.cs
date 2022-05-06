@@ -63,9 +63,9 @@ public class StateManagementTests
         yield return stateMachine.ChangeToState(labyrinthState);
         Assert.That(stateMachine.CurrentState, Is.EqualTo(labyrinthState));
 
-        BattleState battleState = new BattleState();
-        yield return stateMachine.PushNewState(battleState);
-        Assert.That(stateMachine.CurrentState, Is.EqualTo(battleState));
+        EncounterState encounterState = new EncounterState(PlayerParty.GetDemoParty(), BattleOpponents.GetDemoOpponents());
+        yield return stateMachine.PushNewState(encounterState);
+        Assert.That(stateMachine.CurrentState, Is.EqualTo(encounterState));
 
         yield return stateMachine.EndCurrentState();
         Assert.That(stateMachine.CurrentState, Is.EqualTo(labyrinthState));

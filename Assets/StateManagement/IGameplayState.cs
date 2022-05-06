@@ -36,10 +36,10 @@ public interface IGameplayState
     IEnumerator AnimateTransitionIn(IGameplayState previousState);
 
     /// <summary>
-    /// Animate a transition in to this state. At this point the assets should all be loaded and ready for display.
+    /// Begins the state. At this point the assets should all be loaded and ready for display.
     /// </summary>
+    /// <param name="stateMachine">The active global state machine.</param>
     /// <param name="previousState">The state before this one was loaded. Can be null.</param>
-    /// <param name="nextState">State that is being transitioned in to.</param>
     IEnumerator StartState(GlobalStateMachine stateMachine, IGameplayState previousState);
 
     /// <summary>

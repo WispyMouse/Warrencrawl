@@ -197,7 +197,7 @@ public class LabyrinthState : SceneLoadingGameplayState
 
         if (ActiveCombatClock.ShouldEncounterStart())
         {
-            yield return StateMachineInstance.PushNewState(new BattleState());
+            yield return StateMachineInstance.PushNewState(new EncounterState(SceneHelperInstance.PlayerParty, BattleOpponents.GetDemoOpponents()));
         }
 
         LockingAnimationFinished?.Invoke(this, new EventArgs());

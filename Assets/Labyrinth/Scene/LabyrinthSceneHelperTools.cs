@@ -43,7 +43,7 @@ public class LabyrinthSceneHelperTools : SceneHelperTools, IGameLevelProvider
 
     public void ToBattle()
     {
-        SceneHelperInstance.StartCoroutine(SceneHelper.GlobalStateMachineInstance.PushNewState(new BattleState()));
+        SceneHelperInstance.StartCoroutine(SceneHelper.GlobalStateMachineInstance.PushNewState(new EncounterState(SceneHelperInstance.PlayerParty, BattleOpponents.GetDemoOpponents())));
     }
 
     protected override IEnumerator StartChild()
