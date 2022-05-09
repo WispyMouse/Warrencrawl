@@ -15,7 +15,7 @@ public class EncounterMembersTests
     public void SetUp()
     {
         inputs = new WarrencrawlInputs();
-        stateMachine = new GlobalStateMachine(inputs, new ImmediateCoroutineRunner());
+        stateMachine = new GlobalStateMachine(inputs, new ProgrammaticUXProvider());
     }
 
     [UnityTearDown]

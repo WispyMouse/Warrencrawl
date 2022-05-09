@@ -11,13 +11,16 @@ using UnityEngine.SceneManagement;
 /// If a scene with just this is loaded, it'll get the game started on the MainMenu.
 /// If another scene is open when this is loaded, this'll try to load the game to an appropriate state.
 /// </summary>
-public class SceneHelper : MonoBehaviour, ICoroutineRunner
+public class SceneHelper : MonoBehaviour, IGameplayUXProvider, ICoroutineRunner
 {
     public static GlobalStateMachine GlobalStateMachineInstance { get; private set; }
     public static WarrencrawlInputs Inputs { get; private set; }
 
     public Transitions TransitionsInstance;
     public PlayerParty PlayerParty { get; set; }
+
+    public ICoroutineRunner CoroutineRunner => this;
+
     public SaveDataManager SaveDataManagerInstance;
 
     private void Awake()
@@ -72,5 +75,15 @@ public class SceneHelper : MonoBehaviour, ICoroutineRunner
     public void PlayCoroutine(IEnumerator toRun)
     {
         this.StartCoroutine(toRun);
+    }
+
+    public void SetUXProvider(IGameplayUXProvider uxProvider)
+    {
+
+    }
+
+    public IEncounterUXHandler GetEncounterUXHandler()
+    {
+        return null;
     }
 }

@@ -16,7 +16,7 @@ public class LabyrinthTraversalTests
     public IEnumerator SetUp()
     {
         inputs = new WarrencrawlInputs();
-        stateMachine = new GlobalStateMachine(inputs, new ImmediateCoroutineRunner());
+        stateMachine = new GlobalStateMachine(inputs, new ProgrammaticUXProvider());
         labyrinthState = new LabyrinthState(new TestLabyrinthProvider());
         yield return SceneHelper.SetSceneHelper(stateMachine, inputs);
         yield return stateMachine.ChangeToState(labyrinthState);

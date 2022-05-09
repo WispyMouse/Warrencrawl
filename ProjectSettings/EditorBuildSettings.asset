@@ -17,8 +17,5 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Labyrinth/Scene/Labyrinth.unity
     guid: fdcc1b10e4c296749bfb9cc2c4d4abee
-  - enabled: 1
-    path: Assets/Battle/Battle.unity
-    guid: 72fb384320827684383f8db377640c78
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: bd5dc4b905aa9d747a0e84ce4fecdb76, type: 2}

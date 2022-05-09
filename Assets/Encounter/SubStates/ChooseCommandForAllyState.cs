@@ -19,11 +19,13 @@ namespace EncounterSubStates
         public override void StartState(GlobalStateMachine stateMachine, IGameplayState previousState)
         {
             StateMachine = stateMachine;
+            UXProvider.SetCurrentActingPartyMember(ActingAlly);
         }
 
         public void CommandChosen(string command)
         {
             ChosenCommand = new EncounterCommand(ActingAlly, command);
+            UXProvider.SetCommandForCurrentActingPartyMember(command);
             StateMachine.StartPushNewState(new ChooseTargetState(BaseEncounterState, ChosenCommand));
         }
 

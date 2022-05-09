@@ -24,9 +24,19 @@ public class LabyrinthAnimationHandler : MonoBehaviour
 
         while (curTime < stepTime)
         {
+            if (pov.gameObject == null || !pov.gameObject.activeSelf)
+            {
+                break;
+            }
+
             curTime += Time.deltaTime;
             pov.transform.position = Vector3.Lerp(startingPosition, targetPosition, curTime / stepTime);
             yield return new WaitForEndOfFrame();
+        }
+
+        if (pov.gameObject == null || !pov.gameObject.activeSelf)
+        {
+            yield break;
         }
 
         pov.transform.position = targetPosition;

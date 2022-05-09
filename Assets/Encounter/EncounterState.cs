@@ -8,18 +8,20 @@ public class EncounterState : IGameplayState
     /// <summary>
     /// A reference to the current party, passed in through the constructor.
     /// </summary>
-    public PlayerParty PlayerPartyPointer { get; set; }
+    public PlayerParty PlayerPartyPointer { get; private set; }
 
     /// <summary>
     /// A reference to an opposing party for this conflict, passed in through the constructor
     /// </summary>
-    public BattleOpponents Opponents { get; set; }
+    public BattleOpponents Opponents { get; private set; }
 
     /// <summary>
     /// A list of commands to execute gameplay with.
     /// Set by the level above it, <see cref="ChooseCommandsForPartyState"/>, to be executed in <see cref="ResolveCommandsState"/>.
     /// </summary>
     public List<EncounterCommand> EncounterCommands { get; set; } = new List<EncounterCommand>();
+
+    protected IEncounterUXHandler EncounterUXProvider { get; private set; }
 
     public EncounterState(PlayerParty playerPartyPointer, BattleOpponents opponents)
     {
@@ -48,11 +50,6 @@ public class EncounterState : IGameplayState
     }
 
     public void SetControls(WarrencrawlInputs activeInput)
-    {
-        
-    }
-
-    public void StartState(GlobalStateMachine stateMachine, IGameplayState previousState)
     {
         
     }
@@ -87,8 +84,13 @@ public class EncounterState : IGameplayState
         }
     }
 
-    void IGameplayState.StartState(GlobalStateMachine stateMachine, IGameplayState previousState)
+    public void StartState(GlobalStateMachine stateMachine, IGameplayState previousState)
     {
         
+    }
+
+    public void SetUXProvider(IGameplayUXProvider uxProvider)
+    {
+        EncounterUXProvider = uxProvider.GetEncounterUXHandler();
     }
 }

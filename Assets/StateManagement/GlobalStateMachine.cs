@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,16 +23,19 @@ public class GlobalStateMachine
     /// </summary>
     Stack<IGameplayState> PresentStates { get; set; } = new Stack<IGameplayState>();
 
-    ICoroutineRunner CoroutineRunner { get; set; }
+    public IGameplayUXProvider UXProvider { get; private set; }
+
+    private bool InTransitionState { get; set; } = false;
 
     /// <summary>
     /// Constructor for the GlobalStateMachine.
     /// </summary>
     /// <param name="inputs">The input map used.</param>
-    public GlobalStateMachine(WarrencrawlInputs inputs, ICoroutineRunner coroutineRunner)
+    /// <param name="uxProvider">The provider for UX elements for the game.</param>
+    public GlobalStateMachine(WarrencrawlInputs inputs, IGameplayUXProvider uxProvider)
     {
         this.lastActiveControls = inputs;
-        this.CoroutineRunner = coroutineRunner;
+        this.UXProvider = uxProvider;
     }
 
     /// <summary>
@@ -58,6 +62,7 @@ public class GlobalStateMachine
     /// <returns>Yieldable IEnumerator.</returns>
     public IEnumerator ChangeToState(IGameplayState newState)
     {
+        InTransitionState = true;
         IGameplayState oldState = CurrentState;
         if (oldState != null)
         {
@@ -72,7 +77,7 @@ public class GlobalStateMachine
 
     public void StartPushNewState(IGameplayState newState)
     {
-        CoroutineRunner.PlayCoroutine(PushNewState(newState));
+        UXProvider.CoroutineRunner.PlayCoroutine(PushNewState(newState));
     }
 
     /// <summary>
@@ -83,6 +88,7 @@ public class GlobalStateMachine
     /// <returns>Yieldable IEnumerator.</returns>
     public IEnumerator PushNewState(IGameplayState newState)
     {
+        InTransitionState = true;
         IGameplayState oldState = CurrentState;
         yield return oldState?.AnimateTransitionOut(newState, StateLeavingConditions.PushNewState);
         yield return oldState?.ExitState(newState, StateLeavingConditions.PushNewState);
@@ -92,7 +98,7 @@ public class GlobalStateMachine
 
     public void StartEndCurrentState()
     {
-        CoroutineRunner.PlayCoroutine(EndCurrentState());
+        UXProvider.CoroutineRunner.PlayCoroutine(EndCurrentState());
     }
 
     /// <summary>
@@ -101,6 +107,7 @@ public class GlobalStateMachine
     /// <returns>Yieldable IEnumerator.</returns>
     public IEnumerator EndCurrentState()
     {
+        InTransitionState = true;
         IGameplayState oldState = CurrentState;
         PresentStates.Pop();
 
@@ -138,10 +145,12 @@ public class GlobalStateMachine
             }
         }
 
+        CurrentState.SetUXProvider(UXProvider);
         yield return CurrentState.Load();
         yield return CurrentState.AnimateTransitionIn(lastState);
         CurrentState.SetControls(lastActiveControls);
         CurrentState.StartState(this, lastState);
+        InTransitionState = false;
     }
 
     /// <summary>
@@ -149,10 +158,20 @@ public class GlobalStateMachine
     /// </summary>
     public IEnumerator CollapseAllStates()
     {
+        InTransitionState = true;
         while (CurrentState != null)
         {
             yield return CurrentState.ExitState(null, StateLeavingConditions.CollapsingState);
             PresentStates.Pop();
+        }
+        InTransitionState = false;
+    }
+
+    public IEnumerator YieldUntilNotInTransitionalState()
+    {
+        while (InTransitionState)
+        {
+            yield return null;
         }
     }
 }

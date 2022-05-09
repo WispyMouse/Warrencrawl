@@ -5,6 +5,7 @@ namespace EncounterSubStates
     public abstract class EncounterSubState : IGameplayState
     {
         protected EncounterState BaseEncounterState { get; private set; }
+        protected IEncounterUXHandler UXProvider { get; private set; }
 
         public EncounterSubState(EncounterState baseEncounterState)
         {
@@ -49,6 +50,11 @@ namespace EncounterSubStates
         public virtual void StartState(GlobalStateMachine stateMachine, IGameplayState previousState)
         {
             
+        }
+
+        public virtual void SetUXProvider(IGameplayUXProvider uxProvider)
+        {
+            UXProvider = uxProvider.GetEncounterUXHandler();
         }
     }
 }

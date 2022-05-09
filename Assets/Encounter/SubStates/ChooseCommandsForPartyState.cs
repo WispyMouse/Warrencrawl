@@ -19,6 +19,8 @@ namespace EncounterSubStates
             }
 
             EncounterMember thisPartyMember = BaseEncounterState.PlayerPartyPointer.PartyMembers[CurPartyMemberIndex++];
+
+
             return NextState.PushNextState(new ChooseCommandForAllyState(BaseEncounterState, this, thisPartyMember));
         }
 

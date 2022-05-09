@@ -15,6 +15,7 @@ namespace EncounterSubStates
         public override void StartState(GlobalStateMachine stateMachine, IGameplayState previousState)
         {
             stateMachineInstance = stateMachine;
+            UXProvider.ShowTargetingForCurrentCommand();
         }
 
         public void TargetChosen(EncounterMember target)

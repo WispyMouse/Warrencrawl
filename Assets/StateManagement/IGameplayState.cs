@@ -64,4 +64,6 @@ public interface IGameplayState
     /// <param name="nextState">State that is being transitioned in to, under this one. Can be null.</param>
     /// <param name="leavingConditions">The mode used for leaving this state.</param>
     IEnumerator ExitState(IGameplayState nextState, StateLeavingConditions leavingConditions);
+
+    void SetUXProvider(IGameplayUXProvider uxProvider);
 }

@@ -56,7 +56,7 @@ public abstract class SceneLoadingGameplayState : IGameplayState
                 rootObj.SetActive(false);
             }
         }
-        else
+        else if (!string.IsNullOrEmpty(SceneName) && StaticSceneTools.IsSceneLoaded(SceneName))
         {
             yield return StaticSceneTools.UnloadScene(SceneName);
         }
@@ -87,5 +87,10 @@ public abstract class SceneLoadingGameplayState : IGameplayState
     public virtual void StartState(GlobalStateMachine stateMachine, IGameplayState previousState)
     {
         StateMachineInstance = stateMachine;
+    }
+
+    public void SetUXProvider(IGameplayUXProvider uxProvider)
+    {
+
     }
 }

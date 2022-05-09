@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using EncounterSubStates;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -16,7 +17,7 @@ public class CombatClockTests
     public IEnumerator SetUp()
     {
         inputs = new WarrencrawlInputs();
-        stateMachine = new GlobalStateMachine(inputs, new ImmediateCoroutineRunner());
+        stateMachine = new GlobalStateMachine(inputs, new ProgrammaticUXProvider());
         labyrinthState = new LabyrinthState(new TestLabyrinthProvider());
         yield return SceneHelper.SetSceneHelper(stateMachine, inputs);
         yield return stateMachine.ChangeToState(labyrinthState);
@@ -42,7 +43,7 @@ public class CombatClockTests
             yield return labyrinthState.Step(labyrinthState.PointOfViewInstance.CurFacing.Forward());
             steps++;
 
-            if (stateMachine.CurrentState is EncounterState)
+            if (stateMachine.CurrentState is not LabyrinthState)
             {
                 break;
             }
@@ -50,13 +51,13 @@ public class CombatClockTests
             yield return labyrinthState.Step(labyrinthState.PointOfViewInstance.CurFacing.Backward());
             steps++;
 
-            if (stateMachine.CurrentState is EncounterState)
+            if (stateMachine.CurrentState is not LabyrinthState)
             {
                 break;
             }
         }
 
-        Assert.That(stateMachine.CurrentState, Is.InstanceOf<EncounterState>());
+        Assert.That(stateMachine.CurrentState, Is.InstanceOf<ChooseCommandForAllyState>());
     }
 
     /// <summary>
@@ -73,7 +74,7 @@ public class CombatClockTests
             yield return labyrinthState.Step(labyrinthState.PointOfViewInstance.CurFacing.Forward());
             steps++;
 
-            if (stateMachine.CurrentState is EncounterState)
+            if (stateMachine.CurrentState is not LabyrinthState)
             {
                 break;
             }
@@ -81,7 +82,7 @@ public class CombatClockTests
             yield return labyrinthState.Step(labyrinthState.PointOfViewInstance.CurFacing.Backward());
             steps++;
 
-            if (stateMachine.CurrentState is EncounterState)
+            if (stateMachine.CurrentState is not LabyrinthState)
             {
                 break;
             }

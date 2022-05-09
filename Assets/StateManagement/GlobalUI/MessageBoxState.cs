@@ -61,4 +61,9 @@ public class MessageBoxState : IGameplayState
     {
         messageBoxHandlerInstance.ShowMessage(messageToShow, () => { Progress(stateMachine); });
     }
+
+    public void SetUXProvider(IGameplayUXProvider uxProvider)
+    {
+
+    }
 }
